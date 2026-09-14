@@ -671,7 +671,7 @@ button:hover {
     font-size: 9px;
     letter-spacing: 1.5px;
 
-    /* TONED DOWN — faded old paper label */
+    /* TONED DOWN â€” faded old paper label */
     color: rgba(46, 29, 19, 0.62);
 
     background: rgba(215, 199, 174, 0.42);
@@ -702,7 +702,7 @@ button:hover {
 
     color: #21140d;
 
-    /* TONED DOWN — blends into notebook */
+    /* TONED DOWN â€” blends into notebook */
     background: rgba(225, 211, 188, 0.58);
 
     box-shadow:
@@ -747,7 +747,7 @@ button:hover {
 
     color: rgba(40, 24, 15, 0.78);
 
-    /* TONED DOWN — faded note paper */
+    /* TONED DOWN â€” faded note paper */
     background: rgba(225, 211, 188, 0.42);
 
     text-shadow: none;
@@ -1262,7 +1262,7 @@ font-family: "Spectral", Georgia, serif;
    MOBILE
 ========================================================= */
 /* =========================================================
-   THE GREAT WAR — ARCHAEOLOGICAL CAMPAIGN MAP
+   THE GREAT WAR â€” ARCHAEOLOGICAL CAMPAIGN MAP
 ========================================================= */
 
 .war-section {
@@ -1467,7 +1467,7 @@ font-family: "Spectral", Georgia, serif;
 
 
 /* =========================
-   BATTLEFIELD — OLD MAP
+   BATTLEFIELD â€” OLD MAP
 ========================= */
 
 .battlefield {
@@ -1496,7 +1496,7 @@ font-family: "Spectral", Georgia, serif;
 }
 
 .battlefield::before {
-    content: "CAMPAIGN MAP  ·  FIELD 05";
+    content: "CAMPAIGN MAP  Â·  FIELD 05";
     position: absolute;
     top: 17px;
     left: 20px;
