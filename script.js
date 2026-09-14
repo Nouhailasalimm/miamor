@@ -775,23 +775,29 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                ENEMY RETALIATION
             ----------------------------------------- */
 
-            setTimeout(() => {
+          setTimeout(() => {
 
-                if (
-                    !gameOver &&
-                    !enemy.classList.contains(
-                        "defeated"
-                    )
-                ) {
+    if (
+        !gameOver &&
+        !enemy.classList.contains(
+            "defeated"
+        ) &&
+        !player.classList.contains(
+            "defeated"
+        ) &&
+        distanceBetween(enemy, player) <= ENEMY_ATTACK_RANGE
+    ) {
 
-                    enemyAttack(
-                        enemy,
-                        player
-                    );
+        enemyAttack(
+            enemy,
+            player
+        );
 
-                }
+    }
 
-            }, 260);
+}, 260);
+
+
 
         }, 300);
     }
