@@ -2460,3 +2460,371 @@ font-family: "Spectral", Georgia, serif;
 .war-unit.defeated .unit-hp {
     opacity: 0 !important;
 }
+
+
+/* =========================================================
+   GREAT WAR — ACTUAL FINAL FIX
+========================================================= */
+
+/* ---------------------------------------------------------
+   SELECTION
+   Keep the glow, remove the rectangular brown background.
+--------------------------------------------------------- */
+
+#battlefield .player-unit.selected {
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    filter: none !important;
+    transform: none !important;
+}
+
+/* The glow belongs to a circular pseudo-element,
+   NOT the rectangular soldier button. */
+
+#battlefield .player-unit.selected::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: 50% !important;
+    top: 55% !important;
+
+    width: 95px !important;
+    height: 105px !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(255, 205, 120, .24) 0%,
+            rgba(255, 190, 90, .12) 35%,
+            rgba(255, 170, 70, .04) 58%,
+            transparent 72%
+        ) !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+
+    pointer-events: none !important;
+
+    opacity: 1 !important;
+
+    z-index: 1 !important;
+}
+
+
+/* ---------------------------------------------------------
+   HP BARS
+   JS controls the actual width.
+--------------------------------------------------------- */
+
+#battlefield .unit-hp {
+    position: absolute !important;
+    left: 50% !important;
+    top: -14px !important;
+
+    width: 52px !important;
+    height: 5px !important;
+
+    transform: translateX(-50%) !important;
+
+    display: block !important;
+
+    overflow: hidden !important;
+
+    background: rgba(15, 8, 5, .92) !important;
+
+    border: 1px solid rgba(220, 190, 145, .7) !important;
+
+    box-sizing: border-box !important;
+
+    pointer-events: none !important;
+
+    z-index: 100 !important;
+}
+
+
+/* IMPORTANT:
+   DO NOT force width to 100%.
+   JavaScript changes this dynamically. */
+
+#battlefield .unit-hp-fill {
+    display: block !important;
+
+    height: 100% !important;
+
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    transform: none !important;
+
+    transition:
+        width .35s linear !important;
+}
+
+#battlefield .player-unit .unit-hp-fill {
+    background: #58748a !important;
+}
+
+#battlefield .enemy-unit .unit-hp-fill {
+    background: #8f3028 !important;
+}
+
+
+/* ---------------------------------------------------------
+   MOVEMENT
+--------------------------------------------------------- */
+
+#battlefield .war-unit.moving {
+    animation:
+        soldierAdvance
+        .52s
+        ease-in-out !important;
+}
+
+@keyframes soldierAdvance {
+
+    0% {
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+    25% {
+        transform:
+            translateY(-6px)
+            scale(1.05);
+    }
+
+    50% {
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+    75% {
+        transform:
+            translateY(-5px)
+            scale(1.035);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   ATTACK
+   Both armies lunge toward the enemy.
+--------------------------------------------------------- */
+
+#battlefield .war-unit.attacking {
+    animation:
+        battleLunge
+        .58s
+        cubic-bezier(.2,.8,.2,1)
+        !important;
+
+    z-index: 30 !important;
+}
+
+@keyframes battleLunge {
+
+    0% {
+        transform:
+            translateX(0)
+            translateY(0)
+            scale(1);
+    }
+
+    25% {
+        transform:
+            translateX(
+                calc(var(--attack-lunge, 1) * 8px)
+            )
+            translateY(-5px)
+            scale(1.06);
+    }
+
+    48% {
+        transform:
+            translateX(
+                calc(var(--attack-lunge, 1) * 18px)
+            )
+            translateY(1px)
+            scale(1.14);
+    }
+
+    65% {
+        transform:
+            translateX(
+                calc(var(--attack-lunge, 1) * 10px)
+            )
+            translateY(0)
+            scale(1.08);
+    }
+
+    100% {
+        transform:
+            translateX(0)
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   KEEP SOLDIER DIRECTION / FLIPPING
+--------------------------------------------------------- */
+
+#battlefield .war-unit::before {
+    transform:
+        translate(-50%, -50%)
+        scaleX(var(--soldier-direction, 1)) !important;
+
+    transform-origin:
+        center center !important;
+}
+
+
+/* ---------------------------------------------------------
+   HIT REACTION
+--------------------------------------------------------- */
+
+#battlefield .war-unit.hit {
+    animation:
+        takeHit
+        .30s
+        ease-out !important;
+}
+
+@keyframes takeHit {
+
+    0% {
+        transform:
+            translateX(0)
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+
+    25% {
+        transform:
+            translateX(-8px)
+            scale(1.05);
+
+        filter:
+            brightness(1.9);
+    }
+
+    50% {
+        transform:
+            translateX(7px)
+            scale(1.03);
+
+        filter:
+            brightness(1.45);
+    }
+
+    75% {
+        transform:
+            translateX(-3px)
+            scale(1.01);
+
+        filter:
+            brightness(1.15);
+    }
+
+    100% {
+        transform:
+            translateX(0)
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   ATTACK FLASH
+--------------------------------------------------------- */
+
+#battlefield .war-unit.attacking::after {
+    content: "✦" !important;
+
+    display: block !important;
+
+    position: absolute !important;
+
+    left: 62% !important;
+    top: 17% !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    font-size: 27px !important;
+    line-height: 1 !important;
+
+    color:
+        rgba(239, 220, 185, .95) !important;
+
+    background: transparent !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+
+    pointer-events: none !important;
+
+    animation:
+        slashFlash
+        .42s
+        ease-out
+        forwards !important;
+
+    z-index: 110 !important;
+}
+
+@keyframes slashFlash {
+
+    0% {
+        opacity: 0;
+        transform:
+            scale(.25)
+            rotate(-20deg);
+    }
+
+    30% {
+        opacity: 1;
+        transform:
+            scale(1.15)
+            rotate(15deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            scale(1.5)
+            rotate(35deg)
+            translateX(15px);
+    }
+}
+
+
+/* Dead soldiers lose their bar */
+
+#battlefield .war-unit.defeated .unit-hp {
+    opacity: 0 !important;
+}
