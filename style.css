@@ -2550,3 +2550,126 @@ font-family: "Spectral", Georgia, serif;
         transform: translateX(0) scale(1);
     }
 }
+
+/* =========================================
+   GREAT WAR — COMBAT ANIMATION
+   ========================================= */
+
+/* Soldier lunges when attacking */
+
+.war-unit.attacking {
+    animation: battleLunge .38s ease-in-out !important;
+    z-index: 30 !important;
+}
+
+@keyframes battleLunge {
+
+    0% {
+        transform: translateX(0) scale(1);
+    }
+
+    35% {
+        transform: translateX(10px) scale(1.08);
+    }
+
+    55% {
+        transform: translateX(13px) scale(1.12);
+    }
+
+    100% {
+        transform: translateX(0) scale(1);
+    }
+}
+
+
+/* Switch to a different soldier pose while attacking */
+
+/* BLUE ARMY — use the sword soldier */
+
+.player-unit.attacking::before {
+    background-position: 0 0 !important;
+    filter:
+        brightness(1.15)
+        drop-shadow(0 0 7px rgba(255,220,150,.65))
+        drop-shadow(0 5px 4px rgba(0,0,0,.55)) !important;
+}
+
+
+/* RED ARMY — use the axe soldier */
+
+.enemy-unit.attacking::before {
+    background-position: -164px -112px !important;
+}
+
+
+/* Enemy reacts when hit */
+
+.war-unit.hit {
+    animation: takeHit .28s ease !important;
+}
+
+@keyframes takeHit {
+
+    0% {
+        transform: translateX(0);
+        filter: brightness(1);
+    }
+
+    25% {
+        transform: translateX(-7px);
+        filter: brightness(2);
+    }
+
+    50% {
+        transform: translateX(6px);
+        filter: brightness(1.5);
+    }
+
+    100% {
+        transform: translateX(0);
+        filter: brightness(1);
+    }
+}
+
+
+/* Little slash flash */
+
+.war-unit.attacking::after {
+    content: "✦" !important;
+
+    display: block !important;
+
+    position: absolute !important;
+
+    left: 65% !important;
+    top: 20% !important;
+
+    font-size: 28px !important;
+    line-height: 1 !important;
+
+    color: #ead5ad !important;
+
+    pointer-events: none !important;
+
+    animation: slashFlash .38s ease-out forwards;
+
+    z-index: 50 !important;
+}
+
+@keyframes slashFlash {
+
+    0% {
+        opacity: 0;
+        transform: scale(.3) rotate(-20deg);
+    }
+
+    35% {
+        opacity: 1;
+        transform: scale(1.2) rotate(15deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.5) rotate(35deg);
+    }
+}
