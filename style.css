@@ -2487,3 +2487,66 @@ font-family: "Spectral", Georgia, serif;
 .war-unit:hover::before {
     transform: translate(-50%, -50%) scale(1.06) !important;
 }
+
+
+/* =========================================
+   GREAT WAR — SOLDIER VISIBILITY FIX
+   ========================================= */
+
+.war-unit {
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+}
+
+/* Keep defeated soldiers hidden */
+.war-unit.defeated {
+    opacity: 0 !important;
+}
+
+/* Hit animation */
+
+.war-unit.hit {
+    animation: soldierHit .28s ease;
+}
+
+@keyframes soldierHit {
+    0% {
+        transform: translateX(0) scale(1);
+        filter: brightness(1);
+    }
+
+    35% {
+        transform: translateX(-4px) scale(1.04);
+        filter: brightness(1.8);
+    }
+
+    70% {
+        transform: translateX(4px) scale(1.04);
+        filter: brightness(1.35);
+    }
+
+    100% {
+        transform: translateX(0) scale(1);
+        filter: brightness(1);
+    }
+}
+
+/* Attack movement */
+
+.war-unit.attacking {
+    animation: soldierAttack .35s ease;
+}
+
+@keyframes soldierAttack {
+    0% {
+        transform: translateX(0) scale(1);
+    }
+
+    45% {
+        transform: translateX(8px) scale(1.06);
+    }
+
+    100% {
+        transform: translateX(0) scale(1);
+    }
+}
