@@ -1816,6 +1816,10 @@ font-family: "Spectral", Georgia, serif;
 
 .player-unit.selected {
     z-index: 25;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    filter: none !important;
 }
 
 .player-unit.selected::before {
@@ -1924,9 +1928,9 @@ font-family: "Spectral", Georgia, serif;
 /* HP */
 
 .unit-hp {
-    position: absolute;
-    left: 50%;
-    top: -9px;
+    position: absolute !important;
+    left: 50% !important;
+    top: -9px !important;
     width: 52px;
     height: 5px;
     transform: translateX(-50%);
@@ -1939,7 +1943,7 @@ font-family: "Spectral", Georgia, serif;
 }
 
 .unit-hp-fill {
-    display: block;
+    display: block !important;
     width: 100%;
     height: 100%;
     transform-origin: left center;
@@ -2280,384 +2284,67 @@ font-family: "Spectral", Georgia, serif;
 
 
 /* =========================================================
-   GREAT WAR — FINAL SOLDIER POLISH
-========================================================= */
-
-
-/* =========================================================
-   HP BARS
+   GREAT WAR — FINAL SAFE POLISH
+   Keeps the original glow + movement + attack system intact.
 ========================================================= */
 
 .war-unit {
     overflow: visible !important;
-    position: absolute;
+    background-color: transparent !important;
 }
 
-
-/* The actual HP bar */
-
-.war-unit .unit-hp {
-    position: absolute !important;
-
-    left: 50% !important;
-    top: -18px !important;
-
-    transform: translateX(-50%) !important;
-
-    width: 58px !important;
-    height: 5px !important;
-
-    display: block !important;
-
-    background: rgba(24, 12, 7, 0.88) !important;
-
-    border: 1px solid rgba(225, 201, 163, 0.55) !important;
-
-    border-radius: 0 !important;
-
-    overflow: hidden !important;
-
-    pointer-events: none !important;
-
-    z-index: 100 !important;
-
-    box-sizing: border-box !important;
+.war-unit::before {
+    background-color: transparent !important;
 }
-
-
-/* Colored HP */
-
-.war-unit .unit-hp-fill {
-    display: block !important;
-
-    width: 100%;
-    height: 100%;
-
-    transition:
-        width 0.35s ease !important;
-
-    border-radius: 0 !important;
-}
-
-
-/* Blue HP */
-
-.player-unit .unit-hp-fill {
-    background: #6f8da0 !important;
-}
-
-
-/* Red HP */
-
-.enemy-unit .unit-hp-fill {
-    background: #963d32 !important;
-}
-
-
-/* =========================================================
-   REMOVE THE UGLY SELECTION GLOW
-========================================================= */
-
-.player-unit.selected::before {
-    filter:
-        drop-shadow(
-            0 5px 4px rgba(0, 0, 0, 0.55)
-        ) !important;
-}
-
-
-/* No brown/gold selection background */
 
 .player-unit.selected {
     background: transparent !important;
     box-shadow: none !important;
+    outline: none !important;
     filter: none !important;
+    transform-origin: center bottom !important;
 }
-
-
-/* =========================================================
-   SUBTLE SELECTION INDICATOR
-   Just a tiny marker — NOT a giant glow
-========================================================= */
-
-.player-unit.selected::after {
-
-    content: "◆" !important;
-
-    display: block !important;
-
-    position: absolute !important;
-
-    left: 50% !important;
-    top: -34px !important;
-
-    transform: translateX(-50%) !important;
-
-    color: rgba(225, 201, 163, 0.9) !important;
-
-    font-size: 8px !important;
-
-    line-height: 1 !important;
-
-    pointer-events: none !important;
-
-    z-index: 101 !important;
-
-}
-
-
-/* =========================================================
-   REMOVE MODERN HOVER ENLARGEMENT
-========================================================= */
-
-.war-unit:hover::before {
-
-    transform:
-        translate(-50%, -50%) !important;
-
-}
-
-
-/* =========================================================
-   KEEP SPRITE SHADOW SUBTLE
-========================================================= */
-
-.war-unit::before {
-
-    filter:
-        drop-shadow(
-            0 5px 4px rgba(0, 0, 0, 0.55)
-        ) !important;
-
-}
-
-
-/* =========================================================
-   SELECTION SHOULD NOT CHANGE THE SOLDIER
-========================================================= */
 
 .player-unit.selected::before {
-
-    transform:
-        translate(-50%, -50%) !important;
-
-}
-
-
-/* =========================================================
-   HP BAR STAYS ABOVE THE SOLDIER DURING ANIMATIONS
-========================================================= */
-
-.war-unit.attacking .unit-hp,
-.war-unit.moving .unit-hp,
-.war-unit.hit .unit-hp {
-
-    z-index: 110 !important;
-
-}
-
-
-/* =========================================================
-   DEFEATED UNITS TAKE THEIR HP BAR WITH THEM
-========================================================= */
-
-.war-unit.defeated .unit-hp {
-
-    opacity: 0 !important;
-
-}
-
-
-
-/* =========================================================
-   GREAT WAR — SOLDIER FINAL FIX
-========================================================= */
-
-
-/* ---------------------------------------------------------
-   REMOVE ALL SELECTION BOX / BROWN SHADOW
---------------------------------------------------------- */
-
-#battlefield .player-unit.selected {
-    transform: none !important;
-
-    background: transparent !important;
-    border: none !important;
-
-    box-shadow: none !important;
-
-    filter: none !important;
-
-    outline: none !important;
-
-    z-index: 25 !important;
-}
-
-
-/* Remove any old pseudo-element selection effects */
-
-#battlefield .player-unit.selected::before {
     filter:
-        drop-shadow(
-            0 5px 4px rgba(0, 0, 0, 0.55)
-        ) !important;
-
-    box-shadow: none !important;
+        drop-shadow(0 0 5px rgba(255, 220, 150, .95))
+        drop-shadow(0 0 12px rgba(255, 190, 80, .45))
+        drop-shadow(0 5px 4px rgba(0, 0, 0, .55)) !important;
 }
 
-
-/* No glowing square / circle / background */
-
-#battlefield .player-unit.selected::after {
-    content: "◆" !important;
-
-    display: block !important;
-
+.unit-hp {
     position: absolute !important;
-
     left: 50% !important;
-    top: -34px !important;
-
-    width: auto !important;
-    height: auto !important;
-
-    transform: translateX(-50%) !important;
-
-    background: transparent !important;
-
-    border: none !important;
-
-    box-shadow: none !important;
-
-    color: rgba(225, 201, 163, 0.9) !important;
-
-    font-size: 8px !important;
-    line-height: 1 !important;
-
-    pointer-events: none !important;
-
-    z-index: 110 !important;
-}
-
-
-/* ---------------------------------------------------------
-   HP BAR — SAME BEHAVIOUR FOR BOTH ARMIES
---------------------------------------------------------- */
-
-#battlefield .war-unit .unit-hp {
-    position: absolute !important;
-
-    left: 50% !important;
-    top: -18px !important;
-
-    transform: translateX(-50%) !important;
-
-    width: 58px !important;
+    top: -9px !important;
+    width: 52px !important;
     height: 5px !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
+    transform: translateX(-50%) !important;
+    z-index: 60 !important;
     display: block !important;
-
-    background: rgba(15, 8, 5, 0.92) !important;
-
-    border: 1px solid rgba(220, 190, 145, 0.55) !important;
-
-    border-radius: 0 !important;
-
     overflow: hidden !important;
-
-    pointer-events: none !important;
-
-    z-index: 100 !important;
-
+    background: rgba(15, 8, 5, .92) !important;
+    border: 1px solid rgba(220, 190, 145, .7) !important;
     box-sizing: border-box !important;
-
-    opacity: 1 !important;
-}
-
-
-/* HP fill */
-
-#battlefield .war-unit .unit-hp-fill {
-    display: block !important;
-
-    height: 100% !important;
-
-    min-width: 0 !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
-    border: 0 !important;
-
-    transition:
-        width 0.35s linear !important;
-}
-
-
-/* BLUE */
-
-#battlefield .player-unit .unit-hp-fill {
-    background: #58748a !important;
-}
-
-
-/* RED */
-
-#battlefield .enemy-unit .unit-hp-fill {
-    background: #8f3028 !important;
-}
-
-
-/* ---------------------------------------------------------
-   HP BAR MUST NOT INHERIT SOLDIER FILTERS
---------------------------------------------------------- */
-
-#battlefield .war-unit .unit-hp,
-#battlefield .war-unit .unit-hp-fill {
+    pointer-events: none !important;
     filter: none !important;
 }
 
-
-/* ---------------------------------------------------------
-   DON'T LET HOVER CREATE A WEIRD TRANSFORM
---------------------------------------------------------- */
-
-#battlefield .war-unit:hover::before {
-    transform:
-        translate(-50%, -50%) !important;
+.unit-hp-fill {
+    display: block !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    transform: none !important;
+    transition: width .35s ease !important;
 }
 
-
-/* ---------------------------------------------------------
-   KEEP SPRITE SHADOW — ONLY ON THE ACTUAL SOLDIER
---------------------------------------------------------- */
-
-#battlefield .war-unit::before {
-    filter:
-        drop-shadow(
-            0 5px 4px rgba(0, 0, 0, 0.55)
-        ) !important;
+.war-unit.moving {
+    animation: soldierMove .52s ease-in-out !important;
 }
 
-
-/* ---------------------------------------------------------
-   HP BAR STAYS ABOVE SOLDIER DURING COMBAT
---------------------------------------------------------- */
-
-#battlefield .war-unit.moving .unit-hp,
-#battlefield .war-unit.attacking .unit-hp,
-#battlefield .war-unit.hit .unit-hp {
-    z-index: 110 !important;
+.war-unit.attacking {
+    animation: battleAttack .62s ease-in-out !important;
 }
 
-
-/* ---------------------------------------------------------
-   DEFEATED UNIT
---------------------------------------------------------- */
-
-#battlefield .war-unit.defeated .unit-hp {
-    opacity: 0 !important;
+.war-unit.hit {
+    animation: battleHit .34s ease-out !important;
 }
