@@ -3643,6 +3643,223 @@ font-family: "Spectral", Georgia, serif;
 
 @keyframes enemyStrikeFlash {
 
+   /* =========================================================
+   GREAT WAR — SIDEBAR REFINEMENT
+   Overrides the older game HUD styling
+========================================================= */
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.war-panel {
+    padding: 34px 32px;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   PANEL HEADINGS
+========================================================= */
+
+.war-panel .panel-title {
+    font-size: 13px !important;
+    letter-spacing: 0.24em !important;
+    line-height: 1.2 !important;
+    margin-bottom: 26px !important;
+}
+
+
+/* =========================================================
+   OBJECTIVES
+========================================================= */
+
+.left-panel .objective {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+
+    margin-bottom: 18px !important;
+}
+
+
+.left-panel .objective > span {
+    flex: 0 0 auto;
+
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+}
+
+
+.left-panel .objective > div {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+
+    font-size: 14px !important;
+}
+
+
+.left-panel .objective small {
+    font-size: 10px !important;
+    letter-spacing: 0.12em;
+    opacity: 0.65;
+}
+
+
+/* =========================================================
+   YOUR FORCES
+========================================================= */
+
+.left-panel .army-title {
+    margin-top: 42px !important;
+    margin-bottom: 22px !important;
+}
+
+
+.left-panel .army-stat {
+    display: flex !important;
+    align-items: flex-start;
+
+    gap: 34px;
+
+    margin: 0 !important;
+}
+
+
+.left-panel .army-line {
+    display: flex !important;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 3px;
+
+    min-width: 52px;
+}
+
+
+.left-panel .army-line span {
+    font-size: 27px !important;
+    line-height: 1 !important;
+
+    font-weight: 600 !important;
+}
+
+
+.left-panel .army-line small {
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+
+    letter-spacing: 0.18em;
+
+    opacity: 0.65;
+}
+
+
+/* Fallen slightly quieter */
+
+.left-panel .fallen-line span {
+    opacity: 0.72;
+}
+
+
+/* =========================================================
+   MORALE
+========================================================= */
+
+.left-panel .morale {
+    margin-top: 42px !important;
+}
+
+
+.left-panel .morale-label {
+    font-size: 11px !important;
+    letter-spacing: 0.2em;
+
+    margin-bottom: 10px;
+}
+
+
+.left-panel .morale-bar {
+    height: 4px !important;
+    width: 100%;
+
+    border-radius: 0 !important;
+}
+
+
+/* =========================================================
+   RIGHT PANEL
+========================================================= */
+
+.right-panel {
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+
+/* FIELD ORDERS */
+
+.right-panel .field-order {
+    margin-bottom: 25px;
+}
+
+
+.right-panel .order-key {
+    display: block;
+
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+
+    letter-spacing: 0.08em;
+
+    margin-bottom: 5px;
+}
+
+
+.right-panel .field-order p {
+    margin: 0 !important;
+
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+}
+
+
+/* =========================================================
+   CURRENT ORDER
+========================================================= */
+
+.right-panel .tip-title {
+    margin-top: 38px !important;
+    margin-bottom: 22px !important;
+}
+
+
+.right-panel .tip {
+    margin: 0 !important;
+
+    font-size: 17px !important;
+    line-height: 1.4 !important;
+}
+
+
+/* =========================================================
+   KEEP SIDEBAR FROM STRETCHING TYPOGRAPHY
+========================================================= */
+
+.left-panel p,
+.left-panel span,
+.left-panel small,
+.right-panel p,
+.right-panel span,
+.right-panel small {
+    max-width: 100%;
+}
     0% {
 
         opacity:
