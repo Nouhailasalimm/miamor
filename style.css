@@ -671,7 +671,7 @@ button:hover {
     font-size: 9px;
     letter-spacing: 1.5px;
 
-    /* TONED DOWN â€” faded old paper label */
+    /* TONED DOWN Ã¢â‚¬â€ faded old paper label */
     color: rgba(46, 29, 19, 0.62);
 
     background: rgba(215, 199, 174, 0.42);
@@ -702,7 +702,7 @@ button:hover {
 
     color: #21140d;
 
-    /* TONED DOWN â€” blends into notebook */
+    /* TONED DOWN Ã¢â‚¬â€ blends into notebook */
     background: rgba(225, 211, 188, 0.58);
 
     box-shadow:
@@ -747,7 +747,7 @@ button:hover {
 
     color: rgba(40, 24, 15, 0.78);
 
-    /* TONED DOWN â€” faded note paper */
+    /* TONED DOWN Ã¢â‚¬â€ faded note paper */
     background: rgba(225, 211, 188, 0.42);
 
     text-shadow: none;
@@ -1262,7 +1262,7 @@ font-family: "Spectral", Georgia, serif;
    MOBILE
 ========================================================= */
 /* =========================================================
-   THE GREAT WAR â€” ARCHAEOLOGICAL CAMPAIGN MAP
+   THE GREAT WAR Ã¢â‚¬â€ ARCHAEOLOGICAL CAMPAIGN MAP
 ========================================================= */
 
 .war-section {
@@ -1467,7 +1467,7 @@ font-family: "Spectral", Georgia, serif;
 
 
 /* =========================
-   BATTLEFIELD â€” OLD MAP
+   BATTLEFIELD Ã¢â‚¬â€ OLD MAP
 ========================= */
 
 .battlefield {
@@ -1496,7 +1496,7 @@ font-family: "Spectral", Georgia, serif;
 }
 
 .battlefield::before {
-    content: "CAMPAIGN MAP  Â·  FIELD 05";
+    content: "CAMPAIGN MAP  Ã‚Â·  FIELD 05";
     position: absolute;
     top: 17px;
     left: 20px;
@@ -1692,14 +1692,14 @@ font-family: "Spectral", Georgia, serif;
 
 
 /* =========================
-   UNITS
+   UNITS â€” ANTIQUE ARMY TOKENS
 ========================= */
 
 .war-unit {
     position: absolute;
 
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
 
     margin: 0;
     padding: 0;
@@ -1713,6 +1713,7 @@ font-family: "Spectral", Georgia, serif;
 
     font-family: "Special Elite", monospace;
     font-size: 0;
+    line-height: 1;
 
     cursor: pointer;
 
@@ -1729,12 +1730,17 @@ font-family: "Spectral", Georgia, serif;
     -webkit-appearance: none;
 }
 
+/* Inner heraldic shield */
+
 .war-unit::before {
+    content: "";
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     width: 24px;
-    height: 24px;
+    height: 26px;
 
     border: 1px solid currentColor;
     border-radius: 3px;
@@ -1742,20 +1748,31 @@ font-family: "Spectral", Georgia, serif;
     font-family: "Special Elite", monospace;
     font-size: 9px;
     letter-spacing: 0;
+
+    clip-path: polygon(
+        8% 0%,
+        92% 0%,
+        92% 58%,
+        50% 100%,
+        8% 58%
+    );
 }
+
+/* Your army */
 
 .player-unit {
     background:
         radial-gradient(
             circle at 35% 30%,
-            rgba(226, 213, 189, 0.25),
-            rgba(61, 67, 56, 0.96) 65%
+            rgba(226, 213, 189, 0.28),
+            rgba(61, 67, 56, 0.96) 62%,
+            rgba(37, 40, 34, 0.99)
         );
 
-    color: rgba(223, 209, 185, 0.9);
+    color: rgba(223, 209, 185, 0.92);
 
     box-shadow:
-        0 4px 10px rgba(35, 19, 10, 0.34),
+        0 4px 10px rgba(35, 19, 10, 0.42),
         inset 0 0 0 3px rgba(225, 211, 188, 0.06);
 }
 
@@ -1771,37 +1788,45 @@ font-family: "Spectral", Georgia, serif;
     content: "III";
 }
 
+/* Enemy army */
+
 .enemy-unit {
     background:
         radial-gradient(
             circle at 35% 30%,
-            rgba(191, 147, 119, 0.18),
-            rgba(66, 37, 27, 0.97) 65%
+            rgba(191, 147, 119, 0.20),
+            rgba(66, 37, 27, 0.97) 62%,
+            rgba(40, 22, 18, 0.99)
         );
 
-    color: rgba(207, 166, 139, 0.82);
+    color: rgba(207, 166, 139, 0.86);
 
     box-shadow:
-        0 4px 10px rgba(35, 19, 10, 0.38),
-        inset 0 0 0 3px rgba(225, 185, 157, 0.045);
+        0 4px 10px rgba(35, 19, 10, 0.46),
+        inset 0 0 0 3px rgba(225, 185, 157, 0.05);
 }
 
 .enemy-unit::before {
     content: "X";
 }
 
+/* Hover */
+
 .war-unit:hover {
     transform: scale(1.1);
     z-index: 9;
 }
 
+/* Selected unit */
+
 .player-unit.selected {
     transform: scale(1.16);
 
     box-shadow:
-        0 0 0 4px rgba(91, 65, 42, 0.16),
-        0 0 0 7px rgba(218, 193, 160, 0.07),
-        0 8px 18px rgba(35, 19, 10, 0.42);
+        0 0 0 3px rgba(218, 193, 160, 0.22),
+        0 0 18px rgba(204, 177, 137, 0.24),
+        0 8px 18px rgba(35, 19, 10, 0.48),
+        inset 0 0 0 2px rgba(225, 207, 172, 0.14);
 }
 
 
