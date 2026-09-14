@@ -237,19 +237,29 @@ enemyUnits.forEach(function (enemy) {
 
 function attackEnemy(enemy) {
 
-    enemy.classList.add("defeated");
+    let hp = parseInt(enemy.dataset.hp || "100");
 
+    hp -= 40;
+
+    enemy.dataset.hp = hp;
+
+    if (hp > 0) {
+        message("HIT! ENEMY HAS " + hp + " HP.");
+        return;
+    }
+
+    enemy.classList.add("defeated");
     enemy.style.opacity = "0";
     enemy.style.pointerEvents = "none";
 
     enemiesRemaining--;
 
-    objectiveTwo.textContent = enemiesRemaining === 0 ? "☑" : "□";
+    objectiveTwo.textContent =
+        enemiesRemaining === 0 ? "☑" : "□";
 
     message("ENEMY DEFEATED.");
 
     checkVictory();
-
 }
 
 
