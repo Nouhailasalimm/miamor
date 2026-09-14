@@ -663,17 +663,16 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
            END ATTACK ANIMATION
         ----------------------------------------- */
 
-        setTimeout(() => {
+       setTimeout(() => {
 
-            player.classList.remove(
-                "attacking"
-            );
+    player.classList.remove(
+        "attacking"
+    );
 
-            player.dataset.attacking =
-                "false";
+    player.dataset.attacking =
+        "false";
 
-        }, 680);
-
+}, 900);
         /* -----------------------------------------
            DAMAGE LANDING
         ----------------------------------------- */
