@@ -2277,3 +2277,192 @@ font-family: "Spectral", Georgia, serif;
         letter-spacing: 3.5px;
     }
 }
+
+
+/* =========================================================
+   GREAT WAR — FINAL SOLDIER POLISH
+========================================================= */
+
+
+/* =========================================================
+   HP BARS
+========================================================= */
+
+.war-unit {
+    overflow: visible !important;
+    position: absolute;
+}
+
+
+/* The actual HP bar */
+
+.war-unit .unit-hp {
+    position: absolute !important;
+
+    left: 50% !important;
+    top: -18px !important;
+
+    transform: translateX(-50%) !important;
+
+    width: 58px !important;
+    height: 5px !important;
+
+    display: block !important;
+
+    background: rgba(24, 12, 7, 0.88) !important;
+
+    border: 1px solid rgba(225, 201, 163, 0.55) !important;
+
+    border-radius: 0 !important;
+
+    overflow: hidden !important;
+
+    pointer-events: none !important;
+
+    z-index: 100 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* Colored HP */
+
+.war-unit .unit-hp-fill {
+    display: block !important;
+
+    width: 100%;
+    height: 100%;
+
+    transition:
+        width 0.35s ease !important;
+
+    border-radius: 0 !important;
+}
+
+
+/* Blue HP */
+
+.player-unit .unit-hp-fill {
+    background: #6f8da0 !important;
+}
+
+
+/* Red HP */
+
+.enemy-unit .unit-hp-fill {
+    background: #963d32 !important;
+}
+
+
+/* =========================================================
+   REMOVE THE UGLY SELECTION GLOW
+========================================================= */
+
+.player-unit.selected::before {
+    filter:
+        drop-shadow(
+            0 5px 4px rgba(0, 0, 0, 0.55)
+        ) !important;
+}
+
+
+/* No brown/gold selection background */
+
+.player-unit.selected {
+    background: transparent !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+
+/* =========================================================
+   SUBTLE SELECTION INDICATOR
+   Just a tiny marker — NOT a giant glow
+========================================================= */
+
+.player-unit.selected::after {
+
+    content: "◆" !important;
+
+    display: block !important;
+
+    position: absolute !important;
+
+    left: 50% !important;
+    top: -34px !important;
+
+    transform: translateX(-50%) !important;
+
+    color: rgba(225, 201, 163, 0.9) !important;
+
+    font-size: 8px !important;
+
+    line-height: 1 !important;
+
+    pointer-events: none !important;
+
+    z-index: 101 !important;
+
+}
+
+
+/* =========================================================
+   REMOVE MODERN HOVER ENLARGEMENT
+========================================================= */
+
+.war-unit:hover::before {
+
+    transform:
+        translate(-50%, -50%) !important;
+
+}
+
+
+/* =========================================================
+   KEEP SPRITE SHADOW SUBTLE
+========================================================= */
+
+.war-unit::before {
+
+    filter:
+        drop-shadow(
+            0 5px 4px rgba(0, 0, 0, 0.55)
+        ) !important;
+
+}
+
+
+/* =========================================================
+   SELECTION SHOULD NOT CHANGE THE SOLDIER
+========================================================= */
+
+.player-unit.selected::before {
+
+    transform:
+        translate(-50%, -50%) !important;
+
+}
+
+
+/* =========================================================
+   HP BAR STAYS ABOVE THE SOLDIER DURING ANIMATIONS
+========================================================= */
+
+.war-unit.attacking .unit-hp,
+.war-unit.moving .unit-hp,
+.war-unit.hit .unit-hp {
+
+    z-index: 110 !important;
+
+}
+
+
+/* =========================================================
+   DEFEATED UNITS TAKE THEIR HP BAR WITH THEM
+========================================================= */
+
+.war-unit.defeated .unit-hp {
+
+    opacity: 0 !important;
+
+}
