@@ -2466,3 +2466,198 @@ font-family: "Spectral", Georgia, serif;
     opacity: 0 !important;
 
 }
+
+
+
+/* =========================================================
+   GREAT WAR — SOLDIER FINAL FIX
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   REMOVE ALL SELECTION BOX / BROWN SHADOW
+--------------------------------------------------------- */
+
+#battlefield .player-unit.selected {
+    transform: none !important;
+
+    background: transparent !important;
+    border: none !important;
+
+    box-shadow: none !important;
+
+    filter: none !important;
+
+    outline: none !important;
+
+    z-index: 25 !important;
+}
+
+
+/* Remove any old pseudo-element selection effects */
+
+#battlefield .player-unit.selected::before {
+    filter:
+        drop-shadow(
+            0 5px 4px rgba(0, 0, 0, 0.55)
+        ) !important;
+
+    box-shadow: none !important;
+}
+
+
+/* No glowing square / circle / background */
+
+#battlefield .player-unit.selected::after {
+    content: "◆" !important;
+
+    display: block !important;
+
+    position: absolute !important;
+
+    left: 50% !important;
+    top: -34px !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    transform: translateX(-50%) !important;
+
+    background: transparent !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+
+    color: rgba(225, 201, 163, 0.9) !important;
+
+    font-size: 8px !important;
+    line-height: 1 !important;
+
+    pointer-events: none !important;
+
+    z-index: 110 !important;
+}
+
+
+/* ---------------------------------------------------------
+   HP BAR — SAME BEHAVIOUR FOR BOTH ARMIES
+--------------------------------------------------------- */
+
+#battlefield .war-unit .unit-hp {
+    position: absolute !important;
+
+    left: 50% !important;
+    top: -18px !important;
+
+    transform: translateX(-50%) !important;
+
+    width: 58px !important;
+    height: 5px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: block !important;
+
+    background: rgba(15, 8, 5, 0.92) !important;
+
+    border: 1px solid rgba(220, 190, 145, 0.55) !important;
+
+    border-radius: 0 !important;
+
+    overflow: hidden !important;
+
+    pointer-events: none !important;
+
+    z-index: 100 !important;
+
+    box-sizing: border-box !important;
+
+    opacity: 1 !important;
+}
+
+
+/* HP fill */
+
+#battlefield .war-unit .unit-hp-fill {
+    display: block !important;
+
+    height: 100% !important;
+
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    transition:
+        width 0.35s linear !important;
+}
+
+
+/* BLUE */
+
+#battlefield .player-unit .unit-hp-fill {
+    background: #58748a !important;
+}
+
+
+/* RED */
+
+#battlefield .enemy-unit .unit-hp-fill {
+    background: #8f3028 !important;
+}
+
+
+/* ---------------------------------------------------------
+   HP BAR MUST NOT INHERIT SOLDIER FILTERS
+--------------------------------------------------------- */
+
+#battlefield .war-unit .unit-hp,
+#battlefield .war-unit .unit-hp-fill {
+    filter: none !important;
+}
+
+
+/* ---------------------------------------------------------
+   DON'T LET HOVER CREATE A WEIRD TRANSFORM
+--------------------------------------------------------- */
+
+#battlefield .war-unit:hover::before {
+    transform:
+        translate(-50%, -50%) !important;
+}
+
+
+/* ---------------------------------------------------------
+   KEEP SPRITE SHADOW — ONLY ON THE ACTUAL SOLDIER
+--------------------------------------------------------- */
+
+#battlefield .war-unit::before {
+    filter:
+        drop-shadow(
+            0 5px 4px rgba(0, 0, 0, 0.55)
+        ) !important;
+}
+
+
+/* ---------------------------------------------------------
+   HP BAR STAYS ABOVE SOLDIER DURING COMBAT
+--------------------------------------------------------- */
+
+#battlefield .war-unit.moving .unit-hp,
+#battlefield .war-unit.attacking .unit-hp,
+#battlefield .war-unit.hit .unit-hp {
+    z-index: 110 !important;
+}
+
+
+/* ---------------------------------------------------------
+   DEFEATED UNIT
+--------------------------------------------------------- */
+
+#battlefield .war-unit.defeated .unit-hp {
+    opacity: 0 !important;
+}
