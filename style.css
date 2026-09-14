@@ -2673,3 +2673,52 @@ font-family: "Spectral", Georgia, serif;
         transform: scale(1.5) rotate(35deg);
     }
 }
+
+
+/* =========================================
+   ENEMY HP BARS
+   ========================================= */
+
+.enemy-hp {
+    position: absolute !important;
+
+    left: 50% !important;
+    top: -12px !important;
+
+    transform: translateX(-50%) !important;
+
+    width: 58px !important;
+    height: 6px !important;
+
+    background: rgba(20, 10, 7, 0.9) !important;
+
+    border: 1px solid rgba(220, 190, 145, 0.65) !important;
+
+    z-index: 50 !important;
+
+    pointer-events: none !important;
+
+    box-sizing: border-box !important;
+}
+
+.enemy-hp-fill {
+    display: block !important;
+
+    width: 100%;
+
+    height: 100%;
+
+    background: #8f3028 !important;
+
+    transition: width .3s ease !important;
+}
+
+/* Make the bar more obvious when damaged */
+
+.enemy-unit.hit .enemy-hp {
+    transform: translateX(-50%) scale(1.08) !important;
+}
+
+.enemy-unit.hit .enemy-hp-fill {
+    filter: brightness(1.5) !important;
+}
