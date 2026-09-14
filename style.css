@@ -3896,3 +3896,14 @@ font-family: "Spectral", Georgia, serif;
     position: relative;
     z-index: 101;
 }
+/* =========================================================
+   HIDE THE ARMIES WHEN THE BATTLE IS OVER
+========================================================= */
+
+.battlefield.battle-ended .war-unit {
+    visibility: hidden !important;
+}
+
+.battlefield.battle-ended .battle-message {
+    visibility: hidden !important;
+}
