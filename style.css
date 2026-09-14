@@ -2395,3 +2395,95 @@ font-family: "Spectral", Georgia, serif;
     transform: scale(.65) !important;
     pointer-events: none !important;
 }
+
+
+/* =========================================
+   FORCE SPRITE SOLDIERS
+   ========================================= */
+
+.war-unit {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+/* Hide the old token completely */
+.war-unit::before {
+    content: "" !important;
+    display: block !important;
+
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+
+    width: 82px !important;
+    height: 112px !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    background-image: url("images/ChatGPT Image Sep 14, 2026 at 05_24_56 PM.png") !important;
+    background-repeat: no-repeat !important;
+
+    background-size: 246px 224px !important;
+
+    pointer-events: none !important;
+
+    filter: drop-shadow(0 5px 4px rgba(0,0,0,.55));
+
+    z-index: 2 !important;
+}
+
+.war-unit::after {
+    display: none !important;
+}
+
+/* BLUE SOLDIERS */
+
+.unit-one::before {
+    background-position: 0 0 !important;
+}
+
+.unit-two::before {
+    background-position: -82px 0 !important;
+}
+
+.unit-three::before {
+    background-position: -164px 0 !important;
+}
+
+/* RED SOLDIERS */
+
+.enemy-one::before {
+    background-position: 0 -112px !important;
+}
+
+.enemy-two::before {
+    background-position: -82px -112px !important;
+}
+
+.enemy-three::before {
+    background-position: -164px -112px !important;
+}
+
+/* Keep the clickable area */
+
+.war-unit {
+    z-index: 10 !important;
+    cursor: pointer !important;
+}
+
+/* Selected */
+
+.player-unit.selected::before {
+    filter:
+        drop-shadow(0 0 5px rgba(255,220,150,.95))
+        drop-shadow(0 5px 4px rgba(0,0,0,.55)) !important;
+}
+
+/* Hover */
+
+.war-unit:hover::before {
+    transform: translate(-50%, -50%) scale(1.06) !important;
+}
