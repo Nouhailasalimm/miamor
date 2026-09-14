@@ -237,31 +237,103 @@ enemyUnits.forEach(function (enemy) {
 
 function attackEnemy(enemy) {
 
+    /* -----------------------------------------
+       CREATE HP
+    ----------------------------------------- */
+
     let hp = parseInt(enemy.dataset.hp || "100");
 
-    hp -= 40;
+    /* -----------------------------------------
+       ATTACK ANIMATION
+    ----------------------------------------- */
+
+    if (selectedUnit) {
+        selectedUnit.classList.remove("attacking");
+
+        void selectedUnit.offsetWidth;
+
+        selectedUnit.classList.add("attacking");
+
+        setTimeout(function () {
+            selectedUnit.classList.remove("attacking");
+        }, 350);
+    }
+
+    enemy.classList.remove("hit");
+
+    void enemy.offsetWidth;
+
+    enemy.classList.add("hit");
+
+    setTimeout(function () {
+        enemy.classList.remove("hit");
+    }, 300);
+
+    /* -----------------------------------------
+       DAMAGE
+    ----------------------------------------- */
+
+    hp -= 30;
+
+    hp = Math.max(0, hp);
 
     enemy.dataset.hp = hp;
 
+    /* -----------------------------------------
+       HP BAR
+    ----------------------------------------- */
+
+    let hpBar = enemy.querySelector(".enemy-hp");
+
+    if (!hpBar) {
+
+        hpBar = document.createElement("div");
+
+        hpBar.className = "enemy-hp";
+
+        hpBar.innerHTML = `
+            <div class="enemy-hp-fill"></div>
+        `;
+
+        enemy.appendChild(hpBar);
+    }
+
+    const hpFill = hpBar.querySelector(".enemy-hp-fill");
+
+    hpFill.style.width = hp + "%";
+
+    /* -----------------------------------------
+       ENEMY STILL ALIVE
+    ----------------------------------------- */
+
     if (hp > 0) {
-        message("HIT! ENEMY HAS " + hp + " HP.");
+
+        message("HIT — ENEMY " + hp + "%");
+
         return;
     }
 
-    enemy.classList.add("defeated");
-    enemy.style.opacity = "0";
-    enemy.style.pointerEvents = "none";
-
-    enemiesRemaining--;
-
-    objectiveTwo.textContent =
-        enemiesRemaining === 0 ? "☑" : "□";
+    /* -----------------------------------------
+       ENEMY DEFEATED
+    ----------------------------------------- */
 
     message("ENEMY DEFEATED.");
 
-    checkVictory();
-}
+    setTimeout(function () {
 
+        enemy.classList.add("defeated");
+
+        enemy.style.pointerEvents = "none";
+
+        enemiesRemaining--;
+
+        objectiveTwo.textContent =
+            enemiesRemaining === 0 ? "☑" : "□";
+
+        checkVictory();
+
+    }, 350);
+}
 
 
 /* =========================================================
