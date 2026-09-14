@@ -1,6 +1,6 @@
 /* =========================================================
    LOVE WEBSITE + THE GREAT WAR
-   COMPLETE GAME SCRIPT
+   CLEAN COMPLETE GAME SCRIPT
 ========================================================= */
 
 
@@ -14,66 +14,40 @@ const secretCard = document.getElementById("secretCard");
 
 const welcome = document.querySelector(".welcome");
 const evidence = document.querySelector(".evidence");
-
-
-/* INTRO → WELCOME */
-
-if (enterBtn) {
-
-    enterBtn.addEventListener("click", () => {
-
-        welcome?.scrollIntoView({
-            behavior: "smooth"
-        });
-
-    });
-
-}
-
-
-/* WELCOME → EVIDENCE */
-
-if (evidenceBtn) {
-
-    evidenceBtn.addEventListener("click", () => {
-
-        evidence?.scrollIntoView({
-            behavior: "smooth"
-        });
-
-    });
-
-}
-
-
-/* SECRET CARD */
-
-if (secretCard) {
-
-    secretCard.addEventListener("click", () => {
-
-        secretCard.classList.toggle("revealed");
-
-    });
-
-}
-
-
-/* =========================================================
-   GREEK GOD EASTER EGG
-========================================================= */
-
 const greekCard = document.querySelector(".greek-card");
 
-if (greekCard) {
 
-    greekCard.addEventListener("click", () => {
-
-        greekCard.classList.toggle("revealed");
-
+if (enterBtn && welcome) {
+    enterBtn.addEventListener("click", () => {
+        welcome.scrollIntoView({
+            behavior: "smooth"
+        });
     });
-
 }
+
+
+if (evidenceBtn && evidence) {
+    evidenceBtn.addEventListener("click", () => {
+        evidence.scrollIntoView({
+            behavior: "smooth"
+        });
+    });
+}
+
+
+if (secretCard) {
+    secretCard.addEventListener("click", () => {
+        secretCard.classList.toggle("revealed");
+    });
+}
+
+
+if (greekCard) {
+    greekCard.addEventListener("click", () => {
+        greekCard.classList.toggle("revealed");
+    });
+}
+
 
 
 /* =========================================================
@@ -91,9 +65,6 @@ const battleMessage =
 
 const victoryScreen =
     document.getElementById("victoryScreen");
-
-const playAgain =
-    document.getElementById("playAgain");
 
 
 /* OBJECTIVES */
@@ -132,163 +103,422 @@ const enemyUnits =
     document.querySelectorAll(".enemy-unit");
 
 
-/* =========================================================
-   GAME STATE
-========================================================= */
-
-let selectedUnit = null;
-
-let gameOver = false;
-
-let morale = 100;
-
-let enemyInterval = null;
-
-let outpostCaptured = false;
-
 
 /* =========================================================
-   HELPERS
+   START ONLY IF GREAT WAR EXISTS
 ========================================================= */
 
-function livingPlayerUnits() {
+if (
+    !battlefield ||
+    !playerUnits.length ||
+    !enemyUnits.length
+) {
 
-    return Array.from(playerUnits).filter(unit => {
-
-        return !unit.classList.contains("defeated");
-
-    });
-
-}
-
-
-function livingEnemyUnits() {
-
-    return Array.from(enemyUnits).filter(unit => {
-
-        return !unit.classList.contains("defeated");
-
-    });
-
-}
-
-
-function getUnitPosition(unit) {
-
-    return {
-
-        x: unit.offsetLeft + unit.offsetWidth / 2,
-
-        y: unit.offsetTop + unit.offsetHeight / 2
-
-    };
-
-}
-
-
-function distanceBetween(unitA, unitB) {
-
-    const a =
-        getUnitPosition(unitA);
-
-    const b =
-        getUnitPosition(unitB);
-
-    const dx =
-        b.x - a.x;
-
-    const dy =
-        b.y - a.y;
-
-    return Math.sqrt(
-        dx * dx + dy * dy
+    console.warn(
+        "Great War battlefield not found."
     );
 
-}
+} else {
 
 
-/* =========================================================
-   BATTLE MESSAGE
-========================================================= */
+    /* =====================================================
+       GAME STATE
+    ===================================================== */
 
-function message(text) {
+    let selectedUnit = null;
 
-    if (!battleMessage) return;
+    let gameOver = false;
 
-    battleMessage.textContent = text;
+    let morale = 100;
 
-}
+    let outpostCaptured = false;
+
+    let enemyInterval = null;
+
+    let victoryTimer = null;
 
 
-/* =========================================================
-   MORALE
-========================================================= */
+    /* =====================================================
+       GAME SETTINGS
+    ===================================================== */
 
-function updateMorale(amount) {
+    const PLAYER_MAX_HP = 100;
 
-    morale = Math.max(
-        0,
-        Math.min(100, morale + amount)
-    );
+    const ENEMY_MAX_HP = 100;
 
-    if (moraleFill) {
 
-        moraleFill.style.width =
-            `${morale}%`;
+    const PLAYER_DAMAGE = 20;
+
+    const ENEMY_DAMAGE = 15;
+
+
+    const PLAYER_ATTACK_RANGE = 150;
+
+    const ENEMY_ATTACK_RANGE = 105;
+
+
+    const ENEMY_MOVE_SPEED = 7;
+
+    const ENEMY_ATTACK_COOLDOWN = 1200;
+
+
+
+    /* =====================================================
+       HELPERS
+    ===================================================== */
+
+    function livingPlayerUnits() {
+
+        return Array.from(playerUnits).filter(
+            unit =>
+                !unit.classList.contains("defeated")
+        );
 
     }
 
-}
+
+    function livingEnemyUnits() {
+
+        return Array.from(enemyUnits).filter(
+            enemy =>
+                !enemy.classList.contains("defeated")
+        );
+
+    }
 
 
-/* =========================================================
-   UNIT SELECTION
-========================================================= */
+    function getUnitPosition(unit) {
 
-playerUnits.forEach(unit => {
+        return {
 
-    unit.addEventListener("click", event => {
+            x:
+                unit.offsetLeft +
+                unit.offsetWidth / 2,
 
-        event.stopPropagation();
+            y:
+                unit.offsetTop +
+                unit.offsetHeight / 2
 
-        if (gameOver) return;
+        };
 
-        if (
-            unit.classList.contains("defeated")
-        ) {
-            return;
+    }
+
+
+    function distanceBetween(unitA, unitB) {
+
+        const a =
+            getUnitPosition(unitA);
+
+        const b =
+            getUnitPosition(unitB);
+
+
+        return Math.hypot(
+            b.x - a.x,
+            b.y - a.y
+        );
+
+    }
+
+
+    function message(text) {
+
+        if (!battleMessage) return;
+
+        battleMessage.textContent =
+            text;
+
+    }
+
+
+
+    /* =====================================================
+       MORALE
+    ===================================================== */
+
+    function updateMorale(amount) {
+
+        morale = Math.max(
+            0,
+            Math.min(
+                100,
+                morale + amount
+            )
+        );
+
+
+        if (moraleFill) {
+
+            moraleFill.style.width =
+                `${morale}%`;
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       ACTIVE / FALLEN
+    ===================================================== */
+
+    function updateArmyCount() {
+
+        const active =
+            livingPlayerUnits().length;
+
+
+        const fallen =
+            playerUnits.length -
+            active;
+
+
+        if (armyActive) {
+
+            armyActive.textContent =
+                String(active);
+
         }
 
 
-        /* DESELECT */
+        if (armyFallen) {
 
-        playerUnits.forEach(otherUnit => {
+            armyFallen.textContent =
+                String(fallen);
 
-            otherUnit.classList.remove(
-                "selected"
+        }
+
+    }
+
+
+
+    /* =====================================================
+       HP SYSTEM
+    ===================================================== */
+
+    function createHPBar(
+        unit,
+        hp,
+        isEnemy
+    ) {
+
+        let bar =
+            unit.querySelector(
+                ".unit-hp"
             );
 
-        });
+
+        if (!bar) {
+
+            bar =
+                document.createElement(
+                    "div"
+                );
 
 
-        /* SELECT */
-
-        selectedUnit = unit;
-
-        unit.classList.add("selected");
-
-        message("UNIT SELECTED — CHOOSE A POSITION");
-
-    });
-
-});
+            bar.className =
+                "unit-hp";
 
 
-/* =========================================================
-   PLAYER MOVEMENT
-========================================================= */
+            bar.innerHTML = `
+                <div class="unit-hp-fill"></div>
+            `;
 
-if (battlefield) {
+
+            unit.appendChild(bar);
+
+        }
+
+
+        const fill =
+            bar.querySelector(
+                ".unit-hp-fill"
+            );
+
+
+        if (fill) {
+
+            fill.style.background =
+                isEnemy
+                    ? "#8f3028"
+                    : "#58748a";
+
+
+            fill.style.width =
+                `${Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        hp
+                    )
+                )}%`;
+
+        }
+
+
+        return bar;
+
+    }
+
+
+
+    function updateHPBar(
+        unit,
+        hp
+    ) {
+
+        const bar =
+            unit.querySelector(
+                ".unit-hp"
+            );
+
+
+        const fill =
+            bar?.querySelector(
+                ".unit-hp-fill"
+            );
+
+
+        if (!fill) return;
+
+
+        const safeHP =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    hp
+                )
+            );
+
+
+        fill.style.width =
+            `${safeHP}%`;
+
+    }
+
+
+
+    function removeHPBar(unit) {
+
+        const bar =
+            unit.querySelector(
+                ".unit-hp"
+            );
+
+
+        if (bar) {
+
+            bar.remove();
+
+        }
+
+    }
+
+
+
+    function resetHPBars() {
+
+        playerUnits.forEach(
+            unit => {
+
+                createHPBar(
+                    unit,
+                    PLAYER_MAX_HP,
+                    false
+                );
+
+            }
+        );
+
+
+        enemyUnits.forEach(
+            enemy => {
+
+                createHPBar(
+                    enemy,
+                    ENEMY_MAX_HP,
+                    true
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       PLAYER UNIT SELECTION
+    ===================================================== */
+
+    playerUnits.forEach(
+        unit => {
+
+            unit.addEventListener(
+                "click",
+                event => {
+
+                    event.stopPropagation();
+
+
+                    if (gameOver) return;
+
+
+                    if (
+                        unit.classList.contains(
+                            "defeated"
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    playerUnits.forEach(
+                        other => {
+
+                            other.classList.remove(
+                                "selected"
+                            );
+
+                        }
+                    );
+
+
+                    selectedUnit =
+                        unit;
+
+
+                    unit.classList.add(
+                        "selected"
+                    );
+
+
+                    const hp =
+                        parseInt(
+                            unit.dataset.hp ||
+                            PLAYER_MAX_HP,
+                            10
+                        );
+
+
+                    message(
+                        `UNIT SELECTED — HP ${hp}%`
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       PLAYER MOVEMENT
+    ===================================================== */
 
     battlefield.addEventListener(
         "click",
@@ -302,18 +532,26 @@ if (battlefield) {
             /* Don't move when clicking enemies */
 
             if (
-                event.target.closest(".enemy-unit")
+                event.target.closest(
+                    ".enemy-unit"
+                )
             ) {
+
                 return;
+
             }
 
 
             /* Don't move when clicking outpost */
 
             if (
-                event.target.closest(".objective-point")
+                event.target.closest(
+                    ".objective-point"
+                )
             ) {
+
                 return;
+
             }
 
 
@@ -321,169 +559,234 @@ if (battlefield) {
                 battlefield.getBoundingClientRect();
 
 
+            const unitWidth =
+                selectedUnit.offsetWidth;
+
+
+            const unitHeight =
+                selectedUnit.offsetHeight;
+
+
             let x =
-                event.clientX - rect.left;
+                event.clientX -
+                rect.left -
+                unitWidth / 2;
+
 
             let y =
-                event.clientY - rect.top;
+                event.clientY -
+                rect.top -
+                unitHeight / 2;
 
 
-            /* Keep soldiers inside battlefield */
+            const padding = 12;
 
-            const padding = 30;
 
             x = Math.max(
                 padding,
                 Math.min(
-                    rect.width - padding,
+                    battlefield.clientWidth -
+                    unitWidth -
+                    padding,
                     x
                 )
             );
 
+
             y = Math.max(
                 padding,
                 Math.min(
-                    rect.height - padding,
+                    battlefield.clientHeight -
+                    unitHeight -
+                    padding,
                     y
                 )
             );
 
 
-            /* Direction */
-
-            const currentLeft =
+            const oldX =
                 selectedUnit.offsetLeft;
 
-            if (x > currentLeft) {
 
-                selectedUnit.style
-                    .setProperty(
-                        "--player-direction",
-                        "1"
-                    );
+            const direction =
+                x >= oldX
+                    ? 1
+                    : -1;
 
-            } else {
 
-                selectedUnit.style
-                    .setProperty(
-                        "--player-direction",
-                        "-1"
-                    );
+            selectedUnit.style.setProperty(
+                "--soldier-direction",
+                direction
+            );
 
-            }
+
+            selectedUnit.style.setProperty(
+                "--player-direction",
+                direction
+            );
 
 
             selectedUnit.style.left =
                 `${x}px`;
 
+
             selectedUnit.style.top =
                 `${y}px`;
 
 
-            selectedUnit.classList.add(
+            const movingUnit =
+                selectedUnit;
+
+
+            movingUnit.classList.remove(
                 "moving"
             );
 
 
-            setTimeout(() => {
-
-                selectedUnit?.classList.remove(
-                    "moving"
-                );
-
-            }, 520);
+            void movingUnit.offsetWidth;
 
 
-            message("UNIT ADVANCING");
+            movingUnit.classList.add(
+                "moving"
+            );
 
 
-            /* CHECK OUTPOST */
+            setTimeout(
+                () => {
+
+                    movingUnit.classList.remove(
+                        "moving"
+                    );
+
+                },
+                540
+            );
+
+
+            message(
+                "UNIT ADVANCING"
+            );
+
 
             checkOutpostCapture();
 
 
-            /* DESELECT */
-
-            selectedUnit.classList.remove(
+            movingUnit.classList.remove(
                 "selected"
             );
 
-            selectedUnit = null;
+
+            selectedUnit =
+                null;
 
         }
     );
 
-}
 
 
-/* =========================================================
-   OUTPOST CAPTURE
-========================================================= */
+    /* =====================================================
+       PLAYER ATTACK
+    ===================================================== */
 
-function checkOutpostCapture() {
+    enemyUnits.forEach(
+        enemy => {
 
-    if (!outpost) return;
+            enemy.addEventListener(
+                "click",
+                event => {
 
-    if (outpostCaptured) return;
-
-
-    const livingUnits =
-        livingPlayerUnits();
+                    event.stopPropagation();
 
 
-    for (const unit of livingUnits) {
+                    if (gameOver) return;
 
-        const distance =
-            distanceBetween(
-                unit,
-                outpost
+
+                    if (!selectedUnit) {
+
+                        message(
+                            "SELECT A UNIT FIRST"
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        enemy.classList.contains(
+                            "defeated"
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const distance =
+                        distanceBetween(
+                            selectedUnit,
+                            enemy
+                        );
+
+
+                    if (
+                        distance >
+                        PLAYER_ATTACK_RANGE
+                    ) {
+
+                        message(
+                            "ENEMY OUT OF RANGE — MOVE CLOSER"
+                        );
+
+                        return;
+
+                    }
+
+
+                    const player =
+                        selectedUnit;
+
+
+                    attackEnemy(
+                        player,
+                        enemy
+                    );
+
+
+                    player.classList.remove(
+                        "selected"
+                    );
+
+
+                    selectedUnit =
+                        null;
+
+                }
             );
-
-
-        if (distance < 115) {
-
-            outpostCaptured = true;
-
-
-            if (objectiveOne) {
-
-                objectiveOne.textContent =
-                    "✓";
-
-            }
-
-
-            message(
-                "OUTPOST CAPTURED"
-            );
-
-
-            updateMorale(10);
-
-            break;
 
         }
-
-    }
-
-}
+    );
 
 
-/* =========================================================
-   PLAYER ATTACK
-========================================================= */
 
-enemyUnits.forEach(enemy => {
+    /* =====================================================
+       PLAYER ATTACK ANIMATION + DAMAGE
+    ===================================================== */
 
-    enemy.addEventListener("click", event => {
-
-        event.stopPropagation();
+    function attackEnemy(
+        player,
+        enemy
+    ) {
 
         if (gameOver) return;
 
-        if (!selectedUnit) {
 
-            message("SELECT A UNIT FIRST");
+        if (
+            player.classList.contains(
+                "defeated"
+            )
+        ) {
 
             return;
 
@@ -491,288 +794,641 @@ enemyUnits.forEach(enemy => {
 
 
         if (
-            enemy.classList.contains("defeated")
+            enemy.classList.contains(
+                "defeated"
+            )
         ) {
-            return;
-        }
-
-
-        const distance =
-            distanceBetween(
-                selectedUnit,
-                enemy
-            );
-
-
-        if (distance > 150) {
-
-            message(
-                "ENEMY OUT OF RANGE"
-            );
 
             return;
 
         }
 
-
-        attackEnemy(
-            selectedUnit,
-            enemy
-        );
-
-
-        selectedUnit.classList.remove(
-            "selected"
-        );
-
-        selectedUnit = null;
-
-    });
-
-});
-
-
-/* =========================================================
-   ATTACK ENEMY
-========================================================= */
-
-function attackEnemy(player, enemy) {
-
-    if (gameOver) return;
-
-    if (
-        player.classList.contains("defeated")
-    ) {
-        return;
-    }
-
-    if (
-        enemy.classList.contains("defeated")
-    ) {
-        return;
-    }
-
-
-    /* Face enemy */
-
-    const playerPosition =
-        getUnitPosition(player);
-
-    const enemyPosition =
-        getUnitPosition(enemy);
-
-
-    const dx =
-        enemyPosition.x -
-        playerPosition.x;
-
-
-    player.style.setProperty(
-        "--player-direction",
-        dx >= 0 ? "1" : "-1"
-    );
-
-
-    message("ENGAGING ENEMY");
-
-
-    /* HIT */
-
-    enemy.classList.add("hit");
-
-
-    setTimeout(() => {
-
-        enemy.classList.remove(
-            "hit"
-        );
-
-    }, 350);
-
-
-    /* DAMAGE */
-
-    let hp =
-        parseInt(
-            enemy.dataset.hp || "100"
-        );
-
-
-    hp -= 20;
-
-    enemy.dataset.hp =
-        hp;
-
-
-    /* Enemy HP bar */
-
-    const hpBar =
-        enemy.querySelector(".enemy-hp");
-
-
-    if (hpBar) {
-
-        hpBar.style.width =
-            `${Math.max(0, hp)}%`;
-
-    }
-
-
-    /* DEFEAT */
-
-    if (hp <= 0) {
-
-        defeatEnemy(enemy);
-
-        return;
-
-    }
-
-
-    /* ENEMY RETALIATES */
-
-    setTimeout(() => {
-
-        if (!gameOver) {
-
-            enemyAttack(
-                enemy,
-                player
-            );
-
-        }
-
-    }, 250);
-
-}
-
-
-/* =========================================================
-   DEFEAT ENEMY
-========================================================= */
-
-function defeatEnemy(enemy) {
-
-    enemy.classList.add(
-        "defeated"
-    );
-
-
-    enemy.style.pointerEvents =
-        "none";
-
-
-    updateMorale(5);
-
-
-    message(
-        "ENEMY UNIT DEFEATED"
-    );
-
-
-    checkVictory();
-
-}
-
-
-/* =========================================================
-   ENEMY AI
-========================================================= */
-
-function moveEnemies() {
-
-    if (gameOver) return;
-
-
-    const enemies =
-        livingEnemyUnits();
-
-    const players =
-        livingPlayerUnits();
-
-
-    if (!enemies.length) {
-
-        checkVictory();
-
-        return;
-
-    }
-
-
-    if (!players.length) {
-
-        checkDefeat();
-
-        return;
-
-    }
-
-
-    enemies.forEach(enemy => {
-
-
-        /* Find closest player */
-
-        let closestPlayer =
-            null;
-
-        let closestDistance =
-            Infinity;
-
-
-        players.forEach(player => {
-
-            const distance =
-                distanceBetween(
-                    enemy,
-                    player
-                );
-
-
-            if (
-                distance <
-                closestDistance
-            ) {
-
-                closestDistance =
-                    distance;
-
-                closestPlayer =
-                    player;
-
-            }
-
-        });
-
-
-        if (!closestPlayer) return;
-
-
-        /* ATTACK RANGE */
 
         if (
-            closestDistance <= 105
+            player.dataset.attacking ===
+            "true"
         ) {
-
-            enemyAttack(
-                enemy,
-                closestPlayer
-            );
 
             return;
 
         }
 
 
-        /* MOVE */
+        player.dataset.attacking =
+            "true";
+
+
+        const playerPosition =
+            getUnitPosition(player);
+
 
         const enemyPosition =
             getUnitPosition(enemy);
 
+
+        const dx =
+            enemyPosition.x -
+            playerPosition.x;
+
+
+        const direction =
+            dx >= 0
+                ? 1
+                : -1;
+
+
+        /* Face enemy */
+
+        player.style.setProperty(
+            "--soldier-direction",
+            direction
+        );
+
+
+        player.style.setProperty(
+            "--player-direction",
+            direction
+        );
+
+
+        player.style.setProperty(
+            "--attack-direction",
+            direction
+        );
+
+
+        player.style.setProperty(
+            "--attack-lunge",
+            direction
+        );
+
+
+        /* Make sure enemy has HP bar */
+
+        createHPBar(
+            enemy,
+            parseInt(
+                enemy.dataset.hp ||
+                ENEMY_MAX_HP,
+                10
+            ),
+            true
+        );
+
+
+        /* Restart animation */
+
+        player.classList.remove(
+            "attacking"
+        );
+
+
+        void player.offsetWidth;
+
+
+        player.classList.add(
+            "attacking"
+        );
+
+
+        message(
+            "ENGAGING ENEMY"
+        );
+
+
+        /* End attack animation */
+
+        setTimeout(
+            () => {
+
+                player.classList.remove(
+                    "attacking"
+                );
+
+
+                player.dataset.attacking =
+                    "false";
+
+            },
+            680
+        );
+
+
+        /* Damage lands during attack */
+
+        setTimeout(
+            () => {
+
+                if (gameOver) return;
+
+
+                if (
+                    enemy.classList.contains(
+                        "defeated"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                /* Hit reaction */
+
+                enemy.classList.remove(
+                    "hit"
+                );
+
+
+                void enemy.offsetWidth;
+
+
+                enemy.classList.add(
+                    "hit"
+                );
+
+
+                battlefield.classList.remove(
+                    "impact"
+                );
+
+
+                void battlefield.offsetWidth;
+
+
+                battlefield.classList.add(
+                    "impact"
+                );
+
+
+                setTimeout(
+                    () => {
+
+                        enemy.classList.remove(
+                            "hit"
+                        );
+
+                    },
+                    360
+                );
+
+
+                setTimeout(
+                    () => {
+
+                        battlefield.classList.remove(
+                            "impact"
+                        );
+
+                    },
+                    220
+                );
+
+
+                /* DAMAGE */
+
+                let hp =
+                    parseInt(
+                        enemy.dataset.hp ||
+                        ENEMY_MAX_HP,
+                        10
+                    );
+
+
+                hp =
+                    Math.max(
+                        0,
+                        hp - PLAYER_DAMAGE
+                    );
+
+
+                enemy.dataset.hp =
+                    String(hp);
+
+
+                updateHPBar(
+                    enemy,
+                    hp
+                );
+
+
+                if (hp <= 0) {
+
+                    defeatEnemy(
+                        enemy
+                    );
+
+                    return;
+
+                }
+
+
+                /* RETALIATION */
+
+                setTimeout(
+                    () => {
+
+                        if (
+                            !gameOver &&
+                            !enemy.classList.contains(
+                                "defeated"
+                            )
+                        ) {
+
+                            enemyAttack(
+                                enemy,
+                                player
+                            );
+
+                        }
+
+                    },
+                    260
+                );
+
+            },
+            270
+        );
+
+    }
+
+
+
+    /* =====================================================
+       ENEMY DEFEAT
+    ===================================================== */
+
+    function defeatEnemy(
+        enemy
+    ) {
+
+        enemy.classList.remove(
+            "attacking",
+            "hit",
+            "moving"
+        );
+
+
+        enemy.classList.add(
+            "defeated"
+        );
+
+
+        enemy.style.pointerEvents =
+            "none";
+
+
+        enemy.dataset.attacking =
+            "false";
+
+
+        removeHPBar(
+            enemy
+        );
+
+
+        updateMorale(
+            5
+        );
+
+
+        message(
+            "ENEMY UNIT DEFEATED"
+        );
+
+
+        checkVictory();
+
+    }
+
+
+
+    /* =====================================================
+       ENEMY AI
+    ===================================================== */
+
+    function moveEnemies() {
+
+        if (gameOver) return;
+
+
+        const enemies =
+            livingEnemyUnits();
+
+
+        const players =
+            livingPlayerUnits();
+
+
+        if (!enemies.length) {
+
+            checkVictory();
+
+            return;
+
+        }
+
+
+        if (!players.length) {
+
+            checkDefeat();
+
+            return;
+
+        }
+
+
+        enemies.forEach(
+            enemy => {
+
+                if (
+                    gameOver ||
+                    enemy.classList.contains(
+                        "defeated"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                let closestPlayer =
+                    null;
+
+
+                let closestDistance =
+                    Infinity;
+
+
+                players.forEach(
+                    player => {
+
+                        const distance =
+                            distanceBetween(
+                                enemy,
+                                player
+                            );
+
+
+                        if (
+                            distance <
+                            closestDistance
+                        ) {
+
+                            closestDistance =
+                                distance;
+
+
+                            closestPlayer =
+                                player;
+
+                        }
+
+                    }
+                );
+
+
+                if (!closestPlayer) {
+                    return;
+                }
+
+
+                /* Attack if close */
+
+                if (
+                    closestDistance <=
+                    ENEMY_ATTACK_RANGE
+                ) {
+
+                    enemyAttack(
+                        enemy,
+                        closestPlayer
+                    );
+
+                    return;
+
+                }
+
+
+                /* Movement */
+
+                const enemyPosition =
+                    getUnitPosition(
+                        enemy
+                    );
+
+
+                const playerPosition =
+                    getUnitPosition(
+                        closestPlayer
+                    );
+
+
+                const dx =
+                    playerPosition.x -
+                    enemyPosition.x;
+
+
+                const dy =
+                    playerPosition.y -
+                    enemyPosition.y;
+
+
+                const length =
+                    Math.hypot(
+                        dx,
+                        dy
+                    );
+
+
+                if (!length) {
+                    return;
+                }
+
+
+                const direction =
+                    dx >= 0
+                        ? 1
+                        : -1;
+
+
+                enemy.style.setProperty(
+                    "--soldier-direction",
+                    direction
+                );
+
+
+                enemy.style.setProperty(
+                    "--attack-direction",
+                    direction
+                );
+
+
+                const newX =
+                    enemy.offsetLeft +
+                    (dx / length) *
+                    ENEMY_MOVE_SPEED;
+
+
+                const newY =
+                    enemy.offsetTop +
+                    (dy / length) *
+                    ENEMY_MOVE_SPEED;
+
+
+                const padding = 8;
+
+
+                const boundedX =
+                    Math.max(
+                        padding,
+                        Math.min(
+                            battlefield.clientWidth -
+                            enemy.offsetWidth -
+                            padding,
+                            newX
+                        )
+                    );
+
+
+                const boundedY =
+                    Math.max(
+                        padding,
+                        Math.min(
+                            battlefield.clientHeight -
+                            enemy.offsetHeight -
+                            padding,
+                            newY
+                        )
+                    );
+
+
+                enemy.style.left =
+                    `${boundedX}px`;
+
+
+                enemy.style.top =
+                    `${boundedY}px`;
+
+
+                /* Restart movement animation */
+
+                enemy.classList.remove(
+                    "moving"
+                );
+
+
+                void enemy.offsetWidth;
+
+
+                enemy.classList.add(
+                    "moving"
+                );
+
+
+                setTimeout(
+                    () => {
+
+                        enemy.classList.remove(
+                            "moving"
+                        );
+
+                    },
+                    540
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       ENEMY ATTACK
+    ===================================================== */
+
+    function enemyAttack(
+        enemy,
+        player
+    ) {
+
+        if (gameOver) return;
+
+
+        if (
+            enemy.classList.contains(
+                "defeated"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            player.classList.contains(
+                "defeated"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            enemy.dataset.attacking ===
+            "true"
+        ) {
+
+            return;
+
+        }
+
+
+        /* Cooldown */
+
+        const now =
+            Date.now();
+
+
+        const lastAttack =
+            Number(
+                enemy.dataset.lastAttack ||
+                0
+            );
+
+
+        if (
+            now - lastAttack <
+            ENEMY_ATTACK_COOLDOWN
+        ) {
+
+            return;
+
+        }
+
+
+        enemy.dataset.lastAttack =
+            String(now);
+
+
+        enemy.dataset.attacking =
+            "true";
+
+
+        const enemyPosition =
+            getUnitPosition(
+                enemy
+            );
+
+
         const playerPosition =
             getUnitPosition(
-                closestPlayer
+                player
             );
 
 
@@ -780,596 +1436,903 @@ function moveEnemies() {
             playerPosition.x -
             enemyPosition.x;
 
-        const dy =
-            playerPosition.y -
-            enemyPosition.y;
 
+        const direction =
+            dx >= 0
+                ? 1
+                : -1;
 
-        const length =
-            Math.sqrt(
-                dx * dx +
-                dy * dy
-            );
-
-
-        if (!length) return;
-
-
-        const speed = 7;
-
-
-        const newX =
-            enemy.offsetLeft +
-            (dx / length) *
-            speed;
-
-
-        const newY =
-            enemy.offsetTop +
-            (dy / length) *
-            speed;
-
-
-        /* Face player */
 
         enemy.style.setProperty(
             "--soldier-direction",
-            dx >= 0 ? "1" : "-1"
+            direction
         );
 
 
-        enemy.style.left =
-            `${newX}px`;
+        enemy.style.setProperty(
+            "--attack-direction",
+            direction
+        );
 
-        enemy.style.top =
-            `${newY}px`;
+
+        enemy.style.setProperty(
+            "--attack-lunge",
+            direction
+        );
+
+
+        /* Make sure player has HP bar */
+
+        createHPBar(
+            player,
+            parseInt(
+                player.dataset.hp ||
+                PLAYER_MAX_HP,
+                10
+            ),
+            false
+        );
+
+
+        /* Restart attack animation */
+
+        enemy.classList.remove(
+            "attacking"
+        );
+
+
+        void enemy.offsetWidth;
 
 
         enemy.classList.add(
-            "moving"
+            "attacking"
         );
 
 
-        setTimeout(() => {
-
-            enemy.classList.remove(
-                "moving"
-            );
-
-        }, 520);
-
-    });
-
-}
+        message(
+            "ENEMY STRIKES — YOUR UNIT UNDER FIRE"
+        );
 
 
-/* =========================================================
-   ENEMY ATTACK
-========================================================= */
+        /* Stop animation */
 
-function enemyAttack(enemy, player) {
+        setTimeout(
+            () => {
 
-    if (gameOver) return;
+                enemy.classList.remove(
+                    "attacking"
+                );
 
-    if (
-        enemy.classList.contains(
-            "defeated"
-        )
-    ) {
-        return;
+
+                enemy.dataset.attacking =
+                    "false";
+
+            },
+            680
+        );
+
+
+        /* Damage impact */
+
+        setTimeout(
+            () => {
+
+                if (gameOver) return;
+
+
+                if (
+                    player.classList.contains(
+                        "defeated"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                /* Player hit */
+
+                player.classList.remove(
+                    "hit"
+                );
+
+
+                void player.offsetWidth;
+
+
+                player.classList.add(
+                    "hit"
+                );
+
+
+                /* Battlefield impact */
+
+                battlefield.classList.remove(
+                    "impact"
+                );
+
+
+                void battlefield.offsetWidth;
+
+
+                battlefield.classList.add(
+                    "impact"
+                );
+
+
+                setTimeout(
+                    () => {
+
+                        player.classList.remove(
+                            "hit"
+                        );
+
+                    },
+                    360
+                );
+
+
+                setTimeout(
+                    () => {
+
+                        battlefield.classList.remove(
+                            "impact"
+                        );
+
+                    },
+                    220
+                );
+
+
+                /* DAMAGE */
+
+                let hp =
+                    parseInt(
+                        player.dataset.hp ||
+                        PLAYER_MAX_HP,
+                        10
+                    );
+
+
+                hp =
+                    Math.max(
+                        0,
+                        hp - ENEMY_DAMAGE
+                    );
+
+
+                player.dataset.hp =
+                    String(hp);
+
+
+                updateHPBar(
+                    player,
+                    hp
+                );
+
+
+                updateMorale(
+                    -8
+                );
+
+
+                if (hp <= 0) {
+
+                    defeatPlayer(
+                        player
+                    );
+
+                }
+
+            },
+            300
+        );
+
     }
 
 
-    if (
-        player.classList.contains(
-            "defeated"
-        )
+
+    /* =====================================================
+       PLAYER DEFEAT
+    ===================================================== */
+
+    function defeatPlayer(
+        player
     ) {
-        return;
-    }
-
-
-    /* Prevent attack spam */
-
-    if (
-        enemy.dataset.attacking === "true"
-    ) {
-        return;
-    }
-
-
-    enemy.dataset.attacking =
-        "true";
-
-
-    /* Face player */
-
-    const enemyPosition =
-        getUnitPosition(enemy);
-
-    const playerPosition =
-        getUnitPosition(player);
-
-
-    const dx =
-        playerPosition.x -
-        enemyPosition.x;
-
-
-    const direction =
-        dx >= 0 ? "1" : "-1";
-
-
-    enemy.style.setProperty(
-        "--soldier-direction",
-        direction
-    );
-
-
-    enemy.style.setProperty(
-        "--attack-direction",
-        direction
-    );
-
-
-    enemy.classList.add(
-        "attacking"
-    );
-
-
-    message(
-        "ENEMY STRIKES — YOUR UNIT UNDER FIRE"
-    );
-
-
-    /* IMPACT */
-
-    setTimeout(() => {
 
         if (
             player.classList.contains(
                 "defeated"
             )
         ) {
+
             return;
+
         }
 
 
-        player.classList.add(
+        player.classList.remove(
+            "attacking",
+            "moving",
+            "selected",
             "hit"
         );
 
 
-        battlefield?.classList.add(
+        player.classList.add(
+            "defeated"
+        );
+
+
+        player.style.pointerEvents =
+            "none";
+
+
+        player.dataset.attacking =
+            "false";
+
+
+        removeHPBar(
+            player
+        );
+
+
+        updateArmyCount();
+
+
+        updateMorale(
+            -15
+        );
+
+
+        if (
+            selectedUnit ===
+            player
+        ) {
+
+            selectedUnit =
+                null;
+
+        }
+
+
+        message(
+            "YOUR UNIT HAS FALLEN"
+        );
+
+
+        if (
+            !livingPlayerUnits().length
+        ) {
+
+            checkDefeat();
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       OUTPOST
+    ===================================================== */
+
+    function checkOutpostCapture() {
+
+        if (
+            !outpost ||
+            outpostCaptured
+        ) {
+
+            return;
+
+        }
+
+
+        for (
+            const unit of
+            livingPlayerUnits()
+        ) {
+
+            if (
+                distanceBetween(
+                    unit,
+                    outpost
+                ) < 115
+            ) {
+
+                outpostCaptured =
+                    true;
+
+
+                if (objectiveOne) {
+
+                    objectiveOne.textContent =
+                        "✓";
+
+                }
+
+
+                message(
+                    "OUTPOST CAPTURED"
+                );
+
+
+                updateMorale(
+                    10
+                );
+
+
+                break;
+
+            }
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       DEFEAT
+    ===================================================== */
+
+    function checkDefeat() {
+
+        if (gameOver) return;
+
+
+        if (
+            livingPlayerUnits().length >
+            0
+        ) {
+
+            return;
+
+        }
+
+
+        gameOver =
+            true;
+
+
+        if (enemyInterval) {
+
+            clearInterval(
+                enemyInterval
+            );
+
+
+            enemyInterval =
+                null;
+
+        }
+
+
+        message(
+            "THE BATTLE IS LOST"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       VICTORY
+    ===================================================== */
+
+    function checkVictory() {
+
+        if (gameOver) return;
+
+
+        if (
+            livingEnemyUnits().length !==
+            0
+        ) {
+
+            return;
+
+        }
+
+
+        gameOver =
+            true;
+
+
+        if (objectiveTwo) {
+
+            objectiveTwo.textContent =
+                "✓";
+
+        }
+
+
+        if (objectiveThree) {
+
+            objectiveThree.textContent =
+                outpostCaptured
+                    ? "✓"
+                    : "—";
+
+        }
+
+
+        if (enemyInterval) {
+
+            clearInterval(
+                enemyInterval
+            );
+
+
+            enemyInterval =
+                null;
+
+        }
+
+
+        message(
+            "BATTLE WON"
+        );
+
+
+        victoryTimer =
+            setTimeout(
+                showVictory,
+                900
+            );
+
+    }
+
+
+
+    /* =====================================================
+       VICTORY SCREEN
+    ===================================================== */
+
+    function showVictory() {
+
+        if (!victoryScreen) {
+            return;
+        }
+
+
+        battlefield.classList.add(
+            "battle-ended"
+        );
+
+
+        victoryScreen.innerHTML = `
+
+            <div class="victory-label">
+                ✦ BATTLEFIELD REPORT ✦
+            </div>
+
+
+            <h3>
+                CONGRATULATIONS,
+                <span>
+                    YOU FUCKING NERD.
+                </span>
+            </h3>
+
+
+            <p>
+                You actually finished this stupidest little game.
+            </p>
+
+
+            <p class="victory-joke">
+
+                You clicked tiny soldiers around
+                a fake medieval battlefield
+                until everyone was dead.
+
+                <br><br>
+
+                I am simultaneously impressed
+                and deeply concerned.
+
+            </p>
+
+
+            <div class="victory-banner-divider">
+                ─────── ✦ ───────
+            </div>
+
+
+            <div class="victory-final-message">
+
+                NOW FUCK OFF.
+
+                <br>
+
+                <span>
+                    ♥ I love you.
+                </span>
+
+            </div>
+
+
+            <button
+                id="playAgain"
+                type="button"
+            >
+                I WANT TO SUFFER AGAIN →
+            </button>
+
+        `;
+
+
+        victoryScreen.classList.add(
+            "visible"
+        );
+
+
+        const playAgain =
+            document.getElementById(
+                "playAgain"
+            );
+
+
+        if (playAgain) {
+
+            playAgain.addEventListener(
+                "click",
+                resetGame
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       RESET GAME
+    ===================================================== */
+
+    function resetGame() {
+
+        if (victoryTimer) {
+
+            clearTimeout(
+                victoryTimer
+            );
+
+            victoryTimer =
+                null;
+
+        }
+
+
+        gameOver =
+            false;
+
+
+        morale =
+            100;
+
+
+        outpostCaptured =
+            false;
+
+
+        selectedUnit =
+            null;
+
+
+        battlefield.classList.remove(
+            "battle-ended",
             "impact"
         );
 
 
-        setTimeout(() => {
+        if (victoryScreen) {
 
-            player.classList.remove(
-                "hit"
+            victoryScreen.classList.remove(
+                "visible",
+                "show"
             );
-
-        }, 350);
-
-
-        setTimeout(() => {
-
-            battlefield?.classList.remove(
-                "impact"
-            );
-
-        }, 250);
-
-
-        /* DAMAGE */
-
-        let hp =
-            parseInt(
-                player.dataset.hp || "100"
-            );
-
-
-        hp -= 15;
-
-
-        player.dataset.hp =
-            hp;
-
-
-        /* PLAYER HP */
-
-        const hpBar =
-            player.querySelector(".unit-hp");
-
-
-        if (hpBar) {
-
-            hpBar.style.width =
-                `${Math.max(0, hp)}%`;
 
         }
 
 
-        /* MORALE */
+        /* Objectives */
 
-        updateMorale(-8);
+        if (objectiveOne) {
 
-
-        /* DEFEAT */
-
-        if (hp <= 0) {
-
-            defeatPlayer(player);
+            objectiveOne.textContent =
+                "□";
 
         }
 
-    }, 220);
+
+        if (objectiveTwo) {
+
+            objectiveTwo.textContent =
+                "□";
+
+        }
 
 
-    setTimeout(() => {
+        if (objectiveThree) {
 
-        enemy.classList.remove(
-            "attacking"
+            objectiveThree.textContent =
+                "□";
+
+        }
+
+
+        /* Army */
+
+        if (armyActive) {
+
+            armyActive.textContent =
+                "3";
+
+        }
+
+
+        if (armyFallen) {
+
+            armyFallen.textContent =
+                "0";
+
+        }
+
+
+        /* Morale */
+
+        if (moraleFill) {
+
+            moraleFill.style.width =
+                "100%";
+
+        }
+
+
+        /* Player units */
+
+        playerUnits.forEach(
+            (unit, index) => {
+
+                unit.classList.remove(
+                    "defeated",
+                    "selected",
+                    "hit",
+                    "moving",
+                    "attacking"
+                );
+
+
+                unit.style.pointerEvents =
+                    "";
+
+
+                unit.dataset.hp =
+                    String(
+                        PLAYER_MAX_HP
+                    );
+
+
+                unit.dataset.attacking =
+                    "false";
+
+
+                const startingPositions = [
+
+                    ["19%", "61%"],
+
+                    ["27%", "70%"],
+
+                    ["18%", "78%"]
+
+                ];
+
+
+                unit.style.left =
+                    startingPositions[index][0];
+
+
+                unit.style.top =
+                    startingPositions[index][1];
+
+
+                unit.style.setProperty(
+                    "--soldier-direction",
+                    "1"
+                );
+
+
+                unit.style.setProperty(
+                    "--player-direction",
+                    "1"
+                );
+
+
+                unit.style.setProperty(
+                    "--attack-direction",
+                    "1"
+                );
+
+            }
         );
 
-        enemy.dataset.attacking =
-            "false";
 
-    }, 650);
+        /* Enemy units */
 
-}
+        enemyUnits.forEach(
+            (enemy, index) => {
+
+                enemy.classList.remove(
+                    "defeated",
+                    "hit",
+                    "attacking",
+                    "moving"
+                );
 
 
-/* =========================================================
-   DEFEAT PLAYER
-========================================================= */
+                enemy.style.pointerEvents =
+                    "";
 
-function defeatPlayer(player) {
 
-    if (
-        player.classList.contains(
-            "defeated"
-        )
-    ) {
-        return;
+                enemy.dataset.hp =
+                    String(
+                        ENEMY_MAX_HP
+                    );
+
+
+                enemy.dataset.attacking =
+                    "false";
+
+
+                enemy.dataset.lastAttack =
+                    "0";
+
+
+                const startingPositions = [
+
+                    ["68%", "38%"],
+
+                    ["78%", "53%"],
+
+                    ["63%", "70%"]
+
+                ];
+
+
+                enemy.style.left =
+                    startingPositions[index][0];
+
+
+                enemy.style.top =
+                    startingPositions[index][1];
+
+
+                enemy.style.setProperty(
+                    "--soldier-direction",
+                    "-1"
+                );
+
+
+                enemy.style.setProperty(
+                    "--attack-direction",
+                    "-1"
+                );
+
+            }
+        );
+
+
+        /* Restore outpost */
+
+        if (outpost) {
+
+            const flag =
+                outpost.querySelector(
+                    "span"
+                );
+
+
+            if (flag) {
+
+                flag.textContent =
+                    "⚑";
+
+            }
+
+        }
+
+
+        resetHPBars();
+
+
+        updateArmyCount();
+
+
+        message(
+            "SELECT A UNIT"
+        );
+
+
+        startEnemyAI();
+
     }
 
-
-    player.classList.add(
-        "defeated"
-    );
-
-
-    player.style.pointerEvents =
-        "none";
 
 
     /* =====================================================
-       UPDATE ACTIVE / FALLEN
+       ENEMY AI TIMER
     ===================================================== */
 
-    const active =
-        Array.from(playerUnits).filter(
-            unit =>
-                !unit.classList.contains(
-                    "defeated"
-                )
-        ).length;
+    function startEnemyAI() {
+
+        if (enemyInterval) {
+
+            clearInterval(
+                enemyInterval
+            );
+
+        }
 
 
-    const fallen =
-        playerUnits.length -
-        active;
-
-
-    if (armyActive) {
-
-        armyActive.textContent =
-            active;
+        enemyInterval =
+            setInterval(
+                moveEnemies,
+                300
+            );
 
     }
 
 
-    if (armyFallen) {
 
-        armyFallen.textContent =
-            fallen;
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
 
-    }
+    playerUnits.forEach(
+        unit => {
+
+            unit.dataset.hp =
+                String(
+                    PLAYER_MAX_HP
+                );
 
 
-    updateMorale(-15);
+            unit.dataset.attacking =
+                "false";
 
-
-    message(
-        "YOUR UNIT HAS FALLEN"
+        }
     );
 
 
-    if (
-        livingPlayerUnits().length === 0
-    ) {
+    enemyUnits.forEach(
+        enemy => {
 
-        checkDefeat();
-
-    }
-
-}
+            enemy.dataset.hp =
+                String(
+                    ENEMY_MAX_HP
+                );
 
 
-/* =========================================================
-   PLAYER DEFEAT
-========================================================= */
-
-function checkDefeat() {
-
-    if (gameOver) return;
-
-    if (
-        livingPlayerUnits().length > 0
-    ) {
-        return;
-    }
+            enemy.dataset.attacking =
+                "false";
 
 
-    gameOver = true;
+            enemy.dataset.lastAttack =
+                "0";
 
-
-    if (enemyInterval) {
-
-        clearInterval(
-            enemyInterval
-        );
-
-        enemyInterval = null;
-
-    }
-
-
-    message(
-        "THE BATTLE IS LOST"
-    );
-
-}
-
-
-/* =========================================================
-   VICTORY
-========================================================= */
-
-function checkVictory() {
-
-    if (gameOver) return;
-
-
-    const enemiesRemaining =
-        livingEnemyUnits().length;
-
-
-    if (enemiesRemaining !== 0) {
-        return;
-    }
-
-
-    gameOver = true;
-
-
-    if (objectiveTwo) {
-
-        objectiveTwo.textContent =
-            "✓";
-
-    }
-
-
-    if (objectiveThree) {
-
-        objectiveThree.textContent =
-            outpostCaptured
-                ? "✓"
-                : "—";
-
-    }
-
-
-    if (enemyInterval) {
-
-        clearInterval(
-            enemyInterval
-        );
-
-        enemyInterval = null;
-
-    }
-
-
-    message(
-        "BATTLE WON"
+        }
     );
 
 
-    setTimeout(() => {
+    resetHPBars();
 
-        showVictory();
 
-    }, 900);
+    updateArmyCount();
 
-}
-
-
-/* =========================================================
-   VICTORY SCREEN
-========================================================= */
-
-function showVictory() {
-
-    if (!victoryScreen) return;
-
-
-    battlefield?.classList.add(
-        "battle-ended"
-    );
-
-
-    victoryScreen.innerHTML = `
-
-        <div class="victory-label">
-            ✦ BATTLEFIELD REPORT ✦
-        </div>
-
-
-        <h3>
-            CONGRATULATIONS,
-            <span>YOU FUCKING NERD.</span>
-        </h3>
-
-
-        <p>
-            You actually finished this stupidest little game.
-        </p>
-
-
-        <p class="victory-joke">
-            You clicked tiny soldiers around a fake medieval battlefield
-            until everyone was dead.
-
-            <br><br>
-
-            I am simultaneously impressed and deeply concerned.
-        </p>
-
-
-        <div class="victory-banner-divider">
-            ─────── ✦ ───────
-        </div>
-
-
-        <div class="victory-final-message">
-
-            NOW FUCK OFF.
-
-            <br>
-
-            <span>
-                ♥ I love you.
-            </span>
-
-        </div>
-
-
-        <button
-            id="playAgain"
-            type="button"
-        >
-            I WANT TO SUFFER AGAIN →
-        </button>
-
-    `;
-
-
-    victoryScreen.classList.add(
-        "visible"
-    );
-
-
-    const newPlayAgain =
-        document.getElementById(
-            "playAgain"
-        );
-
-
-    if (newPlayAgain) {
-
-        newPlayAgain.addEventListener(
-            "click",
-            resetGame
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   RESET GAME
-========================================================= */
-
-function resetGame() {
-
-    gameOver = false;
-
-    morale = 100;
-
-    selectedUnit = null;
-
-    outpostCaptured = false;
-
-
-    if (battlefield) {
-
-        battlefield.classList.remove(
-            "battle-ended"
-        );
-
-    }
-
-
-    if (victoryScreen) {
-
-        victoryScreen.classList.remove(
-            "visible"
-        );
-
-    }
-
-
-    /* RESET OBJECTIVES */
-
-    if (objectiveOne) {
-
-        objectiveOne.textContent =
-            "□";
-
-    }
-
-
-    if (objectiveTwo) {
-
-        objectiveTwo.textContent =
-            "□";
-
-    }
-
-
-    if (objectiveThree) {
-
-        objectiveThree.textContent =
-            "□";
-
-    }
-
-
-    /* RESET ARMY */
-
-    if (armyActive) {
-
-        armyActive.textContent =
-            "3";
-
-    }
-
-
-    if (armyFallen) {
-
-        armyFallen.textContent =
-            "0";
-
-    }
-
-
-    /* RESET MORALE */
 
     if (moraleFill) {
 
@@ -1378,129 +2341,6 @@ function resetGame() {
 
     }
 
-
-    /* RESET PLAYER UNITS */
-
-    playerUnits.forEach(unit => {
-
-        unit.classList.remove(
-            "defeated",
-            "selected",
-            "hit",
-            "moving"
-        );
-
-
-        unit.style.pointerEvents =
-            "";
-
-
-        unit.dataset.hp =
-            "100";
-
-    });
-
-
-    /* RESET ENEMY UNITS */
-
-    enemyUnits.forEach(enemy => {
-
-        enemy.classList.remove(
-            "defeated",
-            "hit",
-            "attacking",
-            "moving"
-        );
-
-
-        enemy.style.pointerEvents =
-            "";
-
-
-        enemy.dataset.hp =
-            "100";
-
-
-        enemy.dataset.attacking =
-            "false";
-
-    });
-
-
-    message(
-        "SELECT A UNIT"
-    );
-
-
-    /* RESTART ENEMY AI */
-
-    startEnemyAI();
-
-}
-
-
-/* =========================================================
-   ENEMY AI TIMER
-========================================================= */
-
-function startEnemyAI() {
-
-    if (enemyInterval) {
-
-        clearInterval(
-            enemyInterval
-        );
-
-    }
-
-
-    enemyInterval =
-        setInterval(
-            moveEnemies,
-            300
-        );
-
-}
-
-
-/* =========================================================
-   INITIALIZE GAME
-========================================================= */
-
-if (battlefield) {
-
-    /* Initial HP */
-
-    playerUnits.forEach(unit => {
-
-        unit.dataset.hp =
-            "100";
-
-    });
-
-
-    enemyUnits.forEach(enemy => {
-
-        enemy.dataset.hp =
-            "100";
-
-        enemy.dataset.attacking =
-            "false";
-
-    });
-
-
-    /* Initial morale */
-
-    if (moraleFill) {
-
-        moraleFill.style.width =
-            "100%";
-
-    }
-
-
-    /* Start enemy movement */
 
     startEnemyAI();
 
