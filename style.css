@@ -1262,39 +1262,43 @@ font-family: "Spectral", Georgia, serif;
    MOBILE
 ========================================================= */
 /* =========================================================
-   THE GREAT WAR
+   THE GREAT WAR — ARCHAEOLOGICAL CAMPAIGN MAP
 ========================================================= */
 
 .war-section {
     min-height: 100vh;
-    padding: 130px 5vw 90px;
+    padding: 135px 5vw 95px;
+    position: relative;
     background:
         linear-gradient(
-            rgba(12, 7, 4, 0.78),
-            rgba(12, 7, 4, 0.84)
+            rgba(12, 7, 4, 0.84),
+            rgba(12, 7, 4, 0.90)
         );
 }
 
 .war-header {
-    max-width: 900px;
-    margin: 0 auto 70px;
+    width: min(100%, 980px);
+    margin: 0 auto 65px;
     text-align: center;
 }
 
 .war-header .eyebrow {
-    margin-bottom: 25px;
+    margin-bottom: 24px;
+    color: rgba(205, 177, 150, 0.58);
 }
 
 .war-header h2 {
+    margin: 0;
     font-family: "IM Fell English", Georgia, serif;
-    font-size: clamp(48px, 7vw, 86px);
+    font-size: clamp(50px, 7vw, 88px);
     font-weight: 400;
-    line-height: 0.95;
-    letter-spacing: 2px;
+    line-height: 0.9;
+    letter-spacing: 1px;
+    text-shadow: 0 5px 30px rgba(0, 0, 0, 0.55);
 }
 
 .war-header h2 span {
-    color: #c4a58b;
+    color: #c7a88d;
     font-style: italic;
 }
 
@@ -1303,39 +1307,42 @@ font-family: "Spectral", Georgia, serif;
     font-family: "IM Fell English", Georgia, serif;
     font-size: 20px;
     font-style: italic;
-    color: rgba(225, 207, 187, 0.68);
+    color: rgba(225, 207, 187, 0.72);
 }
 
 .war-header small {
     display: block;
     max-width: 650px;
-    margin: 20px auto 0;
-    font-size: 14px;
+    margin: 17px auto 0;
+    font-size: 13px;
     line-height: 1.7;
-    color: rgba(225, 211, 196, 0.48);
+    color: rgba(225, 211, 196, 0.45);
 }
 
 
 /* =========================
-   GAME FRAME
+   CAMPAIGN FRAME
 ========================= */
 
 .war-game {
-    width: 100%;
-    max-width: 1250px;
-    min-height: 560px;
+    width: min(100%, 1280px);
+    min-height: 640px;
     margin: 0 auto;
-
     display: grid;
-    grid-template-columns: 190px minmax(0, 1fr) 190px;
+    grid-template-columns: 210px minmax(0, 1fr) 205px;
 
-    border: 1px solid rgba(157, 119, 87, 0.42);
+    border: 1px solid rgba(170, 137, 105, 0.34);
 
     background:
-        rgba(19, 11, 7, 0.88);
+        linear-gradient(
+            135deg,
+            rgba(50, 31, 19, 0.96),
+            rgba(22, 13, 8, 0.98)
+        );
 
     box-shadow:
-        0 30px 70px rgba(0, 0, 0, 0.65);
+        0 35px 90px rgba(0, 0, 0, 0.72),
+        0 0 0 1px rgba(0, 0, 0, 0.35);
 
     overflow: hidden;
 }
@@ -1346,187 +1353,293 @@ font-family: "Spectral", Georgia, serif;
 ========================= */
 
 .war-panel {
-    padding: 28px 22px;
-
+    min-width: 0;
+    padding: 30px 24px;
     background:
         linear-gradient(
-            rgba(36, 22, 14, 0.72),
-            rgba(17, 10, 6, 0.82)
+            180deg,
+            rgba(45, 28, 17, 0.94),
+            rgba(22, 13, 8, 0.98)
         );
-
     color: rgba(225, 207, 187, 0.72);
 }
 
 .left-panel {
-    border-right: 1px solid rgba(157, 119, 87, 0.25);
+    border-right: 1px solid rgba(170, 137, 105, 0.22);
 }
 
 .right-panel {
-    border-left: 1px solid rgba(157, 119, 87, 0.25);
+    border-left: 1px solid rgba(170, 137, 105, 0.22);
 }
 
 .panel-title {
-    margin-bottom: 20px;
+    margin-bottom: 21px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(170, 137, 105, 0.18);
 
     font-family: "Special Elite", monospace;
     font-size: 9px;
     letter-spacing: 2.5px;
-    color: rgba(205, 177, 150, 0.7);
+    color: rgba(205, 177, 150, 0.68);
 }
 
 .objective {
     display: flex;
+    align-items: flex-start;
     gap: 9px;
-
     margin-bottom: 14px;
-
-    font-size: 12px;
-    line-height: 1.4;
+    font-size: 11px;
+    line-height: 1.45;
+    color: rgba(225, 207, 187, 0.66);
 }
 
 .objective span {
+    flex: 0 0 auto;
     font-family: monospace;
-    color: rgba(194, 159, 128, 0.75);
+    color: rgba(194, 159, 128, 0.78);
 }
 
 .army-title {
-    margin-top: 42px;
+    margin-top: 45px;
 }
 
 .army-stat {
     display: flex;
     align-items: center;
     gap: 12px;
-
     font-family: "IM Fell English", Georgia, serif;
-    font-size: 27px;
-
+    font-size: 28px;
     color: #cbb29b;
 }
 
 .army-stat span {
-    font-size: 23px;
+    display: none;
+}
+
+.army-stat::before {
+    content: "I  II  III";
+    font-family: "Special Elite", monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(202, 177, 151, 0.55);
 }
 
 .morale {
-    margin-top: 30px;
-
+    margin-top: 32px;
     font-family: "Special Elite", monospace;
     font-size: 8px;
     letter-spacing: 2px;
+    color: rgba(211, 186, 160, 0.62);
 }
 
 .morale-bar {
     height: 5px;
-    margin-top: 9px;
-
-    background: rgba(220, 200, 175, 0.12);
-
+    margin-top: 10px;
+    border: 1px solid rgba(188, 153, 119, 0.18);
+    background: rgba(220, 200, 175, 0.07);
     overflow: hidden;
 }
 
 #moraleFill {
     width: 100%;
     height: 100%;
-
-    background: rgba(177, 143, 113, 0.7);
-
+    background: rgba(177, 143, 113, 0.65);
     transition: width 0.4s ease;
 }
 
 .right-panel p {
-    margin-bottom: 17px;
-
+    margin-bottom: 16px;
     font-size: 11px;
-    line-height: 1.5;
+    line-height: 1.55;
+    color: rgba(225, 207, 187, 0.62);
 }
 
 .tip-title {
-    margin-top: 55px;
+    margin-top: 48px;
 }
 
 .right-panel .tip {
     font-family: "IM Fell English", Georgia, serif;
-    font-size: 16px;
+    font-size: 17px;
     font-style: italic;
     color: rgba(215, 190, 165, 0.68);
 }
 
 
 /* =========================
-   BATTLEFIELD
+   BATTLEFIELD — OLD MAP
 ========================= */
 
 .battlefield {
     position: relative;
-
-    min-height: 560px;
-
+    min-width: 0;
+    min-height: 640px;
     overflow: hidden;
 
-    background:
-        linear-gradient(
-            rgba(53, 38, 25, 0.25),
-            rgba(19, 13, 8, 0.35)
+    background-color: #9b8061;
+    background-image:
+        radial-gradient(
+            ellipse at 50% 50%,
+            rgba(235, 215, 181, 0.34) 0%,
+            rgba(174, 143, 105, 0.22) 45%,
+            rgba(65, 39, 22, 0.42) 100%
         ),
-        url("images/linedbrownnotebook.jpg");
-
-    background-size: cover;
-    background-position: center;
+        repeating-linear-gradient(
+            0deg,
+            rgba(72, 45, 27, 0.08) 0px,
+            rgba(72, 45, 27, 0.08) 1px,
+            transparent 1px,
+            transparent 31px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(72, 45, 27, 0.07) 0px,
+            rgba(72, 45, 27, 0.07) 1px,
+            transparent 1px,
+            transparent 31px
+        );
 
     box-shadow:
-        inset 0 0 80px rgba(30, 16, 8, 0.75);
+        inset 0 0 90px rgba(38, 20, 10, 0.55),
+        inset 0 0 0 1px rgba(255, 230, 192, 0.08);
+
+    cursor: crosshair;
+}
+
+.battlefield::before {
+    content: "CAMPAIGN MAP  ·  FIELD 05";
+    position: absolute;
+    top: 17px;
+    left: 20px;
+    z-index: 2;
+
+    font-family: "Special Elite", monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: rgba(63, 40, 25, 0.48);
+    pointer-events: none;
+}
+
+.battlefield::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 42%,
+            rgba(53, 31, 17, 0.17) 78%,
+            rgba(35, 18, 9, 0.48) 100%
+        );
 }
 
 
 /* =========================
-   TERRAIN
+   MAP TERRAIN
 ========================= */
 
 .terrain {
     position: absolute;
-
-    border: 1px solid rgba(73, 50, 32, 0.35);
-
-    opacity: 0.55;
-
     pointer-events: none;
+    z-index: 2;
+    border: 1px solid rgba(70, 45, 27, 0.34);
+    opacity: 0.72;
+}
+
+.terrain::before,
+.terrain::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(70, 45, 27, 0.22);
+    border-radius: inherit;
 }
 
 .terrain-one {
-    width: 190px;
-    height: 95px;
+    width: 220px;
+    height: 130px;
+    top: 13%;
+    left: 8%;
+    border-radius: 48% 52% 43% 57%;
+    transform: rotate(-12deg);
+    background:
+        repeating-linear-gradient(
+            155deg,
+            transparent 0 13px,
+            rgba(70, 45, 27, 0.12) 14px,
+            transparent 15px 24px
+        );
+}
 
-    top: 12%;
-    left: 9%;
+.terrain-one::before {
+    inset: 12px;
+}
 
-    border-radius: 50%;
-
-    transform: rotate(-15deg);
+.terrain-one::after {
+    inset: 28px;
 }
 
 .terrain-two {
-    width: 230px;
-    height: 110px;
-
+    width: 250px;
+    height: 145px;
+    right: 6%;
     bottom: 12%;
-    right: 8%;
+    border-radius: 58% 42% 55% 45%;
+    transform: rotate(17deg);
+    background:
+        repeating-linear-gradient(
+            25deg,
+            transparent 0 14px,
+            rgba(70, 45, 27, 0.12) 15px,
+            transparent 16px 27px
+        );
+}
 
-    border-radius: 50%;
+.terrain-two::before {
+    inset: 13px;
+}
 
-    transform: rotate(18deg);
+.terrain-two::after {
+    inset: 31px;
 }
 
 .terrain-three {
-    width: 120px;
-    height: 120px;
-
-    top: 40%;
-    left: 43%;
-
+    width: 160px;
+    height: 160px;
+    top: 39%;
+    left: 41%;
     border-radius: 50%;
+    opacity: 0.36;
+    background:
+        repeating-radial-gradient(
+            ellipse at center,
+            transparent 0 13px,
+            rgba(70, 45, 27, 0.18) 14px 15px,
+            transparent 16px 25px
+        );
+}
 
-    opacity: 0.25;
+
+/* =========================
+   ROUTES / MAP MARKINGS
+========================= */
+
+.battlefield .terrain-three::before {
+    inset: -105px;
+    border: 0;
+    border-top: 1px dashed rgba(70, 45, 27, 0.28);
+    border-radius: 50%;
+    transform: rotate(-25deg);
+}
+
+.battlefield .terrain-three::after {
+    inset: -155px;
+    border: 0;
+    border-top: 1px dashed rgba(70, 45, 27, 0.18);
+    border-radius: 50%;
+    transform: rotate(-25deg);
 }
 
 
@@ -1536,43 +1649,56 @@ font-family: "Spectral", Georgia, serif;
 
 .objective-point {
     position: absolute;
-
-    top: 23%;
-    right: 17%;
-
-    width: 78px;
-    height: 78px;
+    top: 18%;
+    right: 15%;
+    width: 105px;
+    height: 105px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    border: 1px solid rgba(93, 60, 37, 0.65);
+    border: 1px solid rgba(70, 45, 27, 0.48);
     border-radius: 50%;
 
     background:
-        rgba(35, 21, 13, 0.72);
+        radial-gradient(
+            circle,
+            rgba(126, 93, 60, 0.28),
+            rgba(87, 58, 36, 0.12) 55%,
+            transparent 56%
+        );
 
     box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.35);
+        0 0 0 7px rgba(110, 78, 48, 0.07),
+        0 0 0 13px rgba(110, 78, 48, 0.045);
 
-    z-index: 3;
+    z-index: 4;
 }
 
 .objective-point span {
-    font-size: 27px;
-    color: rgba(202, 167, 134, 0.78);
+    font-size: 29px;
+    line-height: 1;
+    color: rgba(70, 45, 27, 0.72);
 }
 
 .objective-point small {
-    margin-top: 3px;
-
+    margin-top: 7px;
     font-family: "Special Elite", monospace;
     font-size: 7px;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    color: rgba(70, 45, 27, 0.66);
+}
 
-    color: rgba(215, 190, 165, 0.6);
+.objective-point::before {
+    content: "CAPTURE";
+    position: absolute;
+    top: -18px;
+    font-family: "Special Elite", monospace;
+    font-size: 6px;
+    letter-spacing: 1.5px;
+    color: rgba(70, 45, 27, 0.38);
 }
 
 
@@ -1583,16 +1709,21 @@ font-family: "Spectral", Georgia, serif;
 .war-unit {
     position: absolute;
 
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
+
+    margin: 0;
+    padding: 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     border-radius: 50%;
+    border: 1px solid rgba(68, 47, 30, 0.62);
 
-    font-size: 22px;
+    font-family: "Special Elite", monospace;
+    font-size: 0;
 
     cursor: pointer;
 
@@ -1600,45 +1731,88 @@ font-family: "Spectral", Georgia, serif;
         left 0.35s ease,
         top 0.35s ease,
         transform 0.2s ease,
-        opacity 0.3s ease;
+        opacity 0.3s ease,
+        box-shadow 0.2s ease;
 
-    z-index: 5;
+    z-index: 6;
+
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.war-unit::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+
+    border: 1px solid currentColor;
+    border-radius: 3px;
+
+    font-family: "Special Elite", monospace;
+    font-size: 9px;
+    letter-spacing: 0;
 }
 
 .player-unit {
-    border: 1px solid rgba(164, 143, 116, 0.85);
-
     background:
-        rgba(49, 52, 46, 0.9);
+        radial-gradient(
+            circle at 35% 30%,
+            rgba(226, 213, 189, 0.25),
+            rgba(61, 67, 56, 0.96) 65%
+        );
 
-    color: #d2c3ad;
+    color: rgba(223, 209, 185, 0.9);
 
     box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.5);
+        0 4px 10px rgba(35, 19, 10, 0.34),
+        inset 0 0 0 3px rgba(225, 211, 188, 0.06);
+}
+
+.unit-one::before {
+    content: "I";
+}
+
+.unit-two::before {
+    content: "II";
+}
+
+.unit-three::before {
+    content: "III";
 }
 
 .enemy-unit {
-    border: 1px solid rgba(112, 74, 54, 0.85);
-
     background:
-        rgba(51, 29, 22, 0.92);
+        radial-gradient(
+            circle at 35% 30%,
+            rgba(191, 147, 119, 0.18),
+            rgba(66, 37, 27, 0.97) 65%
+        );
 
-    color: #b99b87;
+    color: rgba(207, 166, 139, 0.82);
 
     box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.5);
+        0 4px 10px rgba(35, 19, 10, 0.38),
+        inset 0 0 0 3px rgba(225, 185, 157, 0.045);
+}
+
+.enemy-unit::before {
+    content: "X";
 }
 
 .war-unit:hover {
-    transform: scale(1.12);
+    transform: scale(1.1);
+    z-index: 9;
 }
 
 .player-unit.selected {
-    transform: scale(1.18);
+    transform: scale(1.16);
 
     box-shadow:
-        0 0 0 3px rgba(194, 159, 128, 0.2),
-        0 6px 18px rgba(0, 0, 0, 0.55);
+        0 0 0 4px rgba(91, 65, 42, 0.16),
+        0 0 0 7px rgba(218, 193, 160, 0.07),
+        0 8px 18px rgba(35, 19, 10, 0.42);
 }
 
 
@@ -1647,33 +1821,33 @@ font-family: "Spectral", Georgia, serif;
 ========================= */
 
 .unit-one {
-    left: 22%;
-    top: 58%;
+    left: 19%;
+    top: 61%;
 }
 
 .unit-two {
-    left: 31%;
-    top: 66%;
+    left: 27%;
+    top: 70%;
 }
 
 .unit-three {
-    left: 25%;
-    top: 76%;
+    left: 18%;
+    top: 78%;
 }
 
 .enemy-one {
-    left: 67%;
+    left: 68%;
     top: 38%;
 }
 
 .enemy-two {
-    left: 76%;
-    top: 55%;
+    left: 78%;
+    top: 53%;
 }
 
 .enemy-three {
-    left: 62%;
-    top: 72%;
+    left: 63%;
+    top: 70%;
 }
 
 
@@ -1683,26 +1857,30 @@ font-family: "Spectral", Georgia, serif;
 
 .battle-message {
     position: absolute;
-
     left: 50%;
-    bottom: 22px;
+    bottom: 19px;
 
     transform: translateX(-50%);
 
-    padding: 8px 15px;
+    min-width: 190px;
+    padding: 9px 16px;
 
-    border: 1px solid rgba(130, 96, 68, 0.4);
+    border: 1px solid rgba(76, 50, 30, 0.34);
+    background: rgba(221, 197, 161, 0.62);
 
-    background:
-        rgba(25, 14, 8, 0.72);
+    text-align: center;
+    white-space: nowrap;
 
     font-family: "Special Elite", monospace;
     font-size: 8px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.4px;
 
-    color: rgba(218, 194, 170, 0.65);
+    color: rgba(58, 37, 22, 0.72);
 
-    z-index: 8;
+    box-shadow:
+        0 4px 14px rgba(45, 24, 11, 0.12);
+
+    z-index: 10;
 }
 
 
@@ -1712,7 +1890,6 @@ font-family: "Spectral", Georgia, serif;
 
 .victory-screen {
     position: absolute;
-
     inset: 0;
 
     display: none;
@@ -1721,11 +1898,14 @@ font-family: "Spectral", Georgia, serif;
     justify-content: center;
 
     padding: 40px;
-
     text-align: center;
 
     background:
-        rgba(15, 8, 5, 0.93);
+        radial-gradient(
+            circle at center,
+            rgba(65, 40, 23, 0.94),
+            rgba(25, 14, 8, 0.97)
+        );
 
     z-index: 20;
 }
@@ -1736,41 +1916,38 @@ font-family: "Spectral", Georgia, serif;
 
 .victory-label {
     font-family: "Special Elite", monospace;
-    font-size: 11px;
-    letter-spacing: 4px;
-
-    color: rgba(205, 174, 145, 0.75);
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: rgba(205, 174, 145, 0.72);
 }
 
 .victory-screen h3 {
-    margin-top: 25px;
-
-    font-size: 32px;
+    margin-top: 23px;
+    font-family: "IM Fell English", Georgia, serif;
+    font-size: 36px;
     font-weight: 400;
-
     color: #e2d2c0;
 }
 
 .victory-screen p {
     margin-top: 10px;
-
     font-family: "Spectral", Georgia, serif;
-    color: rgba(220, 202, 183, 0.65);
+    font-size: 15px;
+    color: rgba(220, 202, 183, 0.64);
 }
 
 .victory-screen .victory-joke {
-    max-width: 400px;
-    margin-top: 25px;
-
+    max-width: 430px;
+    margin-top: 26px;
     font-family: "IM Fell English", Georgia, serif;
     font-size: 19px;
     font-style: italic;
-
+    line-height: 1.45;
     color: #c7aa90;
 }
 
 #playAgain {
-    margin-top: 28px;
+    margin-top: 30px;
 }
 
 
@@ -1779,89 +1956,190 @@ font-family: "Spectral", Georgia, serif;
 ========================= */
 
 .war-footer {
-    margin-top: 45px;
-
+    margin-top: 42px;
     text-align: center;
 
     font-family: "Special Elite", monospace;
-    font-size: 9px;
+    font-size: 8px;
     letter-spacing: 5px;
 
-    color: rgba(211, 186, 160, 0.38);
+    color: rgba(211, 186, 160, 0.34);
 }
 
 .war-footer span {
     display: block;
-
     margin-top: 12px;
-
-    font-size: 14px;
+    font-size: 13px;
 }
 
 
 /* =========================
-   MOBILE
+   MOBILE WAR MAP
 ========================= */
 
 @media (max-width: 700px) {
 
     .war-section {
-        padding: 90px 16px 70px;
+        padding: 95px 14px 70px;
     }
 
     .war-header {
-        margin-bottom: 45px;
+        margin-bottom: 42px;
+    }
+
+    .war-header .eyebrow {
+        margin-bottom: 20px;
     }
 
     .war-header h2 {
         font-size: 48px;
+        line-height: 0.92;
     }
 
     .war-header p {
+        margin-top: 21px;
         font-size: 17px;
     }
 
     .war-header small {
-        font-size: 13px;
+        padding: 0 8px;
+        font-size: 12px;
+        line-height: 1.65;
     }
 
     .war-game {
         display: block;
-        min-height: auto;
+        min-height: 0;
+        border-radius: 2px;
     }
 
-    .war-panel {
+    .left-panel {
         display: none;
     }
 
     .battlefield {
-        min-height: 520px;
-        height: 520px;
+        width: 100%;
+        min-height: 0;
+        height: 500px;
     }
 
-    .war-unit {
-        width: 52px;
-        height: 52px;
+    .battlefield::before {
+        top: 13px;
+        left: 14px;
+        font-size: 6px;
+    }
+
+    .terrain-one {
+        width: 145px;
+        height: 90px;
+        left: 5%;
+        top: 14%;
+    }
+
+    .terrain-two {
+        width: 155px;
+        height: 95px;
+        right: 3%;
+        bottom: 15%;
+    }
+
+    .terrain-three {
+        width: 105px;
+        height: 105px;
+        left: 36%;
+        top: 39%;
     }
 
     .objective-point {
-        right: 13%;
+        top: 15%;
+        right: 9%;
+        width: 82px;
+        height: 82px;
+    }
+
+    .objective-point span {
+        font-size: 23px;
+    }
+
+    .objective-point small {
+        font-size: 6px;
+    }
+
+    .war-unit {
+        width: 43px;
+        height: 43px;
     }
 
     .battle-message {
-        bottom: 15px;
+        bottom: 13px;
+        min-width: 165px;
+        padding: 8px 11px;
         font-size: 7px;
     }
 
+    .right-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+
+        padding: 17px 14px;
+
+        border-top: 1px solid rgba(170, 137, 105, 0.22);
+        border-left: 0;
+    }
+
+    .right-panel .panel-title {
+        grid-column: 1 / -1;
+        margin: 0 0 4px;
+        padding-bottom: 7px;
+        text-align: center;
+    }
+
+    .right-panel p {
+        margin: 0;
+        text-align: center;
+        font-size: 9px;
+        line-height: 1.45;
+    }
+
+    .right-panel .tip-title,
+    .right-panel .tip {
+        grid-column: 1 / -1;
+    }
+
+    .right-panel .tip-title {
+        margin-top: 7px;
+    }
+
+    .right-panel .tip {
+        font-size: 14px;
+    }
+
     .victory-screen {
-        padding: 25px;
+        padding: 24px;
     }
 
     .victory-screen h3 {
-        font-size: 27px;
+        font-size: 28px;
     }
 
+    .victory-screen p {
+        font-size: 14px;
+    }
+
+    .victory-screen .victory-joke {
+        max-width: 310px;
+        font-size: 17px;
+    }
+
+    .war-footer {
+        margin-top: 32px;
+        font-size: 7px;
+        letter-spacing: 3.5px;
+    }
 }
+
+
 @media (max-width: 700px) {
 
     body::before {
