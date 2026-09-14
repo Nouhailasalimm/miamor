@@ -3883,3 +3883,16 @@ font-family: "Spectral", Georgia, serif;
         30px;
 
 }
+
+/* =========================================================
+   VICTORY SCREEN MUST SIT ABOVE THE SOLDIERS
+========================================================= */
+
+.victory-screen {
+    z-index: 100 !important;
+}
+
+.victory-screen * {
+    position: relative;
+    z-index: 101;
+}
