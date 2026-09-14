@@ -270,6 +270,10 @@ function attackEnemy(enemy) {
 
 function checkNearbyEnemies() {
 
+    if (!selectedUnit) {
+        return;
+    }
+
     enemyUnits.forEach(function (enemy) {
 
         if (enemy.classList.contains("defeated")) {
@@ -284,16 +288,13 @@ function checkNearbyEnemies() {
             playerPosition.y - enemyPosition.y
         );
 
-        if (distance < 85) {
-
-            attackEnemy(enemy);
-
+        if (distance < 120) {
+            message("ENEMY IN RANGE — CLICK TO ATTACK");
         }
 
     });
 
 }
-
 
 
 /* =========================================================
