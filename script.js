@@ -33,3 +33,9 @@ const secretCard = document.getElementById("secretCard");
 secretCard.addEventListener("click", function () {
     secretCard.classList.toggle("revealed");
 });
+
+const greekCard = document.querySelector(".greek-card");
+
+greekCard.addEventListener("click", function () {
+    greekCard.classList.toggle("revealed");
+});
