@@ -1262,7 +1262,7 @@ font-family: "Spectral", Georgia, serif;
    MOBILE
 ========================================================= */
 /* =========================================================
-   THE GREAT WAR Ã¢â‚¬â€ ARCHAEOLOGICAL CAMPAIGN MAP
+   THE GREAT WAR — ARCHAEOLOGICAL CAMPAIGN MAP
 ========================================================= */
 
 .war-section {
@@ -1272,7 +1272,7 @@ font-family: "Spectral", Georgia, serif;
     background:
         linear-gradient(
             rgba(12, 7, 4, 0.84),
-            rgba(12, 7, 4, 0.90)
+            rgba(12, 7, 4, 0.91)
         );
 }
 
@@ -1292,9 +1292,9 @@ font-family: "Spectral", Georgia, serif;
     font-family: "IM Fell English", Georgia, serif;
     font-size: clamp(50px, 7vw, 88px);
     font-weight: 400;
-    line-height: 0.9;
+    line-height: .9;
     letter-spacing: 1px;
-    text-shadow: 0 5px 30px rgba(0, 0, 0, 0.55);
+    text-shadow: 0 5px 30px rgba(0, 0, 0, .55);
 }
 
 .war-header h2 span {
@@ -1307,7 +1307,7 @@ font-family: "Spectral", Georgia, serif;
     font-family: "IM Fell English", Georgia, serif;
     font-size: 20px;
     font-style: italic;
-    color: rgba(225, 207, 187, 0.72);
+    color: rgba(225, 207, 187, .72);
 }
 
 .war-header small {
@@ -1316,196 +1316,258 @@ font-family: "Spectral", Georgia, serif;
     margin: 17px auto 0;
     font-size: 13px;
     line-height: 1.7;
-    color: rgba(225, 211, 196, 0.45);
+    color: rgba(225, 211, 196, .45);
 }
 
-
-/* =========================
+/* =========================================================
    CAMPAIGN FRAME
-========================= */
+========================================================= */
 
 .war-game {
     width: min(100%, 1280px);
     min-height: 640px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 210px minmax(0, 1fr) 205px;
-
-    border: 1px solid rgba(170, 137, 105, 0.34);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(50, 31, 19, 0.96),
-            rgba(22, 13, 8, 0.98)
-        );
-
+    grid-template-columns: 235px minmax(0, 1fr) 235px;
+    border: 1px solid rgba(170, 137, 105, .34);
+    background: #1c1009;
     box-shadow:
-        0 35px 90px rgba(0, 0, 0, 0.72),
-        0 0 0 1px rgba(0, 0, 0, 0.35);
-
+        0 35px 90px rgba(0, 0, 0, .72),
+        0 0 0 1px rgba(0, 0, 0, .35);
     overflow: hidden;
 }
 
-
-/* =========================
-   SIDE PANELS
-========================= */
+/* =========================================================
+   ARCHIVAL FIELD-NOTE SIDEBARS
+========================================================= */
 
 .war-panel {
+    position: relative;
     min-width: 0;
-    padding: 30px 24px;
+    padding: 34px 26px 30px;
     background:
         linear-gradient(
             180deg,
-            rgba(45, 28, 17, 0.94),
-            rgba(22, 13, 8, 0.98)
+            rgba(47, 28, 17, .96),
+            rgba(25, 14, 9, .985)
         );
-    color: rgba(225, 207, 187, 0.72);
+    color: rgba(225, 207, 187, .72);
+}
+
+.war-panel::before {
+    content: "FIELD ARCHIVE / 05";
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    font-family: "Special Elite", monospace;
+    font-size: 6px;
+    letter-spacing: 1.5px;
+    color: rgba(205, 177, 150, .25);
 }
 
 .left-panel {
-    border-right: 1px solid rgba(170, 137, 105, 0.22);
+    border-right: 1px solid rgba(190, 155, 119, .22);
 }
 
 .right-panel {
-    border-left: 1px solid rgba(170, 137, 105, 0.22);
+    border-left: 1px solid rgba(190, 155, 119, .22);
 }
 
 .panel-title {
-    margin-bottom: 21px;
+    margin: 0 0 24px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(170, 137, 105, 0.18);
-
+    border-bottom: 1px solid rgba(190, 155, 119, .19);
     font-family: "Special Elite", monospace;
     font-size: 9px;
-    letter-spacing: 2.5px;
-    color: rgba(205, 177, 150, 0.68);
+    letter-spacing: .24em;
+    line-height: 1.2;
+    color: rgba(211, 181, 151, .68);
 }
 
-.objective {
+/* OBJECTIVES */
+
+.left-panel .objective {
     display: flex;
     align-items: flex-start;
-    gap: 9px;
-    margin-bottom: 14px;
-    font-size: 11px;
+    gap: 10px;
+    margin-bottom: 19px;
+    font-family: "Spectral", Georgia, serif;
+    font-size: 13px;
     line-height: 1.45;
-    color: rgba(225, 207, 187, 0.66);
+    color: rgba(231, 215, 197, .67);
 }
 
-.objective span {
-    flex: 0 0 auto;
-    font-family: monospace;
-    color: rgba(194, 159, 128, 0.78);
+.left-panel .objective > span {
+    width: 12px;
+    flex: 0 0 12px;
+    font-family: "Special Elite", monospace;
+    font-size: 12px;
+    line-height: 1.45;
+    color: rgba(202, 168, 132, .82);
 }
 
-.army-title {
-    margin-top: 45px;
-}
-
-.army-stat {
+.left-panel .objective > div {
     display: flex;
-    align-items: center;
-    gap: 12px;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.left-panel .objective small {
+    font-family: "Special Elite", monospace;
+    font-size: 8px;
+    letter-spacing: .12em;
+    color: rgba(205, 177, 150, .46);
+}
+
+/* YOUR FORCES */
+
+.left-panel .army-title {
+    margin-top: 46px;
+    margin-bottom: 22px;
+}
+
+.left-panel .army-stat {
+    display: flex;
+    align-items: flex-start;
+    gap: 34px;
+    margin: 0;
     font-family: "IM Fell English", Georgia, serif;
-    font-size: 28px;
     color: #cbb29b;
 }
 
-.army-stat span {
-    display: none;
+.left-panel .army-line {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 52px;
 }
 
-.army-stat::before {
-    content: "I  II  III";
-    font-family: "Special Elite", monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: rgba(202, 177, 151, 0.55);
+.left-panel .army-line span {
+    font-size: 29px;
+    line-height: 1;
+    font-weight: 400;
 }
 
-.morale {
-    margin-top: 32px;
+.left-panel .army-line small {
     font-family: "Special Elite", monospace;
     font-size: 8px;
-    letter-spacing: 2px;
-    color: rgba(211, 186, 160, 0.62);
+    line-height: 1.2;
+    letter-spacing: .17em;
+    color: rgba(211, 181, 151, .55);
 }
 
-.morale-bar {
+.left-panel .fallen-line span {
+    color: rgba(198, 162, 132, .56);
+}
+
+/* MORALE */
+
+.left-panel .morale {
+    margin-top: 43px;
+}
+
+.left-panel .morale-label {
+    margin-bottom: 10px;
+    font-family: "Special Elite", monospace;
+    font-size: 8px;
+    letter-spacing: .2em;
+    color: rgba(211, 186, 160, .62);
+}
+
+.left-panel .morale-bar {
+    width: 100%;
     height: 5px;
-    margin-top: 10px;
-    border: 1px solid rgba(188, 153, 119, 0.18);
-    background: rgba(220, 200, 175, 0.07);
+    border: 1px solid rgba(188, 153, 119, .22);
+    background: rgba(220, 200, 175, .06);
     overflow: hidden;
 }
 
 #moraleFill {
     width: 100%;
     height: 100%;
-    background: rgba(177, 143, 113, 0.65);
-    transition: width 0.4s ease;
+    background: rgba(177, 143, 113, .7);
+    transition: width .35s ease;
 }
 
-.right-panel p {
-    margin-bottom: 16px;
-    font-size: 11px;
+/* RIGHT FIELD ORDERS */
+
+.right-panel {
+    padding-left: 31px;
+    padding-right: 31px;
+}
+
+.right-panel .field-order {
+    margin-bottom: 28px;
+}
+
+.right-panel .order-key {
+    display: block;
+    margin-bottom: 5px;
+    font-family: "IM Fell English", Georgia, serif;
+    font-size: 17px;
+    line-height: 1.1;
+    letter-spacing: .04em;
+    color: rgba(224, 204, 184, .76);
+}
+
+.right-panel .field-order p {
+    margin: 0;
+    font-family: "Spectral", Georgia, serif;
+    font-size: 12px;
     line-height: 1.55;
-    color: rgba(225, 207, 187, 0.62);
+    color: rgba(225, 207, 187, .56);
 }
 
-.tip-title {
-    margin-top: 48px;
+.right-panel .tip-title {
+    margin-top: 46px;
+    margin-bottom: 22px;
 }
 
 .right-panel .tip {
+    margin: 0;
     font-family: "IM Fell English", Georgia, serif;
-    font-size: 17px;
+    font-size: 18px;
+    line-height: 1.4;
     font-style: italic;
-    color: rgba(215, 190, 165, 0.68);
+    color: rgba(215, 190, 165, .72);
 }
 
-
-/* =========================
-   BATTLEFIELD Ã¢â‚¬â€ OLD MAP
-========================= */
+/* =========================================================
+   BATTLEFIELD
+========================================================= */
 
 .battlefield {
     position: relative;
     min-width: 0;
     min-height: 640px;
     overflow: hidden;
-
     background-color: #6d5137;
     background-image:
         linear-gradient(
-            rgba(31, 18, 10, 0.18),
-            rgba(31, 18, 10, 0.28)
+            rgba(31, 18, 10, .18),
+            rgba(31, 18, 10, .28)
         ),
         url("images/ChatGPT Image Sep 14, 2026 at 04_47_36 PM.png");
-
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
     box-shadow:
-        inset 0 0 90px rgba(24, 12, 6, 0.45),
-        inset 0 0 0 1px rgba(255, 230, 192, 0.10);
-
+        inset 0 0 90px rgba(24, 12, 6, .45),
+        inset 0 0 0 1px rgba(255, 230, 192, .10);
     cursor: crosshair;
 }
 
 .battlefield::before {
-    content: "CAMPAIGN MAP  Ã‚Â·  FIELD 05";
+    content: "CAMPAIGN MAP · FIELD 05";
     position: absolute;
     top: 17px;
     left: 20px;
     z-index: 2;
-
     font-family: "Special Elite", monospace;
     font-size: 7px;
     letter-spacing: 2px;
-    color: rgba(63, 40, 25, 0.48);
+    color: rgba(63, 40, 25, .48);
     pointer-events: none;
 }
 
@@ -1515,34 +1577,30 @@ font-family: "Spectral", Georgia, serif;
     inset: 0;
     z-index: 1;
     pointer-events: none;
-
     background:
         radial-gradient(
             ellipse at center,
             transparent 42%,
-            rgba(53, 31, 17, 0.17) 78%,
-            rgba(35, 18, 9, 0.48) 100%
+            rgba(53, 31, 17, .17) 78%,
+            rgba(35, 18, 9, .48) 100%
         );
 }
 
-
-/* =========================
-   MAP TERRAIN
-========================= */
+/* MAP MARKINGS */
 
 .terrain {
     position: absolute;
     pointer-events: none;
     z-index: 2;
-    border: 1px solid rgba(55, 35, 22, 0.18);
-    opacity: 0.28;
+    border: 1px solid rgba(55, 35, 22, .18);
+    opacity: .28;
 }
 
 .terrain::before,
 .terrain::after {
     content: "";
     position: absolute;
-    border: 1px solid rgba(55, 35, 22, 0.13);
+    border: 1px solid rgba(55, 35, 22, .13);
     border-radius: inherit;
 }
 
@@ -1553,22 +1611,16 @@ font-family: "Spectral", Georgia, serif;
     left: 8%;
     border-radius: 48% 52% 43% 57%;
     transform: rotate(-12deg);
-    background:
-        repeating-linear-gradient(
-            155deg,
-            transparent 0 13px,
-            rgba(70, 45, 27, 0.12) 14px,
-            transparent 15px 24px
-        );
+    background: repeating-linear-gradient(
+        155deg,
+        transparent 0 13px,
+        rgba(70, 45, 27, .12) 14px,
+        transparent 15px 24px
+    );
 }
 
-.terrain-one::before {
-    inset: 12px;
-}
-
-.terrain-one::after {
-    inset: 28px;
-}
+.terrain-one::before { inset: 12px; }
+.terrain-one::after { inset: 28px; }
 
 .terrain-two {
     width: 250px;
@@ -1577,22 +1629,16 @@ font-family: "Spectral", Georgia, serif;
     bottom: 12%;
     border-radius: 58% 42% 55% 45%;
     transform: rotate(17deg);
-    background:
-        repeating-linear-gradient(
-            25deg,
-            transparent 0 14px,
-            rgba(70, 45, 27, 0.12) 15px,
-            transparent 16px 27px
-        );
+    background: repeating-linear-gradient(
+        25deg,
+        transparent 0 14px,
+        rgba(70, 45, 27, .12) 15px,
+        transparent 16px 27px
+    );
 }
 
-.terrain-two::before {
-    inset: 13px;
-}
-
-.terrain-two::after {
-    inset: 31px;
-}
+.terrain-two::before { inset: 13px; }
+.terrain-two::after { inset: 31px; }
 
 .terrain-three {
     width: 160px;
@@ -1600,25 +1646,19 @@ font-family: "Spectral", Georgia, serif;
     top: 39%;
     left: 41%;
     border-radius: 50%;
-    opacity: 0.36;
-    background:
-        repeating-radial-gradient(
-            ellipse at center,
-            transparent 0 13px,
-            rgba(70, 45, 27, 0.18) 14px 15px,
-            transparent 16px 25px
-        );
+    opacity: .36;
+    background: repeating-radial-gradient(
+        ellipse at center,
+        transparent 0 13px,
+        rgba(70, 45, 27, .18) 14px 15px,
+        transparent 16px 25px
+    );
 }
-
-
-/* =========================
-   ROUTES / MAP MARKINGS
-========================= */
 
 .battlefield .terrain-three::before {
     inset: -105px;
     border: 0;
-    border-top: 1px dashed rgba(70, 45, 27, 0.28);
+    border-top: 1px dashed rgba(70, 45, 27, .28);
     border-radius: 50%;
     transform: rotate(-25deg);
 }
@@ -1626,15 +1666,12 @@ font-family: "Spectral", Georgia, serif;
 .battlefield .terrain-three::after {
     inset: -155px;
     border: 0;
-    border-top: 1px dashed rgba(70, 45, 27, 0.18);
+    border-top: 1px dashed rgba(70, 45, 27, .18);
     border-radius: 50%;
     transform: rotate(-25deg);
 }
 
-
-/* =========================
-   OUTPOST
-========================= */
+/* OUTPOST */
 
 .objective-point {
     position: absolute;
@@ -1642,34 +1679,28 @@ font-family: "Spectral", Georgia, serif;
     right: 15%;
     width: 105px;
     height: 105px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    border: 1px solid rgba(70, 45, 27, 0.48);
+    border: 1px solid rgba(70, 45, 27, .48);
     border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(126, 93, 60, 0.28),
-            rgba(87, 58, 36, 0.12) 55%,
-            transparent 56%
-        );
-
+    background: radial-gradient(
+        circle,
+        rgba(126, 93, 60, .28),
+        rgba(87, 58, 36, .12) 55%,
+        transparent 56%
+    );
     box-shadow:
-        0 0 0 7px rgba(110, 78, 48, 0.07),
-        0 0 0 13px rgba(110, 78, 48, 0.045);
-
-    z-index: 4;
+        0 0 0 7px rgba(110, 78, 48, .07),
+        0 0 0 13px rgba(110, 78, 48, .045);
+    z-index: 5;
 }
 
 .objective-point span {
     font-size: 29px;
     line-height: 1;
-    color: rgba(70, 45, 27, 0.72);
+    color: rgba(70, 45, 27, .72);
 }
 
 .objective-point small {
@@ -1677,7 +1708,7 @@ font-family: "Spectral", Georgia, serif;
     font-family: "Special Elite", monospace;
     font-size: 7px;
     letter-spacing: 1.5px;
-    color: rgba(70, 45, 27, 0.66);
+    color: rgba(70, 45, 27, .66);
 }
 
 .objective-point::before {
@@ -1687,271 +1718,329 @@ font-family: "Spectral", Georgia, serif;
     font-family: "Special Elite", monospace;
     font-size: 6px;
     letter-spacing: 1.5px;
-    color: rgba(70, 45, 27, 0.38);
+    color: rgba(70, 45, 27, .38);
 }
 
-
-/* =========================
-   UNITS â€” ANTIQUE ARMY TOKENS
-========================= */
+/* =========================================================
+   ILLUSTRATED SOLDIERS
+   The sprite sheet is 3 columns × 2 rows:
+   blue = top row, red = bottom row.
+========================================================= */
 
 .war-unit {
     position: absolute;
-
-    width: 46px;
-    height: 46px;
-
+    width: 82px;
+    height: 112px;
     margin: 0;
     padding: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-    border: 1px solid rgba(68, 47, 30, 0.62);
-
-    font-family: "Special Elite", monospace;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
     font-size: 0;
-    line-height: 1;
-
-    cursor: pointer;
-
-    transition:
-        left 0.35s ease,
-        top 0.35s ease,
-        transform 0.2s ease,
-        opacity 0.3s ease,
-        box-shadow 0.2s ease;
-
-    z-index: 6;
-
+    line-height: 0;
     appearance: none;
     -webkit-appearance: none;
+    cursor: pointer;
+    z-index: 10;
+    overflow: visible;
+    transform-origin: center bottom;
+    transition:
+        left .52s ease-in-out,
+        top .52s ease-in-out,
+        opacity .3s ease,
+        filter .2s ease;
 }
-
-/* Inner heraldic shield */
 
 .war-unit::before {
     content: "";
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 24px;
-    height: 26px;
-
-    border: 1px solid currentColor;
-    border-radius: 3px;
-
-    font-family: "Special Elite", monospace;
-    font-size: 9px;
-    letter-spacing: 0;
-
-    clip-path: polygon(
-        8% 0%,
-        92% 0%,
-        92% 58%,
-        50% 100%,
-        8% 58%
-    );
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 82px;
+    height: 112px;
+    transform:
+        translate(-50%, -50%)
+        scaleX(var(--soldier-direction, 1));
+    transform-origin: center center;
+    background-image: url("images/ChatGPT Image Sep 14, 2026 at 05_24_56 PM.png");
+    background-repeat: no-repeat;
+    background-size: 246px 224px;
+    pointer-events: none;
+    filter: drop-shadow(0 5px 4px rgba(0, 0, 0, .55));
+    z-index: 2;
+    transition: filter .18s ease;
 }
 
-/* Your army */
+.war-unit::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 31%;
+    width: 34px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(239, 220, 185, .9);
+    box-shadow: 0 0 12px rgba(239, 220, 185, .8);
+    opacity: 0;
+    transform-origin: left center;
+    pointer-events: none;
+    z-index: 20;
+}
+
+/* Sprite positions */
+
+.unit-one::before   { background-position: 0 0; }
+.unit-two::before   { background-position: -82px 0; }
+.unit-three::before { background-position: -164px 0; }
+
+.enemy-one::before   { background-position: 0 -112px; }
+.enemy-two::before   { background-position: -82px -112px; }
+.enemy-three::before { background-position: -164px -112px; }
 
 .player-unit {
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            rgba(226, 213, 189, 0.28),
-            rgba(61, 67, 56, 0.96) 62%,
-            rgba(37, 40, 34, 0.99)
-        );
-
-    color: rgba(223, 209, 185, 0.92);
-
-    box-shadow:
-        0 4px 10px rgba(35, 19, 10, 0.42),
-        inset 0 0 0 3px rgba(225, 211, 188, 0.06);
+    --soldier-direction: 1;
+    --player-direction: 1;
 }
-
-.unit-one::before {
-    content: "I";
-}
-
-.unit-two::before {
-    content: "II";
-}
-
-.unit-three::before {
-    content: "III";
-}
-
-/* Enemy army */
 
 .enemy-unit {
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            rgba(191, 147, 119, 0.20),
-            rgba(66, 37, 27, 0.97) 62%,
-            rgba(40, 22, 18, 0.99)
-        );
-
-    color: rgba(207, 166, 139, 0.86);
-
-    box-shadow:
-        0 4px 10px rgba(35, 19, 10, 0.46),
-        inset 0 0 0 3px rgba(225, 185, 157, 0.05);
+    --soldier-direction: -1;
+    --attack-direction: -1;
 }
 
-.enemy-unit::before {
-    content: "X";
+.war-unit:hover::before {
+    filter:
+        drop-shadow(0 5px 4px rgba(0, 0, 0, .55))
+        brightness(1.08);
 }
-
-/* Hover */
-
-.war-unit:hover {
-    transform: scale(1.1);
-    z-index: 9;
-}
-
-/* Selected unit */
 
 .player-unit.selected {
-    transform: scale(1.16);
-
-    box-shadow:
-        0 0 0 3px rgba(218, 193, 160, 0.22),
-        0 0 18px rgba(204, 177, 137, 0.24),
-        0 8px 18px rgba(35, 19, 10, 0.48),
-        inset 0 0 0 2px rgba(225, 207, 172, 0.14);
+    z-index: 25;
 }
 
-
-/* =========================
-   STARTING POSITIONS
-========================= */
-
-.unit-one {
-    left: 19%;
-    top: 61%;
+.player-unit.selected::before {
+    filter:
+        drop-shadow(0 0 5px rgba(255, 220, 150, .95))
+        drop-shadow(0 0 12px rgba(255, 190, 80, .45))
+        drop-shadow(0 5px 4px rgba(0, 0, 0, .55));
 }
 
-.unit-two {
-    left: 27%;
-    top: 70%;
+.war-unit.defeated {
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
-.unit-three {
-    left: 18%;
-    top: 78%;
+/* =========================================================
+   MOVEMENT / ATTACK / HIT ANIMATIONS
+   These animate the clickable unit itself while the sprite's
+   direction remains controlled independently by ::before.
+========================================================= */
+
+.war-unit.moving {
+    animation: soldierMove .52s ease-in-out;
 }
 
-.enemy-one {
-    left: 68%;
-    top: 38%;
+@keyframes soldierMove {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-7px) scale(1.035);
+    }
 }
 
-.enemy-two {
-    left: 78%;
-    top: 53%;
+.war-unit.attacking {
+    animation: battleAttack .62s ease-in-out;
+    z-index: 30 !important;
 }
 
-.enemy-three {
-    left: 63%;
-    top: 70%;
+.war-unit.attacking::before {
+    filter:
+        drop-shadow(0 5px 4px rgba(0, 0, 0, .55))
+        brightness(1.08);
 }
 
+.war-unit.attacking::after {
+    animation: slashFlash .5s ease-out forwards;
+}
 
-/* =========================
-   BATTLE MESSAGE
-========================= */
+@keyframes battleAttack {
+    0%, 100% {
+        transform: translateX(0) scale(1);
+    }
+    30% {
+        transform: translateX(calc(var(--attack-lunge, 1) * 7px)) scale(1.04);
+    }
+    52% {
+        transform: translateX(calc(var(--attack-lunge, 1) * 13px)) scale(1.08);
+    }
+    75% {
+        transform: translateX(calc(var(--attack-lunge, 1) * -3px)) scale(1.01);
+    }
+}
+
+@keyframes slashFlash {
+    0% {
+        opacity: 0;
+        transform: scaleX(.2) rotate(-28deg);
+    }
+    30% {
+        opacity: 1;
+        transform: scaleX(1) rotate(-18deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scaleX(1.35) rotate(-8deg) translateX(15px);
+    }
+}
+
+.war-unit.hit {
+    animation: battleHit .34s ease-out;
+}
+
+@keyframes battleHit {
+    0% {
+        transform: translateX(0);
+        filter: brightness(1);
+    }
+    20% {
+        transform: translateX(-8px);
+        filter: brightness(1.8);
+    }
+    45% {
+        transform: translateX(7px);
+        filter: brightness(1.45);
+    }
+    70% {
+        transform: translateX(-3px);
+        filter: brightness(1.15);
+    }
+    100% {
+        transform: translateX(0);
+        filter: brightness(1);
+    }
+}
+
+/* HP */
+
+.unit-hp {
+    position: absolute;
+    left: 50%;
+    top: -9px;
+    width: 52px;
+    height: 5px;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid rgba(220, 190, 145, .7);
+    background: rgba(15, 8, 5, .92);
+    pointer-events: none;
+    z-index: 60;
+}
+
+.unit-hp-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-origin: left center;
+    transition: width .3s ease;
+}
+
+/* BATTLE MESSAGE */
 
 .battle-message {
     position: absolute;
     left: 50%;
     bottom: 19px;
-
     transform: translateX(-50%);
-
     min-width: 190px;
     padding: 9px 16px;
-
-    border: 1px solid rgba(76, 50, 30, 0.34);
-    background: rgba(221, 197, 161, 0.62);
-
+    border: 1px solid rgba(76, 50, 30, .34);
+    background: rgba(221, 197, 161, .62);
     text-align: center;
     white-space: nowrap;
-
     font-family: "Special Elite", monospace;
     font-size: 8px;
     letter-spacing: 1.4px;
-
-    color: rgba(58, 37, 22, 0.72);
-
-    box-shadow:
-        0 4px 14px rgba(45, 24, 11, 0.12);
-
-    z-index: 10;
+    color: rgba(58, 37, 22, .72);
+    box-shadow: 0 4px 14px rgba(45, 24, 11, .12);
+    z-index: 70;
+    pointer-events: none;
 }
 
+/* STARTING POSITIONS */
 
-/* =========================
+.unit-one   { left: 19%; top: 61%; }
+.unit-two   { left: 27%; top: 70%; }
+.unit-three { left: 18%; top: 78%; }
+
+.enemy-one   { left: 68%; top: 38%; }
+.enemy-two   { left: 78%; top: 53%; }
+.enemy-three { left: 63%; top: 70%; }
+
+/* BATTLEFIELD IMPACT */
+
+.battlefield.impact {
+    animation: battlefieldImpact .18s ease-out;
+}
+
+@keyframes battlefieldImpact {
+    0%, 100% { filter: brightness(1); }
+    40% { filter: brightness(1.12); }
+}
+
+/* =========================================================
    VICTORY
-========================= */
+========================================================= */
 
 .victory-screen {
     position: absolute;
     inset: 0;
-
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     padding: 40px;
     text-align: center;
-
     background:
         radial-gradient(
             circle at center,
-            rgba(65, 40, 23, 0.94),
-            rgba(25, 14, 8, 0.97)
+            rgba(65, 40, 23, .96),
+            rgba(25, 14, 8, .985)
         );
-
-    z-index: 20;
+    z-index: 100;
 }
 
+.victory-screen.visible,
 .victory-screen.show {
     display: flex;
 }
 
-.victory-label {
-    font-family: "Special Elite", monospace;
-    font-size: 10px;
-    letter-spacing: 5px;
-    color: rgba(205, 174, 145, 0.72);
-}
-
 .victory-screen h3 {
+    max-width: 700px;
     margin-top: 23px;
     font-family: "IM Fell English", Georgia, serif;
-    font-size: 36px;
+    font-size: clamp(38px, 5vw, 68px);
     font-weight: 400;
+    line-height: .95;
     color: #e2d2c0;
+}
+
+.victory-screen h3 span {
+    display: block;
+    margin-top: 8px;
+    color: #b98763;
 }
 
 .victory-screen p {
     margin-top: 10px;
     font-family: "Spectral", Georgia, serif;
     font-size: 15px;
-    color: rgba(220, 202, 183, 0.64);
+    color: rgba(220, 202, 183, .64);
 }
 
 .victory-screen .victory-joke {
-    max-width: 430px;
+    max-width: 500px;
     margin-top: 26px;
     font-family: "IM Fell English", Georgia, serif;
     font-size: 19px;
@@ -1960,24 +2049,57 @@ font-family: "Spectral", Georgia, serif;
     color: #c7aa90;
 }
 
-#playAgain {
+.victory-label {
+    font-family: "Special Elite", monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: rgba(205, 174, 145, .72);
+}
+
+.victory-banner-divider {
+    margin: 28px 0;
+    font-family: "Special Elite", monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: rgba(214, 181, 145, .45);
+}
+
+.victory-final-message {
+    font-family: "Special Elite", monospace;
+    font-size: clamp(20px, 3vw, 30px);
+    letter-spacing: 3px;
+    line-height: 1.4;
+    color: #e3d0b8;
+}
+
+.victory-final-message span {
+    display: block;
+    margin-top: 8px;
+    font-family: "IM Fell English", Georgia, serif;
+    font-size: 20px;
+    font-style: italic;
+    letter-spacing: 0;
+    color: #b99676;
+}
+
+.victory-screen #playAgain {
     margin-top: 30px;
 }
 
+.battlefield.battle-ended .war-unit,
+.battlefield.battle-ended .battle-message {
+    visibility: hidden !important;
+}
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 .war-footer {
     margin-top: 42px;
     text-align: center;
-
     font-family: "Special Elite", monospace;
     font-size: 8px;
     letter-spacing: 5px;
-
-    color: rgba(211, 186, 160, 0.34);
+    color: rgba(211, 186, 160, .34);
 }
 
 .war-footer span {
@@ -1986,13 +2108,24 @@ font-family: "Spectral", Georgia, serif;
     font-size: 13px;
 }
 
+/* MOBILE */
 
-/* =========================
-   MOBILE WAR MAP
-========================= */
+@media (max-width: 900px) {
+    .war-game {
+        grid-template-columns: 190px minmax(0, 1fr) 190px;
+    }
+
+    .war-panel {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .left-panel .army-stat {
+        gap: 18px;
+    }
+}
 
 @media (max-width: 700px) {
-
     .war-section {
         padding: 95px 14px 70px;
     }
@@ -2007,7 +2140,6 @@ font-family: "Spectral", Georgia, serif;
 
     .war-header h2 {
         font-size: 48px;
-        line-height: 0.92;
     }
 
     .war-header p {
@@ -2018,13 +2150,11 @@ font-family: "Spectral", Georgia, serif;
     .war-header small {
         padding: 0 8px;
         font-size: 12px;
-        line-height: 1.65;
     }
 
     .war-game {
         display: block;
         min-height: 0;
-        border-radius: 2px;
     }
 
     .left-panel {
@@ -2037,33 +2167,6 @@ font-family: "Spectral", Georgia, serif;
         height: 500px;
     }
 
-    .battlefield::before {
-        top: 13px;
-        left: 14px;
-        font-size: 6px;
-    }
-
-    .terrain-one {
-        width: 145px;
-        height: 90px;
-        left: 5%;
-        top: 14%;
-    }
-
-    .terrain-two {
-        width: 155px;
-        height: 95px;
-        right: 3%;
-        bottom: 15%;
-    }
-
-    .terrain-three {
-        width: 105px;
-        height: 105px;
-        left: 36%;
-        top: 39%;
-    }
-
     .objective-point {
         top: 15%;
         right: 9%;
@@ -2071,17 +2174,30 @@ font-family: "Spectral", Georgia, serif;
         height: 82px;
     }
 
-    .objective-point span {
-        font-size: 23px;
-    }
-
-    .objective-point small {
-        font-size: 6px;
-    }
+    .objective-point span { font-size: 23px; }
+    .objective-point small { font-size: 6px; }
 
     .war-unit {
-        width: 43px;
-        height: 43px;
+        width: 64px;
+        height: 88px;
+    }
+
+    .war-unit::before {
+        width: 64px;
+        height: 88px;
+        background-size: 192px 176px;
+    }
+
+    .unit-one::before   { background-position: 0 0; }
+    .unit-two::before   { background-position: -64px 0; }
+    .unit-three::before { background-position: -128px 0; }
+    .enemy-one::before   { background-position: 0 -88px; }
+    .enemy-two::before   { background-position: -64px -88px; }
+    .enemy-three::before { background-position: -128px -88px; }
+
+    .unit-hp {
+        width: 44px;
+        top: -7px;
     }
 
     .battle-message {
@@ -2093,25 +2209,33 @@ font-family: "Spectral", Georgia, serif;
 
     .right-panel {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
         gap: 8px;
-
-        padding: 17px 14px;
-
-        border-top: 1px solid rgba(170, 137, 105, 0.22);
+        padding: 18px 14px 20px;
+        border-top: 1px solid rgba(170, 137, 105, .22);
         border-left: 0;
+    }
+
+    .right-panel::before {
+        display: none;
     }
 
     .right-panel .panel-title {
         grid-column: 1 / -1;
         margin: 0 0 4px;
-        padding-bottom: 7px;
         text-align: center;
     }
 
-    .right-panel p {
+    .right-panel .field-order {
         margin: 0;
         text-align: center;
+    }
+
+    .right-panel .order-key {
+        font-size: 13px;
+    }
+
+    .right-panel .field-order p {
         font-size: 9px;
         line-height: 1.45;
     }
@@ -2122,11 +2246,12 @@ font-family: "Spectral", Georgia, serif;
     }
 
     .right-panel .tip-title {
-        margin-top: 7px;
+        margin-top: 8px;
     }
 
     .right-panel .tip {
-        font-size: 14px;
+        font-size: 15px;
+        text-align: center;
     }
 
     .victory-screen {
@@ -2151,1976 +2276,4 @@ font-family: "Spectral", Georgia, serif;
         font-size: 7px;
         letter-spacing: 3.5px;
     }
-}
-
-
-@media (max-width: 700px) {
-
-    body::before {
-        background-position: center center;
-    }
-
-
-    .intro {
-        padding: 35px 22px;
-    }
-
-
-    .heart {
-        font-size: 52px;
-
-        margin-bottom: 22px;
-    }
-
-
-    h1 {
-        font-size: 49px;
-
-        letter-spacing: -1px;
-    }
-
-
-    .subtitle {
-        margin-top: 30px;
-
-        font-size: 15px;
-    }
-
-
-    .tiny-note {
-        font-size: 9px;
-    }
-
-
-    .symbol-one {
-        left: 7%;
-    }
-
-
-    .symbol-two {
-        right: 8%;
-    }
-
-
-    .symbol-three {
-        left: 10%;
-    }
-
-
-    .symbol-four {
-        right: 10%;
-    }
-
-
-    .welcome {
-        padding: 45px 22px;
-    }
-
-
-    .welcome h2 {
-        font-size: 47px;
-
-        letter-spacing: -1px;
-    }
-
-
-    .welcome-text {
-        margin-top: 35px;
-
-        font-size: 15px;
-    }
-
-
-    .evidence {
-        padding: 90px 22px;
-    }
-
-
-    .evidence h2 {
-        font-size: 51px;
-
-        letter-spacing: -1px;
-    }
-
-
-    .evidence-grid {
-        grid-template-columns: 1fr;
-
-        margin-top: 60px;
-
-        gap: 35px;
-    }
-
-
-    .evidence-card {
-        min-height: 350px;
-
-        border-radius: 13px;
-    }
-
-
-    .music-section,
-    .secret-section {
-        padding: 90px 22px;
-    }
-
-
-    .music-content h2,
-    .secret-content h2 {
-        font-size: 47px;
-
-        letter-spacing: -1px;
-    }
-
-
-    .music-player {
-        padding: 28px;
-
-        border-radius: 13px;
-    }
-
-
-    .secret-card {
-        min-height: 170px;
-
-        padding: 30px;
-
-        border-radius: 13px;
-    }
-}
-
-/* =========================================
-   GREAT WAR — ILLUSTRATED SOLDIER UNITS
-   ========================================= */
-
-.war-unit {
-    width: 76px !important;
-    height: 104px !important;
-
-    border: none !important;
-    border-radius: 0 !important;
-
-    background-image: url("images/ChatGPT Image Sep 14, 2026 at 05_24_56 PM.png") !important;
-    background-repeat: no-repeat !important;
-    background-size: 300% 200% !important;
-
-    background-color: transparent !important;
-
-    box-shadow: none !important;
-
-    font-size: 0 !important;
-    display: block !important;
-
-    transform-origin: center bottom;
-
-    transition:
-        left .35s ease,
-        top .35s ease,
-        transform .2s ease,
-        opacity .3s ease,
-        filter .2s ease !important;
-
-    z-index: 8 !important;
-
-    appearance: none !important;
-    -webkit-appearance: none !important;
-
-    mix-blend-mode: screen;
-}
-
-/* Remove the old CSS shield/token */
-
-.war-unit::before,
-.war-unit::after {
-    display: none !important;
-    content: none !important;
-}
-
-/* YOUR THREE BLUE SOLDIERS */
-
-.unit-one {
-    background-position: 0% 0% !important;
-}
-
-.unit-two {
-    background-position: 50% 0% !important;
-}
-
-.unit-three {
-    background-position: 100% 0% !important;
-}
-
-/* ENEMY RED SOLDIERS */
-
-.enemy-one {
-    background-position: 0% 100% !important;
-}
-
-.enemy-two {
-    background-position: 50% 100% !important;
-}
-
-.enemy-three {
-    background-position: 100% 100% !important;
-}
-
-/* Hover */
-
-.war-unit:hover {
-    transform: scale(1.08) !important;
-    z-index: 20 !important;
-}
-
-/* Selected soldier */
-
-.player-unit.selected {
-    transform: scale(1.12) !important;
-    filter:
-        drop-shadow(0 0 5px rgba(255, 220, 150, .9))
-        drop-shadow(0 0 12px rgba(255, 190, 80, .45)) !important;
-    z-index: 25 !important;
-}
-
-/* Enemy hover */
-
-.enemy-unit:hover {
-    filter:
-        drop-shadow(0 0 6px rgba(150, 20, 20, .8)) !important;
-}
-
-/* Fallen enemy */
-
-.enemy-unit.defeated {
-    opacity: 0 !important;
-    transform: scale(.65) !important;
-    pointer-events: none !important;
-}
-
-
-/* =========================================
-   FORCE SPRITE SOLDIERS
-   ========================================= */
-
-.war-unit {
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    overflow: visible !important;
-}
-
-/* Hide the old token completely */
-.war-unit::before {
-    content: "" !important;
-    display: block !important;
-
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-
-    width: 82px !important;
-    height: 112px !important;
-
-    transform: translate(-50%, -50%) !important;
-
-    background-image: url("images/ChatGPT Image Sep 14, 2026 at 05_24_56 PM.png") !important;
-    background-repeat: no-repeat !important;
-
-    background-size: 246px 224px !important;
-
-    pointer-events: none !important;
-
-    filter: drop-shadow(0 5px 4px rgba(0,0,0,.55));
-
-    z-index: 2 !important;
-}
-
-.war-unit::after {
-    display: none !important;
-}
-
-/* BLUE SOLDIERS */
-
-.unit-one::before {
-    background-position: 0 0 !important;
-}
-
-.unit-two::before {
-    background-position: -82px 0 !important;
-}
-
-.unit-three::before {
-    background-position: -164px 0 !important;
-}
-
-/* RED SOLDIERS */
-
-.enemy-one::before {
-    background-position: 0 -112px !important;
-}
-
-.enemy-two::before {
-    background-position: -82px -112px !important;
-}
-
-.enemy-three::before {
-    background-position: -164px -112px !important;
-}
-
-/* Keep the clickable area */
-
-.war-unit {
-    z-index: 10 !important;
-    cursor: pointer !important;
-}
-
-/* Selected */
-
-.player-unit.selected::before {
-    filter:
-        drop-shadow(0 0 5px rgba(255,220,150,.95))
-        drop-shadow(0 5px 4px rgba(0,0,0,.55)) !important;
-}
-
-/* Hover */
-
-.war-unit:hover::before {
-    transform: translate(-50%, -50%) scale(1.06) !important;
-}
-
-
-/* =========================================
-   GREAT WAR — SOLDIER VISIBILITY FIX
-   ========================================= */
-
-.war-unit {
-    mix-blend-mode: normal !important;
-    opacity: 1 !important;
-}
-
-/* Keep defeated soldiers hidden */
-.war-unit.defeated {
-    opacity: 0 !important;
-}
-
-/* Hit animation */
-
-.war-unit.hit {
-    animation: soldierHit .28s ease;
-}
-
-@keyframes soldierHit {
-    0% {
-        transform: translateX(0) scale(1);
-        filter: brightness(1);
-    }
-
-    35% {
-        transform: translateX(-4px) scale(1.04);
-        filter: brightness(1.8);
-    }
-/* =========================================================
-   GREAT WAR — FINAL COMBAT + RESULT OVERRIDES
-========================================================= */
-
-
-/* =========================================================
-   SOLDIER MOVEMENT
-========================================================= */
-
-.war-unit.moving {
-    animation:
-        soldierMove .38s ease-in-out !important;
-}
-
-@keyframes soldierMove {
-
-    0% {
-        transform: translateY(0) scale(1);
-    }
-
-    50% {
-        transform: translateY(-5px) scale(1.04);
-    }
-
-    100% {
-        transform: translateY(0) scale(1);
-    }
-
-}
-
-
-/* =========================================================
-   PLAYER ATTACK
-========================================================= */
-
-.war-unit.attacking {
-    animation:
-        battleAttack .42s ease-in-out !important;
-
-    z-index: 30 !important;
-}
-
-@keyframes battleAttack {
-
-    0% {
-        transform:
-            translateX(0)
-            scale(1);
-    }
-
-    35% {
-        transform:
-            translateX(9px)
-            scale(1.08);
-    }
-
-    55% {
-        transform:
-            translateX(13px)
-            scale(1.12);
-    }
-
-    100% {
-        transform:
-            translateX(0)
-            scale(1);
-    }
-
-}
-
-
-/* =========================================================
-   HIT REACTION
-========================================================= */
-
-.war-unit.hit {
-    animation:
-        battleHit .32s ease !important;
-}
-
-@keyframes battleHit {
-
-    0% {
-        transform: translateX(0);
-        filter: brightness(1);
-    }
-
-    25% {
-        transform: translateX(-7px);
-        filter: brightness(2);
-    }
-
-    50% {
-        transform: translateX(6px);
-        filter: brightness(1.45);
-    }
-
-    100% {
-        transform: translateX(0);
-        filter: brightness(1);
-    }
-
-}
-
-
-/* =========================================================
-   ATTACK FLASH
-========================================================= */
-
-.war-unit.attacking::after {
-
-    content: "✦" !important;
-
-    display: block !important;
-
-    position: absolute !important;
-
-    left: 62% !important;
-    top: 17% !important;
-
-    font-size: 27px !important;
-
-    color:
-        rgba(239, 220, 185, .95) !important;
-
-    pointer-events: none !important;
-
-    animation:
-        slashFlash .42s ease-out
-        forwards;
-
-    z-index: 80 !important;
-
-}
-
-@keyframes slashFlash {
-
-    0% {
-        opacity: 0;
-        transform:
-            scale(.25)
-            rotate(-20deg);
-    }
-
-    30% {
-        opacity: 1;
-        transform:
-            scale(1.15)
-            rotate(15deg);
-    }
-
-    100% {
-        opacity: 0;
-        transform:
-            scale(1.5)
-            rotate(35deg);
-    }
-
-}
-
-
-/* =========================================================
-   HP BARS
-========================================================= */
-
-.unit-hp {
-
-    pointer-events: none !important;
-
-    transition:
-        transform .2s ease;
-
-}
-
-.unit-hp-fill {
-
-    transition:
-        width .35s ease !important;
-
-}
-
-
-/* =========================================================
-   VICTORY SCREEN
-========================================================= */
-
-.victory-screen {
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(76, 49, 29, .96),
-            rgba(18, 10, 6, .985)
-        ) !important;
-
-    backdrop-filter:
-        blur(2px);
-
-    padding:
-        55px 40px !important;
-
-    overflow-y: auto;
-
-}
-
-
-/* parchment glow */
-
-.victory-screen::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 700px;
-    height: 700px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(190, 150, 105, .10),
-            transparent 65%
-        );
-
-    pointer-events: none;
-
-}
-
-
-/* =========================================================
-   RESULT LABEL
-========================================================= */
-
-.victory-label {
-
-    position: relative;
-
-    font-size:
-        10px !important;
-
-    letter-spacing:
-        6px !important;
-
-    color:
-        rgba(221, 193, 159, .72) !important;
-
-}
-
-
-/* =========================================================
-   RESULT TITLE
-========================================================= */
-
-.victory-screen h3 {
-
-    position: relative;
-
-    margin-top:
-        18px !important;
-
-    font-size:
-        clamp(42px, 6vw, 72px) !important;
-
-    line-height:
-        .95 !important;
-
-    letter-spacing:
-        1px !important;
-
-    color:
-        #eadcca !important;
-
-    text-shadow:
-        0 4px 25px
-        rgba(0,0,0,.55);
-
-}
-
-
-/* =========================================================
-   SUBTITLE
-========================================================= */
-
-.victory-subtitle {
-
-    position: relative;
-
-    margin-top:
-        15px !important;
-
-    font-family:
-        "IM Fell English",
-        Georgia,
-        serif !important;
-
-    font-size:
-        18px !important;
-
-    font-style:
-        italic;
-
-    color:
-        rgba(225, 205, 182, .68)
-        !important;
-
-}
-
-
-/* =========================================================
-   DIVIDER
-========================================================= */
-
-.victory-divider {
-
-    position: relative;
-
-    margin:
-        22px 0;
-
-    color:
-        rgba(211, 180, 145, .32);
-
-    font-family:
-        "Special Elite",
-        monospace;
-
-    font-size:
-        9px;
-
-}
-
-
-/* =========================================================
-   RESULT STATS
-========================================================= */
-
-.victory-stats {
-
-    position: relative;
-
-    width:
-        min(100%, 560px);
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap:
-        12px;
-
-    margin:
-        4px auto 0;
-
-}
-
-
-/* individual result card */
-
-.victory-stat {
-
-    padding:
-        17px 20px;
-
-    border:
-        1px solid
-        rgba(190, 157, 121, .22);
-
-    background:
-        rgba(12, 7, 4, .34);
-
-    text-align:
-        left;
-
-}
-
-
-/* stat label */
-
-.victory-stat span {
-
-    display:
-        block;
-
-    margin-bottom:
-        7px;
-
-    font-family:
-        "Special Elite",
-        monospace;
-
-    font-size:
-        7px;
-
-    letter-spacing:
-        2px;
-
-    color:
-        rgba(211, 182, 151, .48);
-
-}
-
-
-/* stat value */
-
-.victory-stat strong {
-
-    font-family:
-        "IM Fell English",
-        Georgia,
-        serif;
-
-    font-size:
-        17px;
-
-    font-weight:
-        400;
-
-    color:
-        rgba(233, 216, 195, .84);
-
-}
-
-
-/* =========================================================
-   JOKE
-========================================================= */
-
-.victory-screen .victory-joke {
-
-    position:
-        relative;
-
-    max-width:
-        500px;
-
-    margin:
-        25px auto 0;
-
-    font-size:
-        17px !important;
-
-    line-height:
-        1.55 !important;
-
-    color:
-        #c7aa90 !important;
-
-}
-
-
-/* =========================================================
-   SPOILS BUTTON
-========================================================= */
-
-#claimSpoils {
-
-    position:
-        relative;
-
-    margin-top:
-        27px;
-
-    border-radius:
-        3px;
-
-    padding:
-        13px 24px;
-
-    background:
-        rgba(79, 50, 30, .55);
-
-}
-
-
-/* =========================================================
-   SPOILS REVEAL
-========================================================= */
-
-.victory-spoils {
-
-    position:
-        relative;
-
-    width:
-        min(100%, 480px);
-
-    max-height:
-        0;
-
-    overflow:
-        hidden;
-
-    opacity:
-        0;
-
-    transform:
-        translateY(10px);
-
-    transition:
-        max-height .55s ease,
-        opacity .4s ease,
-        transform .4s ease;
-
-}
-
-
-/* revealed */
-
-.victory-spoils.revealed {
-
-    max-height:
-        220px;
-
-    opacity:
-        1;
-
-    transform:
-        translateY(0);
-
-    margin-top:
-        24px;
-
-    padding:
-        20px;
-
-    border:
-        1px solid
-        rgba(191, 158, 121, .22);
-
-    background:
-        rgba(13, 7, 4, .42);
-
-}
-
-
-/* spoils title */
-
-.spoils-label {
-
-    font-family:
-        "Special Elite",
-        monospace;
-
-    font-size:
-        8px;
-
-    letter-spacing:
-        3px;
-
-    color:
-        rgba(214, 184, 151, .58);
-
-}
-
-
-/* spoils text */
-
-.victory-spoils p {
-
-    margin-top:
-        9px;
-
-    font-family:
-        "IM Fell English",
-        Georgia,
-        serif;
-
-    font-size:
-        16px;
-
-    line-height:
-        1.45;
-
-    color:
-        rgba(227, 208, 186, .67);
-
-}
-
-
-/* =========================================================
-   PLAY AGAIN
-========================================================= */
-
-#playAgain {
-
-    position:
-        relative;
-
-    margin-top:
-        23px;
-
-    border-radius:
-        3px;
-
-    padding:
-        11px 22px;
-
-    font-size:
-        9px;
-
-    opacity:
-        .7;
-
-}
-
-
-/* =========================================================
-   MOBILE RESULT
-========================================================= */
-
-@media (max-width: 700px) {
-
-    .victory-screen {
-
-        padding:
-            35px 20px !important;
-
-    }
-
-    .victory-stats {
-
-        grid-template-columns:
-            1fr;
-
-    }
-
-    .victory-screen h3 {
-
-        font-size:
-            42px !important;
-
-    }
-
-}
-    70% {
-        transform: translateX(4px) scale(1.04);
-        filter: brightness(1.35);
-    }
-
-    100% {
-        transform: translateX(0) scale(1);
-        filter: brightness(1);
-    }
-}
-
-/* Attack movement */
-
-.war-unit.attacking {
-    animation: soldierAttack .35s ease;
-}
-
-@keyframes soldierAttack {
-    0% {
-        transform: translateX(0) scale(1);
-    }
-
-    45% {
-        transform: translateX(8px) scale(1.06);
-    }
-
-    100% {
-        transform: translateX(0) scale(1);
-    }
-}
-
-/* =========================================
-   GREAT WAR — COMBAT ANIMATION
-   ========================================= */
-
-/* Soldier lunges when attacking */
-
-.war-unit.attacking {
-    animation: battleLunge .38s ease-in-out !important;
-    z-index: 30 !important;
-}
-
-@keyframes battleLunge {
-
-    0% {
-        transform: translateX(0) scale(1);
-    }
-
-    35% {
-        transform: translateX(10px) scale(1.08);
-    }
-
-    55% {
-        transform: translateX(13px) scale(1.12);
-    }
-
-    100% {
-        transform: translateX(0) scale(1);
-    }
-}
-
-
-/* Switch to a different soldier pose while attacking */
-
-/* BLUE ARMY — use the sword soldier */
-
-.player-unit.attacking::before {
-    background-position: 0 0 !important;
-    filter:
-        brightness(1.15)
-        drop-shadow(0 0 7px rgba(255,220,150,.65))
-        drop-shadow(0 5px 4px rgba(0,0,0,.55)) !important;
-}
-
-
-/* RED ARMY — use the axe soldier */
-
-.enemy-unit.attacking::before {
-    background-position: -164px -112px !important;
-}
-
-
-/* Enemy reacts when hit */
-
-.war-unit.hit {
-    animation: takeHit .28s ease !important;
-}
-
-@keyframes takeHit {
-
-    0% {
-        transform: translateX(0);
-        filter: brightness(1);
-    }
-
-    25% {
-        transform: translateX(-7px);
-        filter: brightness(2);
-    }
-
-    50% {
-        transform: translateX(6px);
-        filter: brightness(1.5);
-    }
-
-    100% {
-        transform: translateX(0);
-        filter: brightness(1);
-    }
-}
-
-
-/* Little slash flash */
-
-.war-unit.attacking::after {
-    content: "✦" !important;
-
-    display: block !important;
-
-    position: absolute !important;
-
-    left: 65% !important;
-    top: 20% !important;
-
-    font-size: 28px !important;
-    line-height: 1 !important;
-
-    color: #ead5ad !important;
-
-    pointer-events: none !important;
-
-    animation: slashFlash .38s ease-out forwards;
-
-    z-index: 50 !important;
-}
-
-@keyframes slashFlash {
-
-    0% {
-        opacity: 0;
-        transform: scale(.3) rotate(-20deg);
-    }
-
-    35% {
-        opacity: 1;
-        transform: scale(1.2) rotate(15deg);
-    }
-
-    100% {
-        opacity: 0;
-        transform: scale(1.5) rotate(35deg);
-    }
-}
-
-
-/* =========================================
-   ENEMY HP BARS
-   ========================================= */
-
-.enemy-hp {
-    position: absolute !important;
-
-    left: 50% !important;
-    top: -12px !important;
-
-    transform: translateX(-50%) !important;
-
-    width: 58px !important;
-    height: 6px !important;
-
-    background: rgba(20, 10, 7, 0.9) !important;
-
-    border: 1px solid rgba(220, 190, 145, 0.65) !important;
-
-    z-index: 50 !important;
-
-    pointer-events: none !important;
-
-    box-sizing: border-box !important;
-}
-
-.enemy-hp-fill {
-    display: block !important;
-
-    width: 100%;
-
-    height: 100%;
-
-    background: #8f3028 !important;
-
-    transition: width .3s ease !important;
-}
-
-/* Make the bar more obvious when damaged */
-
-.enemy-unit.hit .enemy-hp {
-    transform: translateX(-50%) scale(1.08) !important;
-}
-
-.enemy-unit.hit .enemy-hp-fill {
-    filter: brightness(1.5) !important;
-}
-
-
-/* =========================================================
-   GREAT WAR — LIVING BATTLEFIELD
-========================================================= */
-
-
-/* =========================================================
-   ALL SOLDIERS MOVE
-========================================================= */
-
-.war-unit.moving {
-
-    animation:
-        soldierAdvance
-        .52s
-        ease-in-out
-        !important;
-
-}
-
-
-@keyframes soldierAdvance {
-
-    0% {
-
-        transform:
-            translateY(0)
-            scale(1);
-
-    }
-
-    25% {
-
-        transform:
-            translateY(-5px)
-            scale(1.035);
-
-    }
-
-    50% {
-
-        transform:
-            translateY(0)
-            scale(1);
-
-    }
-
-    75% {
-
-        transform:
-            translateY(-4px)
-            scale(1.025);
-
-    }
-
-    100% {
-
-        transform:
-            translateY(0)
-            scale(1);
-
-    }
-
-}
-
-
-/* =========================================================
-   RED SOLDIER ATTACK
-========================================================= */
-
-.enemy-unit.attacking {
-
-    animation:
-        enemyCharge
-        .60s
-        cubic-bezier(.2,.8,.2,1)
-        !important;
-
-    z-index:
-        30 !important;
-
-}
-
-
-@keyframes enemyCharge {
-
-    0% {
-
-        transform:
-            translateX(0)
-            translateY(0)
-            scale(1);
-
-        filter:
-            brightness(1);
-
-    }
-
-    25% {
-
-        transform:
-            translateX(
-                calc(var(--attack-direction) * 7px)
-            )
-            translateY(-5px)
-            scale(1.06);
-
-        filter:
-            brightness(1.08);
-
-    }
-
-    48% {
-
-        transform:
-            translateX(
-                calc(var(--attack-direction) * 18px)
-            )
-            translateY(1px)
-            scale(1.14);
-
-        filter:
-            brightness(1.25);
-
-    }
-
-    62% {
-
-        transform:
-            translateX(
-                calc(var(--attack-direction) * 10px)
-            )
-            translateY(0)
-            scale(1.08);
-
-        filter:
-            brightness(1.08);
-
-    }
-
-    100% {
-
-        transform:
-            translateX(0)
-            translateY(0)
-            scale(1);
-
-        filter:
-            brightness(1);
-
-    }
-
-}
-
-
-/* =========================================================
-   BLUE SOLDIER GETS HIT
-========================================================= */
-
-.war-unit.hit {
-
-    animation:
-        soldierHit
-        .38s
-        ease-out
-        !important;
-
-}
-
-
-@keyframes soldierHit {
-
-    0% {
-
-        transform:
-            translateX(0)
-            rotate(0deg);
-
-        filter:
-            brightness(1);
-
-    }
-
-    18% {
-
-        transform:
-            translateX(-9px)
-            rotate(-3deg);
-
-        filter:
-            brightness(1.8);
-
-    }
-
-    38% {
-
-        transform:
-            translateX(8px)
-            rotate(3deg);
-
-        filter:
-            brightness(1.35);
-
-    }
-
-    58% {
-
-        transform:
-            translateX(-5px)
-            rotate(-2deg);
-
-        filter:
-            brightness(1.1);
-
-    }
-
-    100% {
-
-        transform:
-            translateX(0)
-            rotate(0deg);
-
-        filter:
-            brightness(1);
-
-    }
-
-}
-
-
-/* =========================================================
-   ATTACK IMPACT FLASH
-========================================================= */
-
-.enemy-unit.attacking::after {
-
-    content:
-        "✦" !important;
-
-    display:
-        block !important;
-
-    position:
-        absolute !important;
-
-    left:
-        50% !important;
-
-    top:
-        35% !important;
-
-    font-family:
-        Georgia,
-        serif !important;
-
-    font-size:
-        32px !important;
-
-    color:
-        rgba(245, 224, 185, .98)
-        !important;
-
-    text-shadow:
-        0 0 12px
-        rgba(255, 210, 130, .75);
-
-    pointer-events:
-        none !important;
-
-    z-index:
-        100 !important;
-
-    animation:
-        enemyStrikeFlash
-        .42s
-        ease-out
-        forwards;
-
-}
-
-
-@keyframes enemyStrikeFlash {
-
-   /* =========================================================
-   GREAT WAR — SIDEBAR REFINEMENT
-   Overrides the older game HUD styling
-========================================================= */
-
-
-/* =========================================================
-   PANELS
-========================================================= */
-
-.war-panel {
-    padding: 34px 32px;
-    overflow: hidden;
-}
-
-
-/* =========================================================
-   PANEL HEADINGS
-========================================================= */
-
-.war-panel .panel-title {
-    font-size: 13px !important;
-    letter-spacing: 0.24em !important;
-    line-height: 1.2 !important;
-    margin-bottom: 26px !important;
-}
-
-
-/* =========================================================
-   OBJECTIVES
-========================================================= */
-
-.left-panel .objective {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-
-    margin-bottom: 18px !important;
-}
-
-
-.left-panel .objective > span {
-    flex: 0 0 auto;
-
-    font-size: 12px !important;
-    line-height: 1.5 !important;
-}
-
-
-.left-panel .objective > div {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-
-    font-size: 14px !important;
-}
-
-
-.left-panel .objective small {
-    font-size: 10px !important;
-    letter-spacing: 0.12em;
-    opacity: 0.65;
-}
-
-
-/* =========================================================
-   YOUR FORCES
-========================================================= */
-
-.left-panel .army-title {
-    margin-top: 42px !important;
-    margin-bottom: 22px !important;
-}
-
-
-.left-panel .army-stat {
-    display: flex !important;
-    align-items: flex-start;
-
-    gap: 34px;
-
-    margin: 0 !important;
-}
-
-
-.left-panel .army-line {
-    display: flex !important;
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    gap: 3px;
-
-    min-width: 52px;
-}
-
-
-.left-panel .army-line span {
-    font-size: 27px !important;
-    line-height: 1 !important;
-
-    font-weight: 600 !important;
-}
-
-
-.left-panel .army-line small {
-    font-size: 9px !important;
-    line-height: 1.2 !important;
-
-    letter-spacing: 0.18em;
-
-    opacity: 0.65;
-}
-
-
-/* Fallen slightly quieter */
-
-.left-panel .fallen-line span {
-    opacity: 0.72;
-}
-
-
-/* =========================================================
-   MORALE
-========================================================= */
-
-.left-panel .morale {
-    margin-top: 42px !important;
-}
-
-
-.left-panel .morale-label {
-    font-size: 11px !important;
-    letter-spacing: 0.2em;
-
-    margin-bottom: 10px;
-}
-
-
-.left-panel .morale-bar {
-    height: 4px !important;
-    width: 100%;
-
-    border-radius: 0 !important;
-}
-
-
-/* =========================================================
-   RIGHT PANEL
-========================================================= */
-
-.right-panel {
-    padding-left: 32px;
-    padding-right: 32px;
-}
-
-
-/* FIELD ORDERS */
-
-.right-panel .field-order {
-    margin-bottom: 25px;
-}
-
-
-.right-panel .order-key {
-    display: block;
-
-    font-size: 15px !important;
-    line-height: 1.2 !important;
-
-    letter-spacing: 0.08em;
-
-    margin-bottom: 5px;
-}
-
-
-.right-panel .field-order p {
-    margin: 0 !important;
-
-    font-size: 13px !important;
-    line-height: 1.5 !important;
-}
-
-
-/* =========================================================
-   CURRENT ORDER
-========================================================= */
-
-.right-panel .tip-title {
-    margin-top: 38px !important;
-    margin-bottom: 22px !important;
-}
-
-
-.right-panel .tip {
-    margin: 0 !important;
-
-    font-size: 17px !important;
-    line-height: 1.4 !important;
-}
-
-
-/* =========================================================
-   KEEP SIDEBAR FROM STRETCHING TYPOGRAPHY
-========================================================= */
-
-.left-panel p,
-.left-panel span,
-.left-panel small,
-.right-panel p,
-.right-panel span,
-.right-panel small {
-    max-width: 100%;
-}
-    0% {
-
-        opacity:
-            0;
-
-        transform:
-            translate(
-                calc(var(--attack-direction) * -8px),
-                5px
-            )
-            scale(.25)
-            rotate(-30deg);
-
-    }
-
-    30% {
-
-        opacity:
-            1;
-
-        transform:
-            translate(
-                calc(var(--attack-direction) * 5px),
-                -2px
-            )
-            scale(1.25)
-            rotate(15deg);
-
-    }
-
-    100% {
-
-        opacity:
-            0;
-
-        transform:
-            translate(
-                calc(var(--attack-direction) * 20px),
-                -8px
-            )
-            scale(1.6)
-            rotate(40deg);
-
-    }
-
-}
-
-
-/* =========================================================
-   BATTLEFIELD IMPACT
-========================================================= */
-
-.battlefield.impact {
-
-    animation:
-        battlefieldImpact
-        .18s
-        ease-out;
-
-}
-
-
-@keyframes battlefieldImpact {
-
-    0% {
-
-        filter:
-            brightness(1);
-
-    }
-
-    40% {
-
-        filter:
-            brightness(1.12);
-
-    }
-
-    100% {
-
-        filter:
-            brightness(1);
-
-    }
-
-}
-
-
-/* =========================================================
-   SMOOTHER UNIT POSITIONING
-========================================================= */
-
-.war-unit {
-
-    transition:
-        left .52s ease-in-out,
-        top .52s ease-in-out,
-        opacity .3s ease,
-        box-shadow .2s ease;
-
-}
-
-
-/* =========================================================
-   RED UNITS SIT ABOVE TERRAIN
-========================================================= */
-
-.enemy-unit {
-
-    z-index:
-        8;
-
-}
-
-
-/* =========================================================
-   SELECTED BLUE UNIT
-========================================================= */
-
-.player-unit.selected {
-
-    z-index:
-        25;
-
-}
-
-
-
-/* =========================================================
-   FINAL VICTORY — YOU FUCKING NERD
-========================================================= */
-
-.victory-screen h3 {
-
-    max-width: 700px;
-
-    font-size:
-        clamp(38px, 5vw, 68px) !important;
-
-    line-height:
-        .95 !important;
-
-}
-
-
-.victory-screen h3 span {
-
-    display: block;
-
-    margin-top: 8px;
-
-    color:
-        #b98763;
-
-}
-
-
-.victory-banner-divider {
-
-    position: relative;
-
-    margin:
-        28px 0;
-
-    font-family:
-        "Special Elite",
-        monospace;
-
-    font-size:
-        11px;
-
-    letter-spacing:
-        4px;
-
-    color:
-        rgba(214, 181, 145, .45);
-
-}
-
-
-.victory-final-message {
-
-    position: relative;
-
-    margin-top:
-        5px;
-
-    font-family:
-        "Special Elite",
-        monospace;
-
-    font-size:
-        clamp(20px, 3vw, 30px);
-
-    letter-spacing:
-        3px;
-
-    line-height:
-        1.4;
-
-    color:
-        #e3d0b8;
-
-}
-
-
-.victory-final-message span {
-
-    display:
-        block;
-
-    margin-top:
-        8px;
-
-    font-family:
-        "IM Fell English",
-        Georgia,
-        serif;
-
-    font-size:
-        20px;
-
-    font-style:
-        italic;
-
-    letter-spacing:
-        0;
-
-    color:
-        #b99676;
-
-}
-
-
-.victory-screen #playAgain {
-
-    margin-top:
-        30px;
-
-}
-
-/* =========================================================
-   VICTORY SCREEN MUST SIT ABOVE THE SOLDIERS
-========================================================= */
-
-.victory-screen {
-    z-index: 100 !important;
-}
-
-.victory-screen * {
-    position: relative;
-    z-index: 101;
-}
-/* =========================================================
-   HIDE THE ARMIES WHEN THE BATTLE IS OVER
-========================================================= */
-
-.battlefield.battle-ended .war-unit {
-    visibility: hidden !important;
-}
-
-.battlefield.battle-ended .battle-message {
-    visibility: hidden !important;
 }
