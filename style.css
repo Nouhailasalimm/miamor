@@ -3768,3 +3768,118 @@ font-family: "Spectral", Georgia, serif;
         25;
 
 }
+
+
+
+/* =========================================================
+   FINAL VICTORY — YOU FUCKING NERD
+========================================================= */
+
+.victory-screen h3 {
+
+    max-width: 700px;
+
+    font-size:
+        clamp(38px, 5vw, 68px) !important;
+
+    line-height:
+        .95 !important;
+
+}
+
+
+.victory-screen h3 span {
+
+    display: block;
+
+    margin-top: 8px;
+
+    color:
+        #b98763;
+
+}
+
+
+.victory-banner-divider {
+
+    position: relative;
+
+    margin:
+        28px 0;
+
+    font-family:
+        "Special Elite",
+        monospace;
+
+    font-size:
+        11px;
+
+    letter-spacing:
+        4px;
+
+    color:
+        rgba(214, 181, 145, .45);
+
+}
+
+
+.victory-final-message {
+
+    position: relative;
+
+    margin-top:
+        5px;
+
+    font-family:
+        "Special Elite",
+        monospace;
+
+    font-size:
+        clamp(20px, 3vw, 30px);
+
+    letter-spacing:
+        3px;
+
+    line-height:
+        1.4;
+
+    color:
+        #e3d0b8;
+
+}
+
+
+.victory-final-message span {
+
+    display:
+        block;
+
+    margin-top:
+        8px;
+
+    font-family:
+        "IM Fell English",
+        Georgia,
+        serif;
+
+    font-size:
+        20px;
+
+    font-style:
+        italic;
+
+    letter-spacing:
+        0;
+
+    color:
+        #b99676;
+
+}
+
+
+.victory-screen #playAgain {
+
+    margin-top:
+        30px;
+
+}
