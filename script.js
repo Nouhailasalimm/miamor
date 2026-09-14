@@ -872,134 +872,150 @@ function moveEnemies() {
         return;
     }
 
+    enemyUnits.forEach(function (enemy) {
 
-    enemyUnits.forEach(
-        function (enemy) {
-
-            if (
-                enemy.classList.contains(
-                    "defeated"
-                )
-            ) {
-                return;
-            }
-
-            if (
-                enemy.dataset.attacking ===
-                "true"
-            ) {
-                return;
-            }
-
-
-            const target =
-                findClosestPlayer(
-                    enemy
-                );
-
-
-            if (!target) {
-                return;
-            }
-
-
-            const closestPlayer =
-                target.unit;
-
-            const closestDistance =
-                target.distance;
-
-
-            if (
-                closestDistance <=
-                ENEMY_ATTACK_RANGE
-            ) {
-
-                enemyAttack(enemy);
-
-                return;
-
-            }
-
-
-            const playerPosition =
-                getPosition(
-                    closestPlayer
-                );
-
-            const enemyPosition =
-                getPosition(enemy);
-
-
-            const dx =
-                playerPosition.x -
-                enemyPosition.x;
-
-            const dy =
-                playerPosition.y -
-                enemyPosition.y;
-
-
-            const distance =
-                Math.hypot(
-                    dx,
-                    dy
-                );
-
-
-            if (
-                distance === 0
-            ) {
-                return;
-            }
-
-
-            const step =
-                Math.min(
-                    ENEMY_MOVE_SPEED,
-                    distance - 5
-                );
-
-
-            const newX =
-                enemy.offsetLeft +
-                (dx / distance) *
-                step;
-
-            const newY =
-                enemy.offsetTop +
-                (dy / distance) *
-                step;
-
-
-            enemy.style.left =
-                Math.max(
-                    5,
-                    Math.min(
-                        newX,
-                        battlefield.clientWidth -
-                        enemy.offsetWidth -
-                        5
-                    )
-                ) + "px";
-
-
-            enemy.style.top =
-                Math.max(
-                    5,
-                    Math.min(
-                        newY,
-                        battlefield.clientHeight -
-                        enemy.offsetHeight -
-                        5
-                    )
-                ) + "px";
-
+        if (enemy.classList.contains("defeated")) {
+            return;
         }
-    );
+
+        if (enemy.dataset.attacking === "true") {
+            return;
+        }
+
+
+        const target = findClosestPlayer(enemy);
+
+        if (!target) {
+            return;
+        }
+
+
+        const closestPlayer = target.unit;
+        const closestDistance = target.distance;
+
+
+        /* =================================================
+           ENEMY IS CLOSE ENOUGH TO ATTACK
+        ================================================= */
+
+        if (closestDistance <= ENEMY_ATTACK_RANGE) {
+
+            enemyAttack(enemy);
+
+            return;
+        }
+
+
+        /* =================================================
+           MOVE TOWARD PLAYER
+        ================================================= */
+
+        const playerPosition =
+            getPosition(closestPlayer);
+
+        const enemyPosition =
+            getPosition(enemy);
+
+
+        const dx =
+            playerPosition.x -
+            enemyPosition.x;
+
+        const dy =
+            playerPosition.y -
+            enemyPosition.y;
+
+
+        const distance =
+            Math.hypot(dx, dy);
+
+
+        if (distance === 0) {
+            return;
+        }
+
+
+        const step =
+            Math.min(
+                ENEMY_MOVE_SPEED,
+                distance - 5
+            );
+
+
+        const newX =
+            enemy.offsetLeft +
+            (dx / distance) * step;
+
+        const newY =
+            enemy.offsetTop +
+            (dy / distance) * step;
+
+
+        /* =================================================
+           FACE / LEAN TOWARD TARGET
+        ================================================= */
+
+        if (dx < 0) {
+            enemy.style.setProperty(
+                "--enemy-direction",
+                "-1"
+            );
+        } else {
+            enemy.style.setProperty(
+                "--enemy-direction",
+                "1"
+            );
+        }
+
+
+        /* =================================================
+           ACTUAL MOVEMENT
+        ================================================= */
+
+        enemy.style.left =
+            Math.max(
+                5,
+                Math.min(
+                    newX,
+                    battlefield.clientWidth -
+                    enemy.offsetWidth -
+                    5
+                )
+            ) + "px";
+
+
+        enemy.style.top =
+            Math.max(
+                5,
+                Math.min(
+                    newY,
+                    battlefield.clientHeight -
+                    enemy.offsetHeight -
+                    5
+                )
+            ) + "px";
+
+
+        /* =================================================
+           MOVEMENT ANIMATION
+        ================================================= */
+
+        enemy.classList.remove("moving");
+
+        void enemy.offsetWidth;
+
+        enemy.classList.add("moving");
+
+
+        setTimeout(function () {
+
+            enemy.classList.remove("moving");
+
+        }, 520);
+
+    });
 
 }
-
 
 /* =========================================================
    ENEMY ATTACK
