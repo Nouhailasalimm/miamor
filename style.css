@@ -1261,7 +1261,607 @@ font-family: "Spectral", Georgia, serif;
 /* =========================================================
    MOBILE
 ========================================================= */
+/* =========================================================
+   THE GREAT WAR
+========================================================= */
 
+.war-section {
+    min-height: 100vh;
+    padding: 130px 5vw 90px;
+    background:
+        linear-gradient(
+            rgba(12, 7, 4, 0.78),
+            rgba(12, 7, 4, 0.84)
+        );
+}
+
+.war-header {
+    max-width: 900px;
+    margin: 0 auto 70px;
+    text-align: center;
+}
+
+.war-header .eyebrow {
+    margin-bottom: 25px;
+}
+
+.war-header h2 {
+    font-family: "IM Fell English", Georgia, serif;
+    font-size: clamp(48px, 7vw, 86px);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: 2px;
+}
+
+.war-header h2 span {
+    color: #c4a58b;
+    font-style: italic;
+}
+
+.war-header p {
+    margin-top: 25px;
+    font-family: "IM Fell English", Georgia, serif;
+    font-size: 20px;
+    font-style: italic;
+    color: rgba(225, 207, 187, 0.68);
+}
+
+.war-header small {
+    display: block;
+    max-width: 650px;
+    margin: 20px auto 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(225, 211, 196, 0.48);
+}
+
+
+/* =========================
+   GAME FRAME
+========================= */
+
+.war-game {
+    width: 100%;
+    max-width: 1250px;
+    min-height: 560px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr) 190px;
+
+    border: 1px solid rgba(157, 119, 87, 0.42);
+
+    background:
+        rgba(19, 11, 7, 0.88);
+
+    box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.65);
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   SIDE PANELS
+========================= */
+
+.war-panel {
+    padding: 28px 22px;
+
+    background:
+        linear-gradient(
+            rgba(36, 22, 14, 0.72),
+            rgba(17, 10, 6, 0.82)
+        );
+
+    color: rgba(225, 207, 187, 0.72);
+}
+
+.left-panel {
+    border-right: 1px solid rgba(157, 119, 87, 0.25);
+}
+
+.right-panel {
+    border-left: 1px solid rgba(157, 119, 87, 0.25);
+}
+
+.panel-title {
+    margin-bottom: 20px;
+
+    font-family: "Special Elite", monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: rgba(205, 177, 150, 0.7);
+}
+
+.objective {
+    display: flex;
+    gap: 9px;
+
+    margin-bottom: 14px;
+
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.objective span {
+    font-family: monospace;
+    color: rgba(194, 159, 128, 0.75);
+}
+
+.army-title {
+    margin-top: 42px;
+}
+
+.army-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-family: "IM Fell English", Georgia, serif;
+    font-size: 27px;
+
+    color: #cbb29b;
+}
+
+.army-stat span {
+    font-size: 23px;
+}
+
+.morale {
+    margin-top: 30px;
+
+    font-family: "Special Elite", monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+}
+
+.morale-bar {
+    height: 5px;
+    margin-top: 9px;
+
+    background: rgba(220, 200, 175, 0.12);
+
+    overflow: hidden;
+}
+
+#moraleFill {
+    width: 100%;
+    height: 100%;
+
+    background: rgba(177, 143, 113, 0.7);
+
+    transition: width 0.4s ease;
+}
+
+.right-panel p {
+    margin-bottom: 17px;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.tip-title {
+    margin-top: 55px;
+}
+
+.right-panel .tip {
+    font-family: "IM Fell English", Georgia, serif;
+    font-size: 16px;
+    font-style: italic;
+    color: rgba(215, 190, 165, 0.68);
+}
+
+
+/* =========================
+   BATTLEFIELD
+========================= */
+
+.battlefield {
+    position: relative;
+
+    min-height: 560px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(53, 38, 25, 0.25),
+            rgba(19, 13, 8, 0.35)
+        ),
+        url("images/linedbrownnotebook.jpg");
+
+    background-size: cover;
+    background-position: center;
+
+    box-shadow:
+        inset 0 0 80px rgba(30, 16, 8, 0.75);
+}
+
+
+/* =========================
+   TERRAIN
+========================= */
+
+.terrain {
+    position: absolute;
+
+    border: 1px solid rgba(73, 50, 32, 0.35);
+
+    opacity: 0.55;
+
+    pointer-events: none;
+}
+
+.terrain-one {
+    width: 190px;
+    height: 95px;
+
+    top: 12%;
+    left: 9%;
+
+    border-radius: 50%;
+
+    transform: rotate(-15deg);
+}
+
+.terrain-two {
+    width: 230px;
+    height: 110px;
+
+    bottom: 12%;
+    right: 8%;
+
+    border-radius: 50%;
+
+    transform: rotate(18deg);
+}
+
+.terrain-three {
+    width: 120px;
+    height: 120px;
+
+    top: 40%;
+    left: 43%;
+
+    border-radius: 50%;
+
+    opacity: 0.25;
+}
+
+
+/* =========================
+   OUTPOST
+========================= */
+
+.objective-point {
+    position: absolute;
+
+    top: 23%;
+    right: 17%;
+
+    width: 78px;
+    height: 78px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(93, 60, 37, 0.65);
+    border-radius: 50%;
+
+    background:
+        rgba(35, 21, 13, 0.72);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.35);
+
+    z-index: 3;
+}
+
+.objective-point span {
+    font-size: 27px;
+    color: rgba(202, 167, 134, 0.78);
+}
+
+.objective-point small {
+    margin-top: 3px;
+
+    font-family: "Special Elite", monospace;
+    font-size: 7px;
+    letter-spacing: 1px;
+
+    color: rgba(215, 190, 165, 0.6);
+}
+
+
+/* =========================
+   UNITS
+========================= */
+
+.war-unit {
+    position: absolute;
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    transition:
+        left 0.35s ease,
+        top 0.35s ease,
+        transform 0.2s ease,
+        opacity 0.3s ease;
+
+    z-index: 5;
+}
+
+.player-unit {
+    border: 1px solid rgba(164, 143, 116, 0.85);
+
+    background:
+        rgba(49, 52, 46, 0.9);
+
+    color: #d2c3ad;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.enemy-unit {
+    border: 1px solid rgba(112, 74, 54, 0.85);
+
+    background:
+        rgba(51, 29, 22, 0.92);
+
+    color: #b99b87;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.war-unit:hover {
+    transform: scale(1.12);
+}
+
+.player-unit.selected {
+    transform: scale(1.18);
+
+    box-shadow:
+        0 0 0 3px rgba(194, 159, 128, 0.2),
+        0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+
+/* =========================
+   STARTING POSITIONS
+========================= */
+
+.unit-one {
+    left: 22%;
+    top: 58%;
+}
+
+.unit-two {
+    left: 31%;
+    top: 66%;
+}
+
+.unit-three {
+    left: 25%;
+    top: 76%;
+}
+
+.enemy-one {
+    left: 67%;
+    top: 38%;
+}
+
+.enemy-two {
+    left: 76%;
+    top: 55%;
+}
+
+.enemy-three {
+    left: 62%;
+    top: 72%;
+}
+
+
+/* =========================
+   BATTLE MESSAGE
+========================= */
+
+.battle-message {
+    position: absolute;
+
+    left: 50%;
+    bottom: 22px;
+
+    transform: translateX(-50%);
+
+    padding: 8px 15px;
+
+    border: 1px solid rgba(130, 96, 68, 0.4);
+
+    background:
+        rgba(25, 14, 8, 0.72);
+
+    font-family: "Special Elite", monospace;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+
+    color: rgba(218, 194, 170, 0.65);
+
+    z-index: 8;
+}
+
+
+/* =========================
+   VICTORY
+========================= */
+
+.victory-screen {
+    position: absolute;
+
+    inset: 0;
+
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+
+    text-align: center;
+
+    background:
+        rgba(15, 8, 5, 0.93);
+
+    z-index: 20;
+}
+
+.victory-screen.show {
+    display: flex;
+}
+
+.victory-label {
+    font-family: "Special Elite", monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+
+    color: rgba(205, 174, 145, 0.75);
+}
+
+.victory-screen h3 {
+    margin-top: 25px;
+
+    font-size: 32px;
+    font-weight: 400;
+
+    color: #e2d2c0;
+}
+
+.victory-screen p {
+    margin-top: 10px;
+
+    font-family: "Spectral", Georgia, serif;
+    color: rgba(220, 202, 183, 0.65);
+}
+
+.victory-screen .victory-joke {
+    max-width: 400px;
+    margin-top: 25px;
+
+    font-family: "IM Fell English", Georgia, serif;
+    font-size: 19px;
+    font-style: italic;
+
+    color: #c7aa90;
+}
+
+#playAgain {
+    margin-top: 28px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.war-footer {
+    margin-top: 45px;
+
+    text-align: center;
+
+    font-family: "Special Elite", monospace;
+    font-size: 9px;
+    letter-spacing: 5px;
+
+    color: rgba(211, 186, 160, 0.38);
+}
+
+.war-footer span {
+    display: block;
+
+    margin-top: 12px;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .war-section {
+        padding: 90px 16px 70px;
+    }
+
+    .war-header {
+        margin-bottom: 45px;
+    }
+
+    .war-header h2 {
+        font-size: 48px;
+    }
+
+    .war-header p {
+        font-size: 17px;
+    }
+
+    .war-header small {
+        font-size: 13px;
+    }
+
+    .war-game {
+        display: block;
+        min-height: auto;
+    }
+
+    .war-panel {
+        display: none;
+    }
+
+    .battlefield {
+        min-height: 520px;
+        height: 520px;
+    }
+
+    .war-unit {
+        width: 52px;
+        height: 52px;
+    }
+
+    .objective-point {
+        right: 13%;
+    }
+
+    .battle-message {
+        bottom: 15px;
+        font-size: 7px;
+    }
+
+    .victory-screen {
+        padding: 25px;
+    }
+
+    .victory-screen h3 {
+        font-size: 27px;
+    }
+
+}
 @media (max-width: 700px) {
 
     body::before {
