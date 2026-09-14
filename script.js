@@ -241,28 +241,30 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
         return bar;
     }
 
-    function updateHPBar(unit, hp) {
+  function updateHPBar(unit, hp) {
 
-        const bar =
-            unit.querySelector(".unit-hp");
+    const bar =
+        unit.querySelector(".unit-hp");
 
-        const fill =
-            bar?.querySelector(".unit-hp-fill");
+    const fill =
+        bar?.querySelector(".unit-hp-fill");
 
-        if (!fill) {
-            return;
-        }
-
-        const safeHP =
-            Math.max(
-                0,
-                Math.min(100, hp)
-            );
-
-        fill.style.width =
-            `${safeHP}%`;
+    if (!fill) {
+        return;
     }
 
+    const safeHP =
+        Math.max(
+            0,
+            Math.min(100, hp)
+        );
+
+    fill.style.setProperty(
+        "width",
+        `${safeHP}%`,
+        "important"
+    );
+}
     function removeHPBar(unit) {
 
         const bar =
