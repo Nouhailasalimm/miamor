@@ -326,6 +326,7 @@
     </section>
 
 
+
     <!-- =========================
          YOU PROBABLY DON'T KNOW THIS
     ========================== -->
@@ -338,10 +339,12 @@
                 YOU PROBABLY DON'T KNOW THIS
             </p>
 
+
             <h2>
                 There's something
                 <span>I haven't told you.</span>
             </h2>
+
 
             <button class="secret-card" id="secretCard">
 
@@ -360,11 +363,17 @@
     </section>
 
 
+
     <!-- =========================================================
          THE GREAT WAR
     ========================================================= -->
 
     <section class="war-section" id="greatWar">
+
+
+        <!-- =========================
+             WAR HEADER
+        ========================== -->
 
         <div class="war-header">
 
@@ -372,13 +381,16 @@
                 EXHIBIT 05
             </div>
 
+
             <h2>
                 THE GREAT <span>WAR.</span>
             </h2>
 
+
             <p>
                 A completely unnecessary tactical simulation.
             </p>
+
 
             <small>
                 Lead your forces. Capture the objective.
@@ -388,37 +400,72 @@
         </div>
 
 
+
+        <!-- =========================
+             GAME
+        ========================== -->
+
         <div class="war-game">
 
 
-            <!-- LEFT PANEL -->
+            <!-- =========================
+                 LEFT FIELD NOTES
+            ========================== -->
 
             <aside class="war-panel left-panel">
 
+
                 <div class="panel-title">
-                    OBJECTIVES
+                    FIELD OBJECTIVES
                 </div>
 
 
                 <div class="objective">
-                    <span id="objectiveOne">□</span>
-                    Capture the outpost
+
+                    <span id="objectiveOne">
+                        □
+                    </span>
+
+                    <div>
+                        <small>I</small>
+                        Capture the outpost
+                    </div>
+
                 </div>
 
 
                 <div class="objective">
-                    <span id="objectiveTwo">□</span>
-                    Defeat the enemy
+
+                    <span id="objectiveTwo">
+                        □
+                    </span>
+
+                    <div>
+                        <small>II</small>
+                        Defeat the enemy
+                    </div>
+
                 </div>
 
 
                 <div class="objective">
-                    <span id="objectiveThree">□</span>
-                    Hold the battlefield
+
+                    <span id="objectiveThree">
+                        □
+                    </span>
+
+                    <div>
+                        <small>III</small>
+                        Hold the battlefield
+                    </div>
+
                 </div>
 
 
-                <!-- UPDATED ARMY SECTION -->
+
+                <!-- =========================
+                     YOUR FORCES
+                ========================== -->
 
                 <div class="panel-title army-title">
                     YOUR FORCES
@@ -426,6 +473,7 @@
 
 
                 <div class="army-stat">
+
 
                     <div class="army-line">
 
@@ -452,12 +500,21 @@
 
                     </div>
 
+
                 </div>
 
 
+
+                <!-- =========================
+                     MORALE
+                ========================== -->
+
                 <div class="morale">
 
-                    MORALE
+                    <div class="morale-label">
+                        MORALE
+                    </div>
+
 
                     <div class="morale-bar">
 
@@ -467,13 +524,20 @@
 
                 </div>
 
+
             </aside>
 
 
 
-            <!-- GAME BOARD -->
+            <!-- =========================
+                 BATTLEFIELD
+            ========================== -->
 
-            <div class="battlefield" id="battlefield">
+            <div
+                class="battlefield"
+                id="battlefield"
+            >
+
 
                 <div class="terrain terrain-one"></div>
 
@@ -482,7 +546,13 @@
                 <div class="terrain terrain-three"></div>
 
 
-                <div class="objective-point" id="outpost">
+
+                <!-- OUTPOST -->
+
+                <div
+                    class="objective-point"
+                    id="outpost"
+                >
 
                     <span>
                         ⚑
@@ -495,7 +565,10 @@
                 </div>
 
 
-                <!-- PLAYER UNITS -->
+
+                <!-- =========================
+                     PLAYER UNITS
+                ========================== -->
 
                 <button
                     class="war-unit player-unit unit-one"
@@ -527,22 +600,36 @@
                 </button>
 
 
-                <!-- ENEMY UNITS -->
 
-                <div class="war-unit enemy-unit enemy-one">
+                <!-- =========================
+                     ENEMY UNITS
+                ========================== -->
+
+                <div
+                    class="war-unit enemy-unit enemy-one"
+                >
                     ☠
                 </div>
 
 
-                <div class="war-unit enemy-unit enemy-two">
+                <div
+                    class="war-unit enemy-unit enemy-two"
+                >
                     ☠
                 </div>
 
 
-                <div class="war-unit enemy-unit enemy-three">
+                <div
+                    class="war-unit enemy-unit enemy-three"
+                >
                     ☠
                 </div>
 
+
+
+                <!-- =========================
+                     BATTLE MESSAGE
+                ========================== -->
 
                 <div
                     class="battle-message"
@@ -551,6 +638,11 @@
                     SELECT A UNIT
                 </div>
 
+
+
+                <!-- =========================
+                     VICTORY
+                ========================== -->
 
                 <div
                     class="victory-screen"
@@ -561,18 +653,22 @@
                         ✦ VICTORY ✦
                     </div>
 
+
                     <h3>
                         The enemy has been defeated.
                     </h3>
+
 
                     <p>
                         The empire has been secured.
                     </p>
 
+
                     <p class="victory-joke">
                         Unfortunately, you still have a girlfriend
                         who made you a fucking website.
                     </p>
+
 
                     <button
                         id="playAgain"
@@ -583,36 +679,65 @@
 
                 </div>
 
+
             </div>
 
 
 
-            <!-- RIGHT PANEL -->
+            <!-- =========================
+                 RIGHT FIELD ORDERS
+            ========================== -->
 
             <aside class="war-panel right-panel">
 
+
                 <div class="panel-title">
-                    CONTROLS
+                    FIELD ORDERS
                 </div>
 
 
-                <p>
-                    🖱 Select a unit
-                </p>
+                <div class="field-order">
+
+                    <span class="order-key">
+                        SELECT
+                    </span>
+
+                    <p>
+                        Choose a soldier.
+                    </p>
+
+                </div>
 
 
-                <p>
-                    ↗ Tap a location to move
-                </p>
+                <div class="field-order">
+
+                    <span class="order-key">
+                        ADVANCE
+                    </span>
+
+                    <p>
+                        Click a position on the field.
+                    </p>
+
+                </div>
 
 
-                <p>
-                    ⚔ Attack enemies
-                </p>
+                <div class="field-order">
+
+                    <span class="order-key">
+                        ENGAGE
+                    </span>
+
+                    <p>
+                        Attack an enemy within range.
+                    </p>
+
+                </div>
+
 
 
                 <div class="panel-title tip-title">
-                    TIP
+                    CURRENT ORDER
                 </div>
 
 
@@ -620,11 +745,17 @@
                     Flank the enemy.
                 </p>
 
+
             </aside>
 
 
         </div>
 
+
+
+        <!-- =========================
+             WAR FOOTER
+        ========================== -->
 
         <div class="war-footer">
 
@@ -636,10 +767,13 @@
 
         </div>
 
+
     </section>
 
 
+
     <script src="script.js"></script>
+
 
 </body>
 
