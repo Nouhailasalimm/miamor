@@ -273,7 +273,7 @@ function attackEnemy(enemy) {
        DAMAGE
     ----------------------------------------- */
 
-    hp -= 30;
+    hp -= 20;
 
     hp = Math.max(0, hp);
 
