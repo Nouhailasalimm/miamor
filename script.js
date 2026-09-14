@@ -1,582 +1,1319 @@
-/* =========================================================
-   GREAT WAR — FINAL COMBAT + RESULT OVERRIDES
-========================================================= */
+const enterBtn = document.getElementById("enterBtn");
+const evidenceBtn = document.getElementById("evidenceBtn");
+const secretCard = document.getElementById("secretCard");
+const greekCard = document.querySelector(".greek-card");
 
 
 /* =========================================================
-   SOLDIER MOVEMENT
+   ENTER THE WEBSITE
 ========================================================= */
 
-.war-unit.moving {
-    animation:
-        soldierMove .38s ease-in-out !important;
+enterBtn.addEventListener("click", function () {
+
+    document.querySelector(".intro").style.display = "none";
+    document.querySelector(".welcome").style.display = "flex";
+
+});
+
+
+/* =========================================================
+   SHOW THE EVIDENCE
+========================================================= */
+
+evidenceBtn.addEventListener("click", function () {
+
+    document.querySelector(".evidence").scrollIntoView({
+        behavior: "smooth"
+    });
+
+});
+
+
+/* =========================================================
+   SECRET CARD
+========================================================= */
+
+secretCard.addEventListener("click", function () {
+
+    secretCard.classList.toggle("revealed");
+
+});
+
+
+/* =========================================================
+   GREEK GOD CARD
+========================================================= */
+
+greekCard.addEventListener("click", function () {
+
+    greekCard.classList.toggle("revealed");
+
+});
+
+
+/* =========================================================
+   GREAT WAR
+========================================================= */
+
+const battlefield = document.getElementById("battlefield");
+
+const playerUnits =
+    document.querySelectorAll(".player-unit");
+
+const enemyUnits =
+    document.querySelectorAll(".enemy-unit");
+
+const outpost =
+    document.getElementById("outpost");
+
+const battleMessage =
+    document.getElementById("battleMessage");
+
+const objectiveOne =
+    document.getElementById("objectiveOne");
+
+const objectiveTwo =
+    document.getElementById("objectiveTwo");
+
+const objectiveThree =
+    document.getElementById("objectiveThree");
+
+const armyCount =
+    document.getElementById("armyCount");
+
+const moraleFill =
+    document.getElementById("moraleFill");
+
+const victoryScreen =
+    document.getElementById("victoryScreen");
+
+const playAgain =
+    document.getElementById("playAgain");
+
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+let selectedUnit = null;
+
+let enemiesRemaining =
+    enemyUnits.length;
+
+let outpostCaptured = false;
+
+let morale = 100;
+
+let enemyTimer = null;
+
+let gameOver = false;
+
+
+/* =========================================================
+   UNIT STATS
+========================================================= */
+
+const PLAYER_MAX_HP = 100;
+const ENEMY_MAX_HP = 100;
+
+const PLAYER_DAMAGE = 20;
+const ENEMY_DAMAGE = 15;
+
+const PLAYER_ATTACK_RANGE = 125;
+const ENEMY_ATTACK_RANGE = 105;
+
+const ENEMY_MOVE_SPEED = 7;
+
+const ENEMY_ATTACK_COOLDOWN = 1300;
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function message(text) {
+
+    battleMessage.textContent = text;
+
 }
 
-@keyframes soldierMove {
 
-    0% {
-        transform: translateY(0) scale(1);
+/* =========================================================
+   POSITION
+========================================================= */
+
+function getPosition(element) {
+
+    return {
+
+        x:
+            element.offsetLeft +
+            element.offsetWidth / 2,
+
+        y:
+            element.offsetTop +
+            element.offsetHeight / 2
+
+    };
+
+}
+
+
+/* =========================================================
+   HP BAR
+========================================================= */
+
+function createHPBar(unit, hp, isEnemy) {
+
+    let hpBar =
+        unit.querySelector(".unit-hp");
+
+    if (!hpBar) {
+
+        hpBar =
+            document.createElement("div");
+
+        hpBar.className =
+            "unit-hp";
+
+        hpBar.innerHTML = `
+            <div class="unit-hp-fill"></div>
+        `;
+
+        unit.appendChild(hpBar);
+
+        hpBar.style.position = "absolute";
+        hpBar.style.left = "50%";
+        hpBar.style.top = "-8px";
+        hpBar.style.transform =
+            "translateX(-50%)";
+
+        hpBar.style.width = "52px";
+        hpBar.style.height = "5px";
+
+        hpBar.style.background =
+            "rgba(15, 8, 5, .9)";
+
+        hpBar.style.border =
+            "1px solid rgba(220, 190, 145, .65)";
+
+        hpBar.style.pointerEvents =
+            "none";
+
+        hpBar.style.zIndex = "60";
+
+        hpBar.style.boxSizing =
+            "border-box";
+
+        const fill =
+            hpBar.querySelector(
+                ".unit-hp-fill"
+            );
+
+        fill.style.display = "block";
+        fill.style.width = "100%";
+        fill.style.height = "100%";
+
+        fill.style.transition =
+            "width .35s ease";
+
+        fill.style.background =
+            isEnemy
+                ? "#8f3028"
+                : "#58748a";
+
     }
 
-    50% {
-        transform: translateY(-5px) scale(1.04);
+    updateHPBar(unit, hp);
+
+    return hpBar;
+
+}
+
+
+function updateHPBar(unit, hp) {
+
+    const hpBar =
+        unit.querySelector(".unit-hp");
+
+    if (!hpBar) {
+        return;
     }
 
-    100% {
-        transform: translateY(0) scale(1);
+    const fill =
+        hpBar.querySelector(
+            ".unit-hp-fill"
+        );
+
+    if (!fill) {
+        return;
+    }
+
+    fill.style.width =
+        Math.max(0, hp) + "%";
+
+}
+
+
+function removeHPBar(unit) {
+
+    const hpBar =
+        unit.querySelector(".unit-hp");
+
+    if (hpBar) {
+        hpBar.remove();
     }
 
 }
+
+
+/* =========================================================
+   SELECT PLAYER UNIT
+========================================================= */
+
+playerUnits.forEach(function (unit) {
+
+    unit.addEventListener("click", function (event) {
+
+        event.stopPropagation();
+
+        if (gameOver) {
+            return;
+        }
+
+        if (
+            unit.classList.contains(
+                "defeated"
+            )
+        ) {
+            return;
+        }
+
+        playerUnits.forEach(
+            function (otherUnit) {
+
+                otherUnit.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+        selectedUnit = unit;
+
+        unit.classList.add("selected");
+
+        message(
+            "UNIT SELECTED — CHOOSE YOUR DESTINATION"
+        );
+
+    });
+
+});
+
+
+/* =========================================================
+   MOVE PLAYER UNIT
+========================================================= */
+
+battlefield.addEventListener(
+    "click",
+    function (event) {
+
+        if (gameOver) {
+            return;
+        }
+
+        if (!selectedUnit) {
+
+            message(
+                "SELECT A UNIT FIRST"
+            );
+
+            return;
+        }
+
+        if (
+            event.target.classList.contains(
+                "enemy-unit"
+            ) ||
+            event.target.closest(
+                ".enemy-unit"
+            )
+        ) {
+            return;
+        }
+
+        const rect =
+            battlefield.getBoundingClientRect();
+
+        let x =
+            event.clientX -
+            rect.left;
+
+        let y =
+            event.clientY -
+            rect.top;
+
+        const unitWidth =
+            selectedUnit.offsetWidth;
+
+        const unitHeight =
+            selectedUnit.offsetHeight;
+
+        x = Math.max(
+            10,
+            Math.min(
+                x - unitWidth / 2,
+                battlefield.clientWidth -
+                unitWidth -
+                10
+            )
+        );
+
+        y = Math.max(
+            10,
+            Math.min(
+                y - unitHeight / 2,
+                battlefield.clientHeight -
+                unitHeight -
+                10
+            )
+        );
+
+        selectedUnit.style.left =
+            x + "px";
+
+        selectedUnit.style.top =
+            y + "px";
+
+
+        /* movement animation */
+
+        selectedUnit.classList.remove(
+            "moving"
+        );
+
+        void selectedUnit.offsetWidth;
+
+        selectedUnit.classList.add(
+            "moving"
+        );
+
+        setTimeout(function () {
+
+            selectedUnit.classList.remove(
+                "moving"
+            );
+
+        }, 400);
+
+
+        message("ADVANCE!");
+
+        checkOutpost();
+
+        checkNearbyEnemies();
+
+    }
+);
+
+
+/* =========================================================
+   CLICK ENEMY
+========================================================= */
+
+enemyUnits.forEach(function (enemy) {
+
+    enemy.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+            if (gameOver) {
+                return;
+            }
+
+            if (!selectedUnit) {
+
+                message(
+                    "SELECT A UNIT FIRST"
+                );
+
+                return;
+            }
+
+            if (
+                enemy.classList.contains(
+                    "defeated"
+                )
+            ) {
+                return;
+            }
+
+            const playerPosition =
+                getPosition(selectedUnit);
+
+            const enemyPosition =
+                getPosition(enemy);
+
+            const distance =
+                Math.hypot(
+                    playerPosition.x -
+                    enemyPosition.x,
+
+                    playerPosition.y -
+                    enemyPosition.y
+                );
+
+
+            if (
+                distance >
+                PLAYER_ATTACK_RANGE
+            ) {
+
+                message(
+                    "TOO FAR — MOVE CLOSER"
+                );
+
+                return;
+
+            }
+
+
+            attackEnemy(enemy);
+
+        }
+    );
+
+});
 
 
 /* =========================================================
    PLAYER ATTACK
 ========================================================= */
 
-.war-unit.attacking {
-    animation:
-        battleAttack .42s ease-in-out !important;
+function attackEnemy(enemy) {
 
-    z-index: 30 !important;
-}
-
-@keyframes battleAttack {
-
-    0% {
-        transform:
-            translateX(0)
-            scale(1);
+    if (!selectedUnit) {
+        return;
     }
 
-    35% {
-        transform:
-            translateX(9px)
-            scale(1.08);
+    if (
+        enemy.classList.contains(
+            "defeated"
+        )
+    ) {
+        return;
     }
 
-    55% {
-        transform:
-            translateX(13px)
-            scale(1.12);
+    if (
+        selectedUnit.classList.contains(
+            "defeated"
+        )
+    ) {
+        return;
     }
 
-    100% {
-        transform:
-            translateX(0)
-            scale(1);
+
+    /* prevent attack spam */
+
+    if (
+        selectedUnit.dataset.attacking ===
+        "true"
+    ) {
+        return;
     }
 
-}
+    selectedUnit.dataset.attacking =
+        "true";
 
 
-/* =========================================================
-   HIT REACTION
-========================================================= */
-
-.war-unit.hit {
-    animation:
-        battleHit .32s ease !important;
-}
-
-@keyframes battleHit {
-
-    0% {
-        transform: translateX(0);
-        filter: brightness(1);
-    }
-
-    25% {
-        transform: translateX(-7px);
-        filter: brightness(2);
-    }
-
-    50% {
-        transform: translateX(6px);
-        filter: brightness(1.45);
-    }
-
-    100% {
-        transform: translateX(0);
-        filter: brightness(1);
-    }
-
-}
-
-
-/* =========================================================
-   ATTACK FLASH
-========================================================= */
-
-.war-unit.attacking::after {
-
-    content: "✦" !important;
-
-    display: block !important;
-
-    position: absolute !important;
-
-    left: 62% !important;
-    top: 17% !important;
-
-    font-size: 27px !important;
-
-    color:
-        rgba(239, 220, 185, .95) !important;
-
-    pointer-events: none !important;
-
-    animation:
-        slashFlash .42s ease-out
-        forwards;
-
-    z-index: 80 !important;
-
-}
-
-@keyframes slashFlash {
-
-    0% {
-        opacity: 0;
-        transform:
-            scale(.25)
-            rotate(-20deg);
-    }
-
-    30% {
-        opacity: 1;
-        transform:
-            scale(1.15)
-            rotate(15deg);
-    }
-
-    100% {
-        opacity: 0;
-        transform:
-            scale(1.5)
-            rotate(35deg);
-    }
-
-}
-
-
-/* =========================================================
-   HP BARS
-========================================================= */
-
-.unit-hp {
-
-    pointer-events: none !important;
-
-    transition:
-        transform .2s ease;
-
-}
-
-.unit-hp-fill {
-
-    transition:
-        width .35s ease !important;
-
-}
-
-
-/* =========================================================
-   VICTORY SCREEN
-========================================================= */
-
-.victory-screen {
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(76, 49, 29, .96),
-            rgba(18, 10, 6, .985)
-        ) !important;
-
-    backdrop-filter:
-        blur(2px);
-
-    padding:
-        55px 40px !important;
-
-    overflow-y: auto;
-
-}
-
-
-/* parchment glow */
-
-.victory-screen::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 700px;
-    height: 700px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(190, 150, 105, .10),
-            transparent 65%
+    let hp =
+        parseInt(
+            enemy.dataset.hp ||
+            ENEMY_MAX_HP
         );
 
-    pointer-events: none;
+
+    createHPBar(
+        enemy,
+        hp,
+        true
+    );
+
+
+    /* player attack animation */
+
+    selectedUnit.classList.remove(
+        "attacking"
+    );
+
+    void selectedUnit.offsetWidth;
+
+    selectedUnit.classList.add(
+        "attacking"
+    );
+
+
+    /* enemy hit */
+
+    setTimeout(function () {
+
+        enemy.classList.remove(
+            "hit"
+        );
+
+        void enemy.offsetWidth;
+
+        enemy.classList.add(
+            "hit"
+        );
+
+    }, 120);
+
+
+    /* damage */
+
+    setTimeout(function () {
+
+        hp -= PLAYER_DAMAGE;
+
+        hp =
+            Math.max(
+                0,
+                hp
+            );
+
+        enemy.dataset.hp =
+            hp;
+
+        updateHPBar(
+            enemy,
+            hp
+        );
+
+
+        if (hp <= 0) {
+
+            defeatEnemy(enemy);
+
+        } else {
+
+            message(
+                "HIT — ENEMY " +
+                hp +
+                "% HP"
+            );
+
+        }
+
+    }, 250);
+
+
+    /* finish attack */
+
+    setTimeout(function () {
+
+        selectedUnit.classList.remove(
+            "attacking"
+        );
+
+        selectedUnit.dataset.attacking =
+            "false";
+
+    }, 500);
 
 }
 
 
 /* =========================================================
-   RESULT LABEL
+   DEFEAT ENEMY
 ========================================================= */
 
-.victory-label {
+function defeatEnemy(enemy) {
 
-    position: relative;
+    enemy.classList.add(
+        "defeated"
+    );
 
-    font-size:
-        10px !important;
+    enemy.style.opacity = "0";
 
-    letter-spacing:
-        6px !important;
+    enemy.style.pointerEvents =
+        "none";
 
-    color:
-        rgba(221, 193, 159, .72) !important;
+    enemiesRemaining--;
+
+    objectiveTwo.textContent =
+        enemiesRemaining === 0
+            ? "☑"
+            : "□";
+
+    message(
+        "ENEMY DEFEATED."
+    );
+
+    checkVictory();
 
 }
 
 
 /* =========================================================
-   RESULT TITLE
+   CHECK NEARBY ENEMIES
 ========================================================= */
 
-.victory-screen h3 {
+function checkNearbyEnemies() {
 
-    position: relative;
+    if (!selectedUnit) {
+        return;
+    }
 
-    margin-top:
-        18px !important;
+    enemyUnits.forEach(
+        function (enemy) {
 
-    font-size:
-        clamp(42px, 6vw, 72px) !important;
+            if (
+                enemy.classList.contains(
+                    "defeated"
+                )
+            ) {
+                return;
+            }
 
-    line-height:
-        .95 !important;
+            const playerPosition =
+                getPosition(
+                    selectedUnit
+                );
 
-    letter-spacing:
-        1px !important;
+            const enemyPosition =
+                getPosition(enemy);
 
-    color:
-        #eadcca !important;
+            const distance =
+                Math.hypot(
+                    playerPosition.x -
+                    enemyPosition.x,
 
-    text-shadow:
-        0 4px 25px
-        rgba(0,0,0,.55);
+                    playerPosition.y -
+                    enemyPosition.y
+                );
+
+
+            if (
+                distance <
+                PLAYER_ATTACK_RANGE
+            ) {
+
+                message(
+                    "ENEMY IN RANGE — ATTACK!"
+                );
+
+            }
+
+        }
+    );
 
 }
 
 
 /* =========================================================
-   SUBTITLE
+   OUTPOST
 ========================================================= */
 
-.victory-subtitle {
+function checkOutpost() {
 
-    position: relative;
+    if (outpostCaptured) {
+        return;
+    }
 
-    margin-top:
-        15px !important;
+    if (!selectedUnit) {
+        return;
+    }
 
-    font-family:
-        "IM Fell English",
-        Georgia,
-        serif !important;
 
-    font-size:
-        18px !important;
+    const playerPosition =
+        getPosition(
+            selectedUnit
+        );
 
-    font-style:
-        italic;
+    const outpostPosition =
+        getPosition(
+            outpost
+        );
 
-    color:
-        rgba(225, 205, 182, .68)
-        !important;
+    const distance =
+        Math.hypot(
+            playerPosition.x -
+            outpostPosition.x,
+
+            playerPosition.y -
+            outpostPosition.y
+        );
+
+
+    if (distance < 90) {
+
+        outpostCaptured =
+            true;
+
+        objectiveOne.textContent =
+            "☑";
+
+        outpost.classList.add(
+            "captured"
+        );
+
+        message(
+            "OUTPOST CAPTURED."
+        );
+
+        checkVictory();
+
+    }
 
 }
 
 
 /* =========================================================
-   DIVIDER
+   FIND CLOSEST PLAYER
 ========================================================= */
 
-.victory-divider {
+function findClosestPlayer(enemy) {
 
-    position: relative;
+    const livingPlayers =
+        Array.from(
+            playerUnits
+        ).filter(
+            function (unit) {
 
-    margin:
-        22px 0;
+                return !unit.classList.contains(
+                    "defeated"
+                );
 
-    color:
-        rgba(211, 180, 145, .32);
+            }
+        );
 
-    font-family:
-        "Special Elite",
-        monospace;
 
-    font-size:
-        9px;
+    if (
+        livingPlayers.length === 0
+    ) {
+
+        return null;
+
+    }
+
+
+    let closestPlayer =
+        livingPlayers[0];
+
+    let closestDistance =
+        Infinity;
+
+
+    livingPlayers.forEach(
+        function (player) {
+
+            const playerPosition =
+                getPosition(player);
+
+            const enemyPosition =
+                getPosition(enemy);
+
+            const distance =
+                Math.hypot(
+                    playerPosition.x -
+                    enemyPosition.x,
+
+                    playerPosition.y -
+                    enemyPosition.y
+                );
+
+
+            if (
+                distance <
+                closestDistance
+            ) {
+
+                closestDistance =
+                    distance;
+
+                closestPlayer =
+                    player;
+
+            }
+
+        }
+    );
+
+
+    return {
+
+        unit:
+            closestPlayer,
+
+        distance:
+            closestDistance
+
+    };
 
 }
 
 
 /* =========================================================
-   RESULT STATS
+   ENEMY MOVEMENT
 ========================================================= */
 
-.victory-stats {
+function moveEnemies() {
 
-    position: relative;
+    if (gameOver) {
+        return;
+    }
 
-    width:
-        min(100%, 560px);
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap:
-        12px;
-
-    margin:
-        4px auto 0;
-
-}
+    if (enemiesRemaining === 0) {
+        return;
+    }
 
 
-/* individual result card */
+    enemyUnits.forEach(
+        function (enemy) {
 
-.victory-stat {
+            if (
+                enemy.classList.contains(
+                    "defeated"
+                )
+            ) {
+                return;
+            }
 
-    padding:
-        17px 20px;
-
-    border:
-        1px solid
-        rgba(190, 157, 121, .22);
-
-    background:
-        rgba(12, 7, 4, .34);
-
-    text-align:
-        left;
-
-}
-
-
-/* stat label */
-
-.victory-stat span {
-
-    display:
-        block;
-
-    margin-bottom:
-        7px;
-
-    font-family:
-        "Special Elite",
-        monospace;
-
-    font-size:
-        7px;
-
-    letter-spacing:
-        2px;
-
-    color:
-        rgba(211, 182, 151, .48);
-
-}
+            if (
+                enemy.dataset.attacking ===
+                "true"
+            ) {
+                return;
+            }
 
 
-/* stat value */
+            const target =
+                findClosestPlayer(
+                    enemy
+                );
 
-.victory-stat strong {
 
-    font-family:
-        "IM Fell English",
-        Georgia,
-        serif;
+            if (!target) {
+                return;
+            }
 
-    font-size:
-        17px;
 
-    font-weight:
-        400;
+            const closestPlayer =
+                target.unit;
 
-    color:
-        rgba(233, 216, 195, .84);
+            const closestDistance =
+                target.distance;
+
+
+            if (
+                closestDistance <=
+                ENEMY_ATTACK_RANGE
+            ) {
+
+                enemyAttack(enemy);
+
+                return;
+
+            }
+
+
+            const playerPosition =
+                getPosition(
+                    closestPlayer
+                );
+
+            const enemyPosition =
+                getPosition(enemy);
+
+
+            const dx =
+                playerPosition.x -
+                enemyPosition.x;
+
+            const dy =
+                playerPosition.y -
+                enemyPosition.y;
+
+
+            const distance =
+                Math.hypot(
+                    dx,
+                    dy
+                );
+
+
+            if (
+                distance === 0
+            ) {
+                return;
+            }
+
+
+            const step =
+                Math.min(
+                    ENEMY_MOVE_SPEED,
+                    distance - 5
+                );
+
+
+            const newX =
+                enemy.offsetLeft +
+                (dx / distance) *
+                step;
+
+            const newY =
+                enemy.offsetTop +
+                (dy / distance) *
+                step;
+
+
+            enemy.style.left =
+                Math.max(
+                    5,
+                    Math.min(
+                        newX,
+                        battlefield.clientWidth -
+                        enemy.offsetWidth -
+                        5
+                    )
+                ) + "px";
+
+
+            enemy.style.top =
+                Math.max(
+                    5,
+                    Math.min(
+                        newY,
+                        battlefield.clientHeight -
+                        enemy.offsetHeight -
+                        5
+                    )
+                ) + "px";
+
+        }
+    );
 
 }
 
 
 /* =========================================================
-   JOKE
+   ENEMY ATTACK
 ========================================================= */
 
-.victory-screen .victory-joke {
+function enemyAttack(enemy) {
 
-    position:
-        relative;
+    if (gameOver) {
+        return;
+    }
 
-    max-width:
-        500px;
+    if (
+        enemy.classList.contains(
+            "defeated"
+        )
+    ) {
+        return;
+    }
 
-    margin:
-        25px auto 0;
+    if (
+        enemy.dataset.attacking ===
+        "true"
+    ) {
+        return;
+    }
 
-    font-size:
-        17px !important;
 
-    line-height:
-        1.55 !important;
+    const target =
+        findClosestPlayer(
+            enemy
+        );
 
-    color:
-        #c7aa90 !important;
+
+    if (!target) {
+        return;
+    }
+
+
+    const player =
+        target.unit;
+
+
+    if (
+        target.distance >
+        ENEMY_ATTACK_RANGE
+    ) {
+        return;
+    }
+
+
+    enemy.dataset.attacking =
+        "true";
+
+
+    /* enemy attack animation */
+
+    enemy.classList.remove(
+        "attacking"
+    );
+
+    void enemy.offsetWidth;
+
+    enemy.classList.add(
+        "attacking"
+    );
+
+
+    /* player gets hit */
+
+    setTimeout(function () {
+
+        player.classList.remove(
+            "hit"
+        );
+
+        void player.offsetWidth;
+
+        player.classList.add(
+            "hit"
+        );
+
+    }, 150);
+
+
+    /* damage lands */
+
+    setTimeout(function () {
+
+        let hp =
+            parseInt(
+                player.dataset.hp ||
+                PLAYER_MAX_HP
+            );
+
+
+        hp -= ENEMY_DAMAGE;
+
+        hp =
+            Math.max(
+                0,
+                hp
+            );
+
+
+        player.dataset.hp =
+            hp;
+
+
+        createHPBar(
+            player,
+            hp,
+            false
+        );
+
+
+        updateHPBar(
+            player,
+            hp
+        );
+
+
+        morale -= 8;
+
+        morale =
+            Math.max(
+                0,
+                morale
+            );
+
+
+        moraleFill.style.width =
+            morale + "%";
+
+
+        message(
+            "ENEMY ATTACKS — YOUR UNIT " +
+            hp +
+            "% HP"
+        );
+
+
+        if (hp <= 0) {
+
+            defeatPlayer(
+                player
+            );
+
+        }
+
+    }, 250);
+
+
+    /* cooldown */
+
+    setTimeout(function () {
+
+        enemy.classList.remove(
+            "attacking"
+        );
+
+        enemy.dataset.attacking =
+            "false";
+
+    }, ENEMY_ATTACK_COOLDOWN);
 
 }
 
 
 /* =========================================================
-   SPOILS BUTTON
+   DEFEAT PLAYER
 ========================================================= */
 
-#claimSpoils {
+function defeatPlayer(player) {
 
-    position:
-        relative;
+    if (
+        player.classList.contains(
+            "defeated"
+        )
+    ) {
+        return;
+    }
 
-    margin-top:
-        27px;
 
-    border-radius:
-        3px;
+    player.classList.add(
+        "defeated"
+    );
 
-    padding:
-        13px 24px;
+    player.style.pointerEvents =
+        "none";
 
-    background:
-        rgba(79, 50, 30, .55);
+    player.style.opacity =
+        "0";
+
+
+    removeHPBar(player);
+
+
+    armyCount.textContent =
+        Math.max(
+            0,
+            parseInt(
+                armyCount.textContent ||
+                "3"
+            ) - 1
+        );
+
+
+    if (
+        selectedUnit === player
+    ) {
+
+        selectedUnit =
+            null;
+
+    }
+
+
+    message(
+        "A SOLDIER HAS FALLEN."
+    );
+
+
+    checkDefeat();
 
 }
 
 
 /* =========================================================
-   SPOILS REVEAL
+   DEFEAT
 ========================================================= */
 
-.victory-spoils {
+function checkDefeat() {
 
-    position:
-        relative;
+    const livingPlayers =
+        Array.from(
+            playerUnits
+        ).filter(
+            function (unit) {
 
-    width:
-        min(100%, 480px);
+                return !unit.classList.contains(
+                    "defeated"
+                );
 
-    max-height:
-        0;
-
-    overflow:
-        hidden;
-
-    opacity:
-        0;
-
-    transform:
-        translateY(10px);
-
-    transition:
-        max-height .55s ease,
-        opacity .4s ease,
-        transform .4s ease;
-
-}
+            }
+        );
 
 
-/* revealed */
+    if (
+        livingPlayers.length === 0
+    ) {
 
-.victory-spoils.revealed {
+        gameOver = true;
 
-    max-height:
-        220px;
+        clearInterval(
+            enemyTimer
+        );
 
-    opacity:
-        1;
+        message(
+            "YOUR ARMY HAS FALLEN."
+        );
 
-    transform:
-        translateY(0);
+        return;
 
-    margin-top:
-        24px;
+    }
 
-    padding:
-        20px;
 
-    border:
-        1px solid
-        rgba(191, 158, 121, .22);
+    if (morale <= 0) {
 
-    background:
-        rgba(13, 7, 4, .42);
+        message(
+            "YOUR ARMY HAS LOST MORALE."
+        );
+
+    }
 
 }
 
 
-/* spoils title */
+/* =========================================================
+   VICTORY
+========================================================= */
 
-.spoils-label {
+function checkVictory() {
 
-    font-family:
-        "Special Elite",
-        monospace;
-
-    font-size:
-        8px;
-
-    letter-spacing:
-        3px;
-
-    color:
-        rgba(214, 184, 151, .58);
-
-}
+    if (
+        !outpostCaptured ||
+        enemiesRemaining > 0
+    ) {
+        return;
+    }
 
 
-/* spoils text */
+    objectiveThree.textContent =
+        "☑";
 
-.victory-spoils p {
 
-    margin-top:
-        9px;
+    message(
+        "VICTORY."
+    );
 
-    font-family:
-        "IM Fell English",
-        Georgia,
-        serif;
 
-    font-size:
-        16px;
+    gameOver = true;
 
-    line-height:
-        1.45;
+    clearInterval(
+        enemyTimer
+    );
 
-    color:
-        rgba(227, 208, 186, .67);
+
+    setTimeout(function () {
+
+        victoryScreen.classList.add(
+            "show"
+        );
+
+    }, 700);
 
 }
 
@@ -585,54 +1322,289 @@
    PLAY AGAIN
 ========================================================= */
 
-#playAgain {
+playAgain.addEventListener(
+    "click",
+    function () {
 
-    position:
-        relative;
+        resetGame();
 
-    margin-top:
-        23px;
+    }
+);
 
-    border-radius:
-        3px;
 
-    padding:
-        11px 22px;
+/* =========================================================
+   RESET GAME
+========================================================= */
 
-    font-size:
-        9px;
+function resetGame() {
 
-    opacity:
-        .7;
+    clearInterval(
+        enemyTimer
+    );
+
+
+    selectedUnit =
+        null;
+
+    enemiesRemaining =
+        enemyUnits.length;
+
+    outpostCaptured =
+        false;
+
+    morale =
+        100;
+
+    gameOver =
+        false;
+
+
+    moraleFill.style.width =
+        "100%";
+
+
+    victoryScreen.classList.remove(
+        "show"
+    );
+
+
+    objectiveOne.textContent =
+        "□";
+
+    objectiveTwo.textContent =
+        "□";
+
+    objectiveThree.textContent =
+        "□";
+
+
+    armyCount.textContent =
+        "3";
+
+
+    /* reset players */
+
+    playerUnits.forEach(
+        function (unit, index) {
+
+            unit.classList.remove(
+                "selected"
+            );
+
+            unit.classList.remove(
+                "defeated"
+            );
+
+            unit.classList.remove(
+                "attacking"
+            );
+
+            unit.classList.remove(
+                "hit"
+            );
+
+            unit.classList.remove(
+                "moving"
+            );
+
+
+            unit.dataset.hp =
+                PLAYER_MAX_HP;
+
+            unit.dataset.attacking =
+                "false";
+
+
+            unit.style.opacity =
+                "1";
+
+            unit.style.pointerEvents =
+                "auto";
+
+
+            removeHPBar(
+                unit
+            );
+
+
+            const positions = [
+
+                {
+                    left: "22%",
+                    top: "58%"
+                },
+
+                {
+                    left: "31%",
+                    top: "66%"
+                },
+
+                {
+                    left: "25%",
+                    top: "76%"
+                }
+
+            ];
+
+
+            unit.style.left =
+                positions[index].left;
+
+            unit.style.top =
+                positions[index].top;
+
+        }
+    );
+
+
+    /* reset enemies */
+
+    enemyUnits.forEach(
+        function (enemy, index) {
+
+            enemy.classList.remove(
+                "defeated"
+            );
+
+            enemy.classList.remove(
+                "attacking"
+            );
+
+            enemy.classList.remove(
+                "hit"
+            );
+
+
+            enemy.dataset.hp =
+                ENEMY_MAX_HP;
+
+            enemy.dataset.attacking =
+                "false";
+
+
+            enemy.style.opacity =
+                "1";
+
+            enemy.style.pointerEvents =
+                "auto";
+
+
+            removeHPBar(
+                enemy
+            );
+
+
+            const positions = [
+
+                {
+                    left: "67%",
+                    top: "38%"
+                },
+
+                {
+                    left: "76%",
+                    top: "55%"
+                },
+
+                {
+                    left: "62%",
+                    top: "72%"
+                }
+
+            ];
+
+
+            enemy.style.left =
+                positions[index].left;
+
+            enemy.style.top =
+                positions[index].top;
+
+
+            createHPBar(
+                enemy,
+                ENEMY_MAX_HP,
+                true
+            );
+
+        }
+    );
+
+
+    if (outpost) {
+
+        outpost.classList.remove(
+            "captured"
+        );
+
+    }
+
+
+    message(
+        "SELECT A UNIT"
+    );
+
+
+    startEnemyMovement();
 
 }
 
 
 /* =========================================================
-   MOBILE RESULT
+   ENEMY TIMER
 ========================================================= */
 
-@media (max-width: 700px) {
+function startEnemyMovement() {
 
-    .victory-screen {
+    clearInterval(
+        enemyTimer
+    );
 
-        padding:
-            35px 20px !important;
 
-    }
-
-    .victory-stats {
-
-        grid-template-columns:
-            1fr;
-
-    }
-
-    .victory-screen h3 {
-
-        font-size:
-            42px !important;
-
-    }
+    enemyTimer =
+        setInterval(
+            moveEnemies,
+            900
+        );
 
 }
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+playerUnits.forEach(
+    function (unit) {
+
+        unit.dataset.hp =
+            PLAYER_MAX_HP;
+
+        unit.dataset.attacking =
+            "false";
+
+    }
+);
+
+
+enemyUnits.forEach(
+    function (enemy) {
+
+        enemy.dataset.hp =
+            ENEMY_MAX_HP;
+
+        enemy.dataset.attacking =
+            "false";
+
+
+        createHPBar(
+            enemy,
+            ENEMY_MAX_HP,
+            true
+        );
+
+    }
+);
+
+
+startEnemyMovement();
