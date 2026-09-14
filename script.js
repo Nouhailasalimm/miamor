@@ -1914,6 +1914,9 @@ function showVictory() {
         return;
     }
 
+    if (battlefield) {
+        battlefield.classList.add("battle-ended");
+    }
 
     victoryScreen.innerHTML = `
 
