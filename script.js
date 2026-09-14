@@ -2016,7 +2016,9 @@ function resetGame() {
         enemyTimer
     );
 
-
+    if (battlefield) {
+        battlefield.classList.remove("battle-ended");
+    }
     selectedUnit =
         null;
 
