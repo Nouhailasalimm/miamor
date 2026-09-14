@@ -1,0 +1,1397 @@
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #160e0a;
+    color: #eee6dc;
+    font-family: "Spectral", Georgia, serif;
+}
+
+
+/* =========================================================
+   ARCHAEOLOGY BACKGROUND
+========================================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+
+    background-image:
+        linear-gradient(
+            rgba(18, 10, 7, 0.70),
+            rgba(18, 10, 7, 0.82)
+        ),
+        url("images/archelogybacround44.jpg");
+
+    background-size: cover;
+background-position: center 15%;
+    background-repeat: no-repeat;
+
+    filter: sepia(0.18) saturate(0.78);
+    transform: scale(1.02);
+}
+
+
+/* dark atmospheric layer */
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 15%,
+            rgba(0, 0, 0, 0.28) 65%,
+            rgba(0, 0, 0, 0.72) 100%
+        );
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro {
+    position: relative;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 60px 25px;
+    overflow: hidden;
+}
+
+
+.intro::before {
+    content: "";
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(91, 55, 34, 0.18),
+            transparent 68%
+        );
+
+    filter: blur(35px);
+    pointer-events: none;
+}
+
+
+.intro-content {
+    position: relative;
+    z-index: 5;
+
+    max-width: 950px;
+
+    animation: entrance 1.5s ease forwards;
+}
+
+
+/* =========================================================
+   RUSTIC LABELS
+========================================================= */
+
+.eyebrow {
+    margin-bottom: 30px;
+
+    font-family: "Special Elite", monospace;
+    font-size: 10px;
+
+    text-transform: uppercase;
+    letter-spacing: 4px;
+
+    color: rgba(224, 202, 179, 0.58);
+}
+
+
+/* =========================================================
+   CAT
+========================================================= */
+
+.heart {
+    display: inline-block;
+
+    margin-bottom: 25px;
+    font-size: 64px;
+
+    filter: sepia(0.15);
+
+    animation: heartbeat 3s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   MAIN HEADINGS
+========================================================= */
+
+h1,
+h2,
+h3 {
+    font-family: "IM Fell English", Georgia, serif;
+}
+
+
+h1 {
+    max-width: 900px;
+
+    font-size: clamp(52px, 7vw, 94px);
+    font-weight: 400;
+
+    line-height: 0.94;
+    letter-spacing: -2px;
+
+    text-shadow:
+        0 3px 25px rgba(0, 0, 0, 0.55);
+}
+
+
+h1 span {
+    display: block;
+
+    margin-top: 12px;
+
+    color: #c9b3a0;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   INTRO SUBTITLE
+========================================================= */
+
+.subtitle {
+    max-width: 650px;
+
+    margin: 38px auto 0;
+
+    color: rgba(235, 224, 213, 0.72);
+
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+
+.subtitle em {
+    color: #d5bda7;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+    position: relative;
+
+    margin-top: 38px;
+
+    padding: 15px 30px;
+
+    border: 1px solid rgba(211, 181, 155, 0.42);
+    border-radius: 100px;
+
+    background:
+        rgba(22, 12, 8, 0.55);
+
+    color: #eee6dc;
+
+    font-family: "Special Elite", monospace;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        background 0.35s ease;
+}
+
+
+button:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(224, 198, 174, 0.8);
+
+    background:
+        rgba(90, 52, 31, 0.45);
+}
+
+
+/* =========================================================
+   TINY NOTE
+========================================================= */
+
+.tiny-note {
+    margin-top: 20px;
+
+    font-family: "Special Elite", monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+
+    color: rgba(220, 199, 181, 0.34);
+}
+
+
+/* =========================================================
+   FLOATING SYMBOLS
+========================================================= */
+
+.floating-symbol {
+    position: absolute;
+
+    color: rgba(213, 186, 163, 0.22);
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+.symbol-one {
+    top: 17%;
+    left: 15%;
+
+    font-size: 25px;
+
+    animation: floatOne 7s ease-in-out infinite;
+}
+
+
+.symbol-two {
+    top: 28%;
+    right: 17%;
+
+    font-size: 13px;
+
+    animation: floatTwo 8s ease-in-out infinite;
+}
+
+
+.symbol-three {
+    bottom: 19%;
+    left: 22%;
+
+    font-size: 18px;
+
+    animation: floatTwo 9s ease-in-out infinite reverse;
+}
+
+
+.symbol-four {
+    bottom: 28%;
+    right: 23%;
+
+    font-size: 20px;
+
+    animation: floatOne 10s ease-in-out infinite reverse;
+}
+
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.welcome {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 60px 25px;
+
+    background:
+        linear-gradient(
+            rgba(20, 11, 7, 0.58),
+            rgba(20, 11, 7, 0.72)
+        );
+}
+
+
+.welcome-content {
+    max-width: 900px;
+
+    animation: welcomeEntrance 1.4s ease forwards;
+}
+
+
+.welcome .eyebrow {
+    margin-bottom: 42px;
+
+    font-size: 11px;
+    letter-spacing: 7px;
+}
+
+
+.welcome h2 {
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    font-size: clamp(46px, 6vw, 82px);
+    font-weight: 400;
+
+    line-height: 0.96;
+    letter-spacing: -1px;
+
+    text-shadow:
+        0 4px 30px rgba(0, 0, 0, 0.6);
+}
+
+
+.welcome h2 span {
+    display: block;
+
+    margin-top: 10px;
+
+    color: #c5a991;
+    font-style: italic;
+}
+
+
+.welcome-text {
+    margin-top: 48px;
+
+    color: rgba(233, 220, 207, 0.68);
+
+    font-size: 17px;
+    line-height: 1.65;
+}
+
+
+.welcome-text strong {
+    color: #f0e3d6;
+    font-weight: 600;
+}
+
+
+.welcome-text em {
+    color: #d1b49a;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   EVIDENCE BUTTON
+========================================================= */
+
+#evidenceBtn {
+    margin-top: 40px;
+
+    padding: 14px 25px;
+
+    border: 1px solid rgba(210, 180, 153, 0.35);
+    border-radius: 4px;
+
+    background:
+        rgba(28, 15, 9, 0.62);
+
+    color: rgba(235, 220, 204, 0.76);
+
+    font-family: "Special Elite", monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+
+#evidenceBtn:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(224, 197, 171, 0.75);
+
+    background:
+        rgba(93, 56, 35, 0.35);
+}
+
+
+/* =========================================================
+   EVIDENCE SECTION
+========================================================= */
+
+.evidence {
+    min-height: 100vh;
+
+    padding: 130px 7vw;
+
+    background:
+        linear-gradient(
+            rgba(14, 8, 5, 0.67),
+            rgba(14, 8, 5, 0.72)
+        );
+}
+
+
+.evidence-header {
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+
+.evidence-header .eyebrow {
+    margin-bottom: 32px;
+}
+
+
+.evidence h2 {
+    font-size: clamp(52px, 7vw, 92px);
+
+    font-weight: 400;
+
+    line-height: 0.94;
+    letter-spacing: -2px;
+}
+
+
+.evidence h2 span {
+    display: block;
+
+    color: #c6aa91;
+    font-style: italic;
+}
+
+
+.evidence-intro {
+    margin-top: 32px;
+
+    color: rgba(225, 210, 196, 0.61);
+
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   NOTEBOOK CARD GRID
+========================================================= */
+
+.evidence-grid {
+    max-width: 1120px;
+
+    margin: 90px auto 0;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 30px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   RUSTIC NOTEBOOK CARDS
+========================================================= */
+
+.evidence-card {
+    position: relative;
+
+    min-height: 390px;
+
+    padding: 34px 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: flex-start;
+
+    gap: 28px;
+
+    overflow: hidden;
+
+    border-radius: 15px;
+
+    border: 1px solid rgba(89, 59, 40, 0.55);
+
+    background-color: #7b5842;
+
+    background-image:
+        linear-gradient(
+            rgba(104, 70, 49, 0.08),
+            rgba(47, 28, 18, 0.18)
+        ),
+        url("images/linedbrownnotebook.jpg");
+
+    background-size: cover;
+    background-position: center;
+
+    color: #24170f;
+
+    box-shadow:
+        0 25px 45px rgba(0, 0, 0, 0.55),
+        inset 0 0 35px rgba(72, 39, 22, 0.18);
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+
+/* worn paper edge */
+
+.evidence-card::before {
+    content: "";
+
+    position: absolute;
+    inset: 7px;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(255, 239, 216, 0.16);
+
+    pointer-events: none;
+
+    z-index: 2;
+}
+
+
+/* catalogue marking */
+
+.evidence-card::after {
+    content: "FIELD NOTE / 01";
+
+    position: absolute;
+
+    right: 18px;
+    bottom: 14px;
+
+    font-family: "Special Elite", monospace;
+
+    font-size: 7px;
+    letter-spacing: 1.5px;
+
+    color: rgba(48, 29, 18, 0.45);
+
+    z-index: 5;
+}
+
+
+.evidence-card:hover {
+    transform:
+        translateY(-10px)
+        rotate(0deg);
+
+    box-shadow:
+        0 35px 55px rgba(0, 0, 0, 0.65),
+        inset 0 0 35px rgba(72, 39, 22, 0.12);
+}
+
+
+/* =========================================================
+   INDIVIDUAL NOTEBOOK ANGLES
+========================================================= */
+
+.dream-card {
+    transform: rotate(-1.5deg);
+
+    background-position: left center;
+}
+
+
+.greek-card {
+    transform: rotate(1.2deg);
+
+    background-image:
+        linear-gradient(
+            rgba(18, 10, 7, 1),
+            rgba(18, 10, 7, 1)
+        );
+
+    color: #eee6dc;
+}
+
+
+.spain-card {
+    transform: rotate(-0.7deg);
+
+    background-position: right center;
+}
+
+
+/* =========================================================
+   CARD TEXT
+========================================================= */
+
+.evidence-card > span {
+    position: relative;
+
+    z-index: 10;
+
+    display: inline-block;
+
+    align-self: flex-start;
+
+    padding: 6px 9px;
+
+    margin: -6px 0 0 -8px;
+
+    border-radius: 4px;
+
+    font-family: "Special Elite", monospace;
+
+    font-size: 9px;
+    letter-spacing: 1.5px;
+
+    /* TONED DOWN — faded old paper label */
+    color: rgba(46, 29, 19, 0.62);
+
+    background: rgba(215, 199, 174, 0.42);
+
+    box-shadow:
+        0 1px 4px rgba(45, 25, 12, 0.05);
+}
+
+
+.evidence-card p {
+    position: relative;
+
+    z-index: 5;
+
+    max-width: 320px;
+
+    padding: 10px 12px;
+
+    margin-left: -12px;
+
+    border-radius: 6px;
+
+    font-family: "IM Fell English", Georgia, serif;
+
+    font-size: 23px;
+
+    line-height: 1.16;
+
+    color: #21140d;
+
+    /* TONED DOWN — blends into notebook */
+    background: rgba(225, 211, 188, 0.58);
+
+    box-shadow:
+        0 2px 8px rgba(58, 34, 20, 0.04);
+
+    text-shadow: none;
+}
+
+
+.dream-card p {
+    font-size: 24px;
+}
+
+
+.spain-card p {
+    font-size: 22px;
+}
+
+
+.evidence-card small {
+    position: relative;
+
+    z-index: 5;
+
+    display: block;
+
+    max-width: 320px;
+
+    margin-top: 10px;
+
+    padding: 7px 10px;
+
+    margin-left: -10px;
+
+    border-radius: 5px;
+
+    font-family: "Spectral", Georgia, serif;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+    color: rgba(40, 24, 15, 0.78);
+
+    /* TONED DOWN — faded note paper */
+    background: rgba(225, 211, 188, 0.42);
+
+    text-shadow: none;
+}
+
+
+.greek-card p,
+.greek-card small {
+    background: transparent;
+
+    padding: 0;
+
+    margin-left: 0;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   GREEK GOD CARD
+========================================================= */
+
+.greek-card > span,
+.greek-card p,
+.greek-card small {
+    color: #eee6dc;
+
+    text-shadow: none;
+}
+
+
+.greek-card::after {
+    color: rgba(221, 194, 170, 0.4);
+}
+
+
+.greek-card:hover {
+    background-image:
+        linear-gradient(
+            rgba(17, 9, 6, 0.22),
+            rgba(17, 9, 6, 0.48)
+        ),
+        url("images/greekgod.jpeg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+}
+
+
+.greek-card p {
+    font-size: 30px;
+
+    line-height: 1.02;
+
+    letter-spacing: -0.5px;
+}
+
+
+/* =========================================================
+   MUSIC SECTION
+========================================================= */
+
+.music-section {
+    min-height: 90vh;
+
+    padding: 130px 7vw;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            rgba(13, 7, 4, 0.68),
+            rgba(13, 7, 4, 0.78)
+        );
+}
+
+
+.music-content {
+    width: 100%;
+
+    max-width: 900px;
+
+    text-align: center;
+}
+
+
+.music-content h2 {
+    font-size: clamp(46px, 6vw, 80px);
+
+    line-height: 0.95;
+
+    letter-spacing: -1px;
+
+    font-weight: 400;
+
+    margin: 20px 0 32px;
+}
+
+
+.music-content h2 span {
+    display: block;
+
+    color: #c7aa90;
+
+    font-style: italic;
+}
+
+
+.music-intro {
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    color: rgba(229, 214, 199, 0.67);
+
+    margin-bottom: 50px;
+}
+
+
+/* =========================================================
+   MUSIC NOTE
+========================================================= */
+
+.music-player {
+    position: relative;
+
+    max-width: 680px;
+
+    margin: 0 auto;
+
+    padding: 38px;
+
+    border-radius: 14px;
+
+    border: 1px solid rgba(91, 60, 39, 0.55);
+
+    background-image:
+        linear-gradient(
+            rgba(104, 70, 49, 0.10),
+            rgba(47, 28, 18, 0.20)
+        ),
+        url("images/linedbrownnotebook.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    color: #21140d;
+
+    text-align: left;
+
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.6);
+
+    transform: rotate(-0.6deg);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+
+.music-player:hover {
+    transform:
+        translateY(-6px)
+        rotate(0deg);
+
+    box-shadow:
+        0 32px 60px rgba(0, 0, 0, 0.7);
+}
+
+
+.music-player::before {
+    content: "FIELD RECORDING / 001";
+
+    position: absolute;
+
+    top: 14px;
+    right: 18px;
+
+    font-family: "Special Elite", monospace;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+
+    color: rgba(48, 29, 18, 0.45);
+}
+
+
+.music-label {
+    font-family: "Special Elite", monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    color: rgba(48, 29, 18, 0.55);
+}
+
+
+.music-info h3 {
+    margin: 13px 0 26px;
+
+    font-family: "IM Fell English", Georgia, serif;
+
+    font-size: 26px;
+
+    font-weight: 400;
+
+    color: #24170f;
+}
+
+
+.music-player audio {
+    width: 100%;
+}
+
+
+/* =========================================================
+   SECRET SECTION
+========================================================= */
+
+.secret-section {
+    min-height: 90vh;
+
+    padding: 130px 7vw;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            rgba(14, 8, 5, 0.70),
+            rgba(14, 8, 5, 0.78)
+        );
+}
+
+
+.secret-content {
+    width: 100%;
+
+    max-width: 820px;
+}
+
+
+.secret-content h2 {
+    font-size: clamp(46px, 6vw, 80px);
+
+    line-height: 0.95;
+
+    letter-spacing: -1px;
+
+    font-weight: 400;
+
+    margin: 20px 0 60px;
+}
+
+
+.secret-content h2 span {
+    display: block;
+
+    color: #c7aa90;
+
+    font-style: italic;
+}
+
+
+/* =========================================================
+   SECRET NOTEBOOK PAGE
+========================================================= */
+
+.secret-card {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 200px;
+
+    padding: 45px;
+
+    border-radius: 15px;
+
+    border: 1px solid rgba(91, 60, 39, 0.55);
+
+    background-image:
+        linear-gradient(
+            rgba(104, 70, 49, 0.08),
+            rgba(47, 28, 18, 0.18)
+        ),
+        url("images/linedbrownnotebook.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    color: #24170f;
+
+    font-family: "IM Fell English", Georgia, serif;
+
+    font-size: 21px;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transform: rotate(0.8deg);
+
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.6);
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+
+.secret-card::before {
+    content: "UNCATALOGUED / PRIVATE";
+
+    position: absolute;
+
+    top: 14px;
+    left: 18px;
+
+    font-family: "Special Elite", monospace;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+
+    color: rgba(48, 29, 18, 0.45);
+}
+
+
+.secret-card:hover {
+    transform:
+        translateY(-7px)
+        rotate(0deg);
+
+    box-shadow:
+        0 35px 60px rgba(0, 0, 0, 0.7);
+}
+
+
+.secret-front,
+.secret-reveal {
+    display: block;
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
+}
+
+
+.secret-front {
+    position: relative;
+
+    z-index: 3;
+
+    color: #24170f;
+}
+
+
+.secret-reveal {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+
+font-family: "Spectral", Georgia, serif;
+    font-size: clamp(28px, 4vw, 46px);
+
+    font-weight: 400;
+
+    font-style: italic;
+
+    color: #24170f;
+
+    opacity: 0;
+
+    transform: translateY(15px);
+}
+
+
+.secret-card.revealed .secret-front {
+    opacity: 0;
+
+    transform: translateY(-15px);
+}
+
+
+.secret-card.revealed .secret-reveal {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes entrance {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes welcomeEntrance {
+    from {
+        opacity: 0;
+
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    8% {
+        transform: scale(1.1);
+    }
+
+    16% {
+        transform: scale(1);
+    }
+
+    24% {
+        transform: scale(1.06);
+    }
+
+    32% {
+        transform: scale(1);
+    }
+}
+
+
+@keyframes floatOne {
+    0%,
+    100% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translateY(-18px)
+            rotate(8deg);
+    }
+}
+
+
+@keyframes floatTwo {
+    0%,
+    100% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translateY(14px)
+            rotate(-8deg);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    body::before {
+        background-position: center center;
+    }
+
+
+    .intro {
+        padding: 35px 22px;
+    }
+
+
+    .heart {
+        font-size: 52px;
+
+        margin-bottom: 22px;
+    }
+
+
+    h1 {
+        font-size: 49px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .subtitle {
+        margin-top: 30px;
+
+        font-size: 15px;
+    }
+
+
+    .tiny-note {
+        font-size: 9px;
+    }
+
+
+    .symbol-one {
+        left: 7%;
+    }
+
+
+    .symbol-two {
+        right: 8%;
+    }
+
+
+    .symbol-three {
+        left: 10%;
+    }
+
+
+    .symbol-four {
+        right: 10%;
+    }
+
+
+    .welcome {
+        padding: 45px 22px;
+    }
+
+
+    .welcome h2 {
+        font-size: 47px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .welcome-text {
+        margin-top: 35px;
+
+        font-size: 15px;
+    }
+
+
+    .evidence {
+        padding: 90px 22px;
+    }
+
+
+    .evidence h2 {
+        font-size: 51px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .evidence-grid {
+        grid-template-columns: 1fr;
+
+        margin-top: 60px;
+
+        gap: 35px;
+    }
+
+
+    .evidence-card {
+        min-height: 350px;
+
+        border-radius: 13px;
+    }
+
+
+    .music-section,
+    .secret-section {
+        padding: 90px 22px;
+    }
+
+
+    .music-content h2,
+    .secret-content h2 {
+        font-size: 47px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .music-player {
+        padding: 28px;
+
+        border-radius: 13px;
+    }
+
+
+    .secret-card {
+        min-height: 170px;
+
+        padding: 30px;
+
+        border-radius: 13px;
+    }
+}
