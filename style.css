@@ -1824,11 +1824,8 @@ font-family: "Spectral", Georgia, serif;
 
 .player-unit.selected::before {
     filter:
-        drop-shadow(0 0 5px rgba(255, 220, 150, .95))
-        drop-shadow(0 0 12px rgba(255, 190, 80, .45))
         drop-shadow(0 5px 4px rgba(0, 0, 0, .55));
 }
-
 .war-unit.defeated {
     opacity: 0 !important;
     pointer-events: none !important;
@@ -2344,14 +2341,9 @@ font-family: "Spectral", Georgia, serif;
 
 .unit-hp-fill {
     display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-width: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    transform: none !important;
-    transition: width .35s linear !important;
+    height: 100%;
+    transform-origin: left center;
+    transition: width .3s ease;
 }
 
 .player-unit .unit-hp-fill {
