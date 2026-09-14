@@ -784,7 +784,8 @@ button:hover {
 }
 
 
-.greek-card:hover {
+.greek-card:hover,
+.greek-card.revealed {
     background-image:
         linear-gradient(
             rgba(17, 9, 6, 0.22),
