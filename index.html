@@ -360,7 +360,203 @@
     </section>
     <script src="script.js"></script>
 
+<!-- =========================================================
+     THE GREAT WAR
+========================================================= -->
 
+<section class="war-section" id="greatWar">
+
+    <div class="war-header">
+
+        <div class="eyebrow">EXHIBIT 05</div>
+
+        <h2>
+            THE GREAT <span>WAR.</span>
+        </h2>
+
+        <p>
+            A completely unnecessary tactical simulation.
+        </p>
+
+        <small>
+            Lead your forces. Capture the objective.
+            Prove once again that you're dangerously good at things you love.
+        </small>
+
+    </div>
+
+
+    <div class="war-game">
+
+        <!-- LEFT PANEL -->
+
+        <aside class="war-panel left-panel">
+
+            <div class="panel-title">
+                OBJECTIVES
+            </div>
+
+            <div class="objective">
+                <span id="objectiveOne">□</span>
+                Capture the outpost
+            </div>
+
+            <div class="objective">
+                <span id="objectiveTwo">□</span>
+                Defeat the enemy
+            </div>
+
+            <div class="objective">
+                <span id="objectiveThree">□</span>
+                Hold the battlefield
+            </div>
+
+
+            <div class="panel-title army-title">
+                YOUR ARMY
+            </div>
+
+            <div class="army-stat">
+                <span>⚔</span>
+                <strong id="armyCount">3</strong>
+            </div>
+
+            <div class="morale">
+                MORALE
+                <div class="morale-bar">
+                    <div id="moraleFill"></div>
+                </div>
+            </div>
+
+        </aside>
+
+
+        <!-- GAME BOARD -->
+
+        <div class="battlefield" id="battlefield">
+
+            <div class="terrain terrain-one"></div>
+            <div class="terrain terrain-two"></div>
+            <div class="terrain terrain-three"></div>
+
+
+            <div class="objective-point" id="outpost">
+                <span>⚑</span>
+                <small>OUTPOST</small>
+            </div>
+
+
+            <!-- PLAYER UNITS -->
+
+            <button class="war-unit player-unit unit-one"
+                    data-unit="1"
+                    type="button"
+                    aria-label="Your first unit">
+                ⚔
+            </button>
+
+            <button class="war-unit player-unit unit-two"
+                    data-unit="2"
+                    type="button"
+                    aria-label="Your second unit">
+                ⚔
+            </button>
+
+            <button class="war-unit player-unit unit-three"
+                    data-unit="3"
+                    type="button"
+                    aria-label="Your third unit">
+                ⚔
+            </button>
+
+
+            <!-- ENEMY UNITS -->
+
+            <div class="war-unit enemy-unit enemy-one">
+                ☠
+            </div>
+
+            <div class="war-unit enemy-unit enemy-two">
+                ☠
+            </div>
+
+            <div class="war-unit enemy-unit enemy-three">
+                ☠
+            </div>
+
+
+            <div class="battle-message" id="battleMessage">
+                SELECT A UNIT
+            </div>
+
+
+            <div class="victory-screen" id="victoryScreen">
+
+                <div class="victory-label">
+                    ✦ VICTORY ✦
+                </div>
+
+                <h3>
+                    The enemy has been defeated.
+                </h3>
+
+                <p>
+                    The empire has been secured.
+                </p>
+
+                <p class="victory-joke">
+                    Unfortunately, you still have a girlfriend
+                    who made you a fucking website.
+                </p>
+
+                <button id="playAgain" type="button">
+                    PLAY AGAIN
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT PANEL -->
+
+        <aside class="war-panel right-panel">
+
+            <div class="panel-title">
+                CONTROLS
+            </div>
+
+            <p>
+                🖱 Select a unit
+            </p>
+
+            <p>
+                ↗ Tap a location to move
+            </p>
+
+            <p>
+                ⚔ Attack enemies
+            </p>
+
+            <div class="panel-title tip-title">
+                TIP
+            </div>
+
+            <p class="tip">
+                Flank the enemy.
+            </p>
+
+        </aside>
+
+    </div>
+
+
+    <div class="war-footer">
+        SAME MADNESS. ALWAYS.
+        <span>♥</span>
+    </div>
+
+</section>
 </body>
 
 </html>
