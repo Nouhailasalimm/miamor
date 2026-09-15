@@ -77,17 +77,20 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
     const PLAYER_MAX_HP = 100;
     const ENEMY_MAX_HP = 100;
 
-    /* BLUE HITS HARD */
+    /* BLUE HITS HARDER */
     const PLAYER_DAMAGE = 35;
 
-    /* RED STAYS NORMAL */
-    const ENEMY_DAMAGE = 15;
+    /* RED IS WEAKER */
+    const ENEMY_DAMAGE = 10;
 
     const PLAYER_ATTACK_RANGE = 185;
     const ENEMY_ATTACK_RANGE = 125;
 
-    const ENEMY_MOVE_SPEED = 6;
-    const ENEMY_ATTACK_COOLDOWN = 1200;
+    /* SLOW RED MOVEMENT */
+    const ENEMY_MOVE_SPEED = 2;
+
+    /* RED ATTACKS LESS OFTEN */
+    const ENEMY_ATTACK_COOLDOWN = 1500;
 
     /* =========================================================
        HELPERS
@@ -341,6 +344,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
     /* =========================================================
        PLAYER MOVEMENT
+       SELECTED UNIT STAYS SELECTED
     ========================================================= */
 
     battlefield.addEventListener(
@@ -460,11 +464,12 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
             checkOutpostCapture();
 
-            movingUnit.classList.remove(
-                "selected"
-            );
-
-            selectedUnit = null;
+            /*
+               IMPORTANT:
+               DO NOT DESELECT THE UNIT.
+               The same blue soldier remains selected
+               so the player can keep controlling them.
+            */
         }
     );
 
@@ -528,11 +533,12 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                     enemy
                 );
 
-                player.classList.remove(
-                    "selected"
-                );
-
-                selectedUnit = null;
+                /*
+                   IMPORTANT:
+                   DO NOT DESELECT BLUE AFTER ATTACKING.
+                   The player can continue controlling
+                   the same soldier.
+                */
             }
         );
 
@@ -545,27 +551,35 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
     function attackEnemy(player, enemy) {
 
-        if (gameOver) return;
+        if (gameOver) {
+            return;
+        }
 
         if (
-            player.classList.contains("defeated")
+            player.classList.contains(
+                "defeated"
+            )
         ) {
             return;
         }
 
         if (
-            enemy.classList.contains("defeated")
+            enemy.classList.contains(
+                "defeated"
+            )
         ) {
             return;
         }
 
         if (
-            player.dataset.attacking === "true"
+            player.dataset.attacking ===
+            "true"
         ) {
             return;
         }
 
-        player.dataset.attacking = "true";
+        player.dataset.attacking =
+            "true";
 
         const playerPosition =
             getUnitPosition(player);
@@ -599,8 +613,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             "--attack-lunge",
             direction
         );
-
-        /* MAKE SURE RED HAS HP */
 
         let hp =
             parseInt(
@@ -687,9 +699,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
             }, 220);
 
-            /* -----------------------------------------
-               ACTUAL BLUE DAMAGE
-            ----------------------------------------- */
+            /* ACTUAL BLUE DAMAGE */
 
             hp =
                 parseInt(
@@ -704,12 +714,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                     hp - PLAYER_DAMAGE
                 );
 
-            /* SAVE RED HP */
-
             enemy.dataset.hp =
                 String(hp);
-
-            /* UPDATE RED HP BAR */
 
             updateHPBar(
                 enemy,
@@ -720,7 +726,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 `HIT — ENEMY ${hp}% HP`
             );
 
-            /* RED DIES */
+            /* RED DEATH */
 
             if (hp <= 0) {
 
@@ -731,27 +737,11 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 return;
             }
 
-            /* -----------------------------------------
-               ENEMY RETALIATION
-            ----------------------------------------- */
-
-            setTimeout(() => {
-
-                if (
-                    !gameOver &&
-                    !enemy.classList.contains("defeated") &&
-                    !player.classList.contains("defeated") &&
-                    distanceBetween(enemy, player) <= ENEMY_ATTACK_RANGE
-                ) {
-
-                    enemyAttack(
-                        enemy,
-                        player
-                    );
-
-                }
-
-            }, 260);
+            /*
+               NO FORCED RETALIATION.
+               Red AI will attack naturally when
+               it is actually in range.
+            */
 
         }, 300);
 
@@ -814,6 +804,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
     /* =========================================================
        ENEMY AI
+       EACH RED GETS ITS OWN BLUE TARGET
     ========================================================= */
 
     function moveEnemies() {
@@ -842,6 +833,134 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             return;
         }
 
+        /*
+           Build target assignments.
+
+           When there are 3 blue soldiers alive,
+           red 1 → blue 1
+           red 2 → blue 2
+           red 3 → blue 3
+
+           This prevents all three reds from
+           automatically dogpiling one blue.
+        */
+
+        const assignments = new Map();
+
+        enemies.forEach((enemy, enemyIndex) => {
+
+            if (
+                enemy.classList.contains(
+                    "defeated"
+                )
+            ) {
+                return;
+            }
+
+            if (
+                enemy.dataset.attacking ===
+                "true"
+            ) {
+                return;
+            }
+
+            let target = null;
+
+            /*
+               First try to give this enemy a
+               unique player target.
+            */
+
+            const unusedPlayers =
+                players.filter(
+                    player =>
+                        !Array.from(
+                            assignments.values()
+                        ).includes(player)
+                );
+
+            if (unusedPlayers.length) {
+
+                /*
+                   Choose the closest unused blue.
+                   This keeps the distribution tactical
+                   instead of making it completely random.
+                */
+
+                let closestDistance =
+                    Infinity;
+
+                unusedPlayers.forEach(player => {
+
+                    const distance =
+                        distanceBetween(
+                            enemy,
+                            player
+                        );
+
+                    if (
+                        distance <
+                        closestDistance
+                    ) {
+
+                        closestDistance =
+                            distance;
+
+                        target =
+                            player;
+                    }
+
+                });
+
+            } else {
+
+                /*
+                   If there are more reds than living
+                   blues, someone has to share a target.
+
+                   In that case choose the closest blue.
+                */
+
+                let closestDistance =
+                    Infinity;
+
+                players.forEach(player => {
+
+                    const distance =
+                        distanceBetween(
+                            enemy,
+                            player
+                        );
+
+                    if (
+                        distance <
+                        closestDistance
+                    ) {
+
+                        closestDistance =
+                            distance;
+
+                        target =
+                            player;
+                    }
+
+                });
+
+            }
+
+            if (target) {
+                assignments.set(
+                    enemy,
+                    target
+                );
+            }
+
+        });
+
+        /* =====================================================
+           MOVE / ATTACK EACH RED
+        ===================================================== */
+
         enemies.forEach(enemy => {
 
             if (
@@ -860,61 +979,53 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 return;
             }
 
-            let closestPlayer = null;
+            const target =
+                assignments.get(enemy);
 
-            let closestDistance =
-                Infinity;
-
-            players.forEach(player => {
-
-                const distance =
-                    distanceBetween(
-                        enemy,
-                        player
-                    );
-
-                if (
-                    distance <
-                    closestDistance
-                ) {
-
-                    closestDistance =
-                        distance;
-
-                    closestPlayer =
-                        player;
-                }
-
-            });
-
-            if (!closestPlayer) {
+            if (!target) {
                 return;
             }
 
-            /* ATTACK IF CLOSE */
+            if (
+                target.classList.contains(
+                    "defeated"
+                )
+            ) {
+                return;
+            }
+
+            const distance =
+                distanceBetween(
+                    enemy,
+                    target
+                );
+
+            /* -----------------------------------------
+               ATTACK IF CLOSE
+            ----------------------------------------- */
 
             if (
-                closestDistance <=
+                distance <=
                 ENEMY_ATTACK_RANGE
             ) {
 
                 enemyAttack(
                     enemy,
-                    closestPlayer
+                    target
                 );
 
                 return;
             }
 
-            /* MOVE TOWARD PLAYER */
+            /* -----------------------------------------
+               MOVE TOWARD ASSIGNED PLAYER
+            ----------------------------------------- */
 
             const enemyPosition =
                 getUnitPosition(enemy);
 
             const playerPosition =
-                getUnitPosition(
-                    closestPlayer
-                );
+                getUnitPosition(target);
 
             const dx =
                 playerPosition.x -
@@ -934,6 +1045,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 return;
             }
 
+            /* DIRECTION */
+
             const direction =
                 dx >= 0 ? 1 : -1;
 
@@ -951,6 +1064,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 "--attack-direction",
                 direction
             );
+
+            /* SLOW MOVEMENT */
 
             const newX =
                 enemy.offsetLeft +
@@ -986,6 +1101,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                     )
                 )}px`;
 
+            /* WALK ANIMATION */
+
             enemy.classList.remove(
                 "moving"
             );
@@ -1009,7 +1126,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
     /* =========================================================
        ENEMY ATTACK
-       RED DOES 15 DAMAGE
+       RED DOES 10 DAMAGE
     ========================================================= */
 
     function enemyAttack(
@@ -1044,6 +1161,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             return;
         }
 
+        /* ATTACK COOLDOWN */
+
         const now =
             Date.now();
 
@@ -1065,6 +1184,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
         enemy.dataset.attacking =
             "true";
+
+        /* DIRECTION */
 
         const enemyPosition =
             getUnitPosition(enemy);
@@ -1114,7 +1235,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             false
         );
 
-        /* RED ATTACK */
+        /* RED ATTACK ANIMATION */
 
         enemy.classList.remove(
             "attacking"
@@ -1129,6 +1250,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
         message(
             "ENEMY STRIKES — YOUR UNIT UNDER FIRE"
         );
+
+        /* END RED ATTACK */
 
         setTimeout(() => {
 
@@ -1157,6 +1280,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 return;
             }
 
+            /* HIT ANIMATION */
+
             player.classList.remove(
                 "hit"
             );
@@ -1174,6 +1299,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 );
 
             }, 360);
+
+            /* BATTLEFIELD IMPACT */
 
             battlefield.classList.remove(
                 "impact"
@@ -1223,6 +1350,8 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             message(
                 `ENEMY ATTACKS — YOUR UNIT ${hp}% HP`
             );
+
+            /* BLUE DEATH */
 
             if (hp <= 0) {
 
@@ -1579,7 +1708,9 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 "100%";
         }
 
-        /* RESET BLUE ARMY */
+        /* =====================================================
+           RESET BLUE ARMY
+        ===================================================== */
 
         playerUnits.forEach(
             (unit, index) => {
@@ -1637,7 +1768,9 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             }
         );
 
-        /* RESET RED ARMY */
+        /* =====================================================
+           RESET RED ARMY
+        ===================================================== */
 
         enemyUnits.forEach(
             (enemy, index) => {
@@ -1725,6 +1858,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
     /* =========================================================
        ENEMY TIMER
+       SLOWER AI UPDATE
     ========================================================= */
 
     function startEnemyAI() {
@@ -1740,7 +1874,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
         enemyInterval =
             setInterval(
                 moveEnemies,
-                300
+                500
             );
     }
 
