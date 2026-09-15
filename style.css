@@ -3131,3 +3131,67 @@ font-family: "Spectral", Georgia, serif;
 #battlefield .war-unit.defeated .unit-hp {
     opacity: 0 !important;
 }
+
+/* =========================================================
+   MOBILE — EVIDENCE CARDS
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .evidence {
+        padding: 90px 18px;
+    }
+
+    .evidence-header {
+        width: 100%;
+    }
+
+    .evidence h2 {
+        font-size: 48px;
+        line-height: 0.95;
+    }
+
+    .evidence-intro {
+        font-size: 15px;
+        line-height: 1.65;
+        padding: 0 6px;
+    }
+
+    .evidence-grid {
+        width: 100%;
+        max-width: 360px;
+        margin: 55px auto 0;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .evidence-card {
+        width: 100%;
+        min-height: 390px;
+        padding: 34px 28px;
+    }
+
+    .evidence-card p {
+        max-width: 290px;
+        font-size: 23px;
+    }
+
+    .dream-card p {
+        font-size: 24px;
+    }
+
+    .greek-card p {
+        font-size: 30px;
+    }
+
+    .spain-card p {
+        font-size: 23px;
+    }
+
+    .evidence-card small {
+        max-width: 290px;
+        font-size: 13px;
+    }
+}
