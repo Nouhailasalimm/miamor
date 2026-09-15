@@ -78,13 +78,13 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
     const ENEMY_MAX_HP = 100;
 
     const PLAYER_DAMAGE = 20;
-    const ENEMY_DAMAGE = 15;
+    const ENEMY_DAMAGE = 10;
 
     const PLAYER_ATTACK_RANGE = 185;
     const ENEMY_ATTACK_RANGE = 125;
 
     const ENEMY_MOVE_SPEED = 6;
-    const ENEMY_ATTACK_COOLDOWN = 1200;
+    const ENEMY_ATTACK_COOLDOWN = 1500;
 
     /* =========================================================
        HELPERS
@@ -241,30 +241,31 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
         return bar;
     }
 
-  function updateHPBar(unit, hp) {
+    function updateHPBar(unit, hp) {
 
-    const bar =
-        unit.querySelector(".unit-hp");
+        const bar =
+            unit.querySelector(".unit-hp");
 
-    const fill =
-        bar?.querySelector(".unit-hp-fill");
+        const fill =
+            bar?.querySelector(".unit-hp-fill");
 
-    if (!fill) {
-        return;
+        if (!fill) {
+            return;
+        }
+
+        const safeHP =
+            Math.max(
+                0,
+                Math.min(100, hp)
+            );
+
+        fill.style.setProperty(
+            "width",
+            `${safeHP}%`,
+            "important"
+        );
     }
 
-    const safeHP =
-        Math.max(
-            0,
-            Math.min(100, hp)
-        );
-
-    fill.style.setProperty(
-        "width",
-        `${safeHP}%`,
-        "important"
-    );
-}
     function removeHPBar(unit) {
 
         const bar =
@@ -663,16 +664,17 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
            END ATTACK ANIMATION
         ----------------------------------------- */
 
-       setTimeout(() => {
+        setTimeout(() => {
 
-    player.classList.remove(
-        "attacking"
-    );
+            player.classList.remove(
+                "attacking"
+            );
 
-    player.dataset.attacking =
-        "false";
+            player.dataset.attacking =
+                "false";
 
-}, 900);
+        }, 900);
+
         /* -----------------------------------------
            DAMAGE LANDING
         ----------------------------------------- */
@@ -772,32 +774,9 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             }
 
             /* -----------------------------------------
-               ENEMY RETALIATION
+               NO FORCED RETALIATION
+               Enemy AI handles attacks naturally.
             ----------------------------------------- */
-
-          setTimeout(() => {
-
-    if (
-        !gameOver &&
-        !enemy.classList.contains(
-            "defeated"
-        ) &&
-        !player.classList.contains(
-            "defeated"
-        ) &&
-        distanceBetween(enemy, player) <= ENEMY_ATTACK_RANGE
-    ) {
-
-        enemyAttack(
-            enemy,
-            player
-        );
-
-    }
-
-}, 260);
-
-
 
         }, 300);
     }
