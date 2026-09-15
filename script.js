@@ -47,7 +47,7 @@ const battlefield = document.getElementById("battlefield");
 const outpost = document.getElementById("outpost");
 const battleMessage = document.getElementById("battleMessage");
 const victoryScreen = document.getElementById("victoryScreen");
-
+const defeatScreen = document.getElementById("defeatScreen");
 const objectiveOne = document.getElementById("objectiveOne");
 const objectiveTwo = document.getElementById("objectiveTwo");
 const objectiveThree = document.getElementById("objectiveThree");
