@@ -1475,34 +1475,48 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
        DEFEAT
     ========================================================= */
 
-    function checkDefeat() {
+ function checkDefeat() {
 
-        if (gameOver) {
-            return;
-        }
-
-        if (
-            livingPlayerUnits().length >
-            0
-        ) {
-            return;
-        }
-
-        gameOver = true;
-
-        if (enemyInterval) {
-
-            clearInterval(
-                enemyInterval
-            );
-
-            enemyInterval = null;
-        }
-
-        message(
-            "THE BATTLE IS LOST"
-        );
+    if (gameOver) {
+        return;
     }
+
+    if (
+        livingPlayerUnits().length >
+        0
+    ) {
+        return;
+    }
+
+    gameOver = true;
+
+    if (enemyInterval) {
+
+        clearInterval(
+            enemyInterval
+        );
+
+        enemyInterval = null;
+    }
+
+    message(
+        "THE BATTLE IS LOST"
+    );
+
+    /* SHOW DEFEAT SCREEN */
+
+    battlefield.classList.add(
+        "battle-ended"
+    );
+
+    if (defeatScreen) {
+
+        defeatScreen.classList.add(
+            "show"
+        );
+
+    }
+}
 
     /* =========================================================
        VICTORY
@@ -1669,14 +1683,22 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             "impact"
         );
 
-        if (victoryScreen) {
+    if (victoryScreen) {
 
-            victoryScreen.classList.remove(
-                "visible",
-                "show"
-            );
+    victoryScreen.classList.remove(
+        "visible",
+        "show"
+    );
 
-        }
+}
+
+if (defeatScreen) {
+
+    defeatScreen.classList.remove(
+        "show"
+    );
+
+}
 
         if (objectiveOne) {
             objectiveOne.textContent =
