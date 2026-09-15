@@ -77,14 +77,17 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
     const PLAYER_MAX_HP = 100;
     const ENEMY_MAX_HP = 100;
 
-    const PLAYER_DAMAGE = 20;
-    const ENEMY_DAMAGE = 10;
+    /* BLUE HITS HARD */
+    const PLAYER_DAMAGE = 35;
+
+    /* RED STAYS NORMAL */
+    const ENEMY_DAMAGE = 15;
 
     const PLAYER_ATTACK_RANGE = 185;
     const ENEMY_ATTACK_RANGE = 125;
 
     const ENEMY_MOVE_SPEED = 6;
-    const ENEMY_ATTACK_COOLDOWN = 1500;
+    const ENEMY_ATTACK_COOLDOWN = 1200;
 
     /* =========================================================
        HELPERS
@@ -151,7 +154,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
     /* =========================================================
        HP SYSTEM
-       Same system for BLUE + RED
     ========================================================= */
 
     function createHPBar(unit, hp, isEnemy) {
@@ -169,10 +171,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             `;
 
             unit.appendChild(bar);
-
-            /* -----------------------------------------
-               INLINE BAR STYLING
-            ----------------------------------------- */
 
             bar.style.position = "absolute";
             bar.style.left = "50%";
@@ -320,11 +318,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             }
 
             playerUnits.forEach(other => {
-
-                other.classList.remove(
-                    "selected"
-                );
-
+                other.classList.remove("selected");
             });
 
             selectedUnit = unit;
@@ -417,10 +411,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 )
             );
 
-            /* -----------------------------------------
-               DETERMINE MOVEMENT DIRECTION
-            ----------------------------------------- */
-
             const oldX =
                 selectedUnit.offsetLeft;
 
@@ -442,10 +432,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
             selectedUnit.style.top =
                 `${y}px`;
-
-            /* -----------------------------------------
-               MOVEMENT ANIMATION
-            ----------------------------------------- */
 
             const movingUnit =
                 selectedUnit;
@@ -553,47 +539,33 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
     });
 
     /* =========================================================
-       PLAYER ATTACK
+       BLUE ATTACK
+       BLUE DOES 35 DAMAGE
     ========================================================= */
 
-    function attackEnemy(
-        player,
-        enemy
-    ) {
+    function attackEnemy(player, enemy) {
 
-        if (gameOver) {
-            return;
-        }
+        if (gameOver) return;
 
         if (
-            player.classList.contains(
-                "defeated"
-            )
+            player.classList.contains("defeated")
         ) {
             return;
         }
 
         if (
-            enemy.classList.contains(
-                "defeated"
-            )
+            enemy.classList.contains("defeated")
         ) {
             return;
         }
 
         if (
-            player.dataset.attacking ===
-            "true"
+            player.dataset.attacking === "true"
         ) {
             return;
         }
 
-        player.dataset.attacking =
-            "true";
-
-        /* -----------------------------------------
-           DETERMINE ATTACK DIRECTION
-        ----------------------------------------- */
+        player.dataset.attacking = "true";
 
         const playerPosition =
             getUnitPosition(player);
@@ -628,23 +600,22 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             direction
         );
 
-        /* -----------------------------------------
-           MAKE SURE ENEMY HAS HP BAR
-        ----------------------------------------- */
+        /* MAKE SURE RED HAS HP */
 
-        createHPBar(
-            enemy,
+        let hp =
             parseInt(
                 enemy.dataset.hp ||
                 ENEMY_MAX_HP,
                 10
-            ),
+            );
+
+        createHPBar(
+            enemy,
+            hp,
             true
         );
 
-        /* -----------------------------------------
-           ATTACK ANIMATION
-        ----------------------------------------- */
+        /* BLUE ATTACK ANIMATION */
 
         player.classList.remove(
             "attacking"
@@ -660,24 +631,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             "ENGAGING ENEMY"
         );
 
-        /* -----------------------------------------
-           END ATTACK ANIMATION
-        ----------------------------------------- */
-
-        setTimeout(() => {
-
-            player.classList.remove(
-                "attacking"
-            );
-
-            player.dataset.attacking =
-                "false";
-
-        }, 900);
-
-        /* -----------------------------------------
-           DAMAGE LANDING
-        ----------------------------------------- */
+        /* DAMAGE LANDS */
 
         setTimeout(() => {
 
@@ -693,7 +647,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 return;
             }
 
-            /* HIT REACTION */
+            /* RED HIT REACTION */
 
             enemy.classList.remove(
                 "hit"
@@ -733,9 +687,11 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
             }, 220);
 
-            /* ACTUAL DAMAGE */
+            /* -----------------------------------------
+               ACTUAL BLUE DAMAGE
+            ----------------------------------------- */
 
-            let hp =
+            hp =
                 parseInt(
                     enemy.dataset.hp ||
                     ENEMY_MAX_HP,
@@ -748,8 +704,12 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                     hp - PLAYER_DAMAGE
                 );
 
+            /* SAVE RED HP */
+
             enemy.dataset.hp =
                 String(hp);
+
+            /* UPDATE RED HP BAR */
 
             updateHPBar(
                 enemy,
@@ -760,9 +720,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 `HIT — ENEMY ${hp}% HP`
             );
 
-            /* -----------------------------------------
-               ENEMY DEATH
-            ----------------------------------------- */
+            /* RED DIES */
 
             if (hp <= 0) {
 
@@ -774,11 +732,41 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             }
 
             /* -----------------------------------------
-               NO FORCED RETALIATION
-               Enemy AI handles attacks naturally.
+               ENEMY RETALIATION
             ----------------------------------------- */
 
+            setTimeout(() => {
+
+                if (
+                    !gameOver &&
+                    !enemy.classList.contains("defeated") &&
+                    !player.classList.contains("defeated") &&
+                    distanceBetween(enemy, player) <= ENEMY_ATTACK_RANGE
+                ) {
+
+                    enemyAttack(
+                        enemy,
+                        player
+                    );
+
+                }
+
+            }, 260);
+
         }, 300);
+
+        /* END BLUE ATTACK */
+
+        setTimeout(() => {
+
+            player.classList.remove(
+                "attacking"
+            );
+
+            player.dataset.attacking =
+                "false";
+
+        }, 900);
     }
 
     /* =========================================================
@@ -872,10 +860,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 return;
             }
 
-            /* -----------------------------------------
-               FIND CLOSEST PLAYER
-            ----------------------------------------- */
-
             let closestPlayer = null;
 
             let closestDistance =
@@ -907,9 +891,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 return;
             }
 
-            /* -----------------------------------------
-               ATTACK IF CLOSE
-            ----------------------------------------- */
+            /* ATTACK IF CLOSE */
 
             if (
                 closestDistance <=
@@ -924,9 +906,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 return;
             }
 
-            /* -----------------------------------------
-               MOVE TOWARD PLAYER
-            ----------------------------------------- */
+            /* MOVE TOWARD PLAYER */
 
             const enemyPosition =
                 getUnitPosition(enemy);
@@ -954,10 +934,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 return;
             }
 
-            /* -----------------------------------------
-               DIRECTION
-            ----------------------------------------- */
-
             const direction =
                 dx >= 0 ? 1 : -1;
 
@@ -975,10 +951,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 "--attack-direction",
                 direction
             );
-
-            /* -----------------------------------------
-               MOVE
-            ----------------------------------------- */
 
             const newX =
                 enemy.offsetLeft +
@@ -1014,10 +986,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                     )
                 )}px`;
 
-            /* -----------------------------------------
-               DYNAMIC WALK / ADVANCE ANIMATION
-            ----------------------------------------- */
-
             enemy.classList.remove(
                 "moving"
             );
@@ -1041,6 +1009,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
     /* =========================================================
        ENEMY ATTACK
+       RED DOES 15 DAMAGE
     ========================================================= */
 
     function enemyAttack(
@@ -1075,10 +1044,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             return;
         }
 
-        /* -----------------------------------------
-           ATTACK COOLDOWN
-        ----------------------------------------- */
-
         const now =
             Date.now();
 
@@ -1100,10 +1065,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
         enemy.dataset.attacking =
             "true";
-
-        /* -----------------------------------------
-           DETERMINE DIRECTION
-        ----------------------------------------- */
 
         const enemyPosition =
             getUnitPosition(enemy);
@@ -1138,23 +1099,22 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             direction
         );
 
-        /* -----------------------------------------
-           MAKE SURE PLAYER HAS HP BAR
-        ----------------------------------------- */
+        /* MAKE SURE BLUE HAS HP */
 
-        createHPBar(
-            player,
+        const playerHP =
             parseInt(
                 player.dataset.hp ||
                 PLAYER_MAX_HP,
                 10
-            ),
+            );
+
+        createHPBar(
+            player,
+            playerHP,
             false
         );
 
-        /* -----------------------------------------
-           RED ATTACK ANIMATION
-        ----------------------------------------- */
+        /* RED ATTACK */
 
         enemy.classList.remove(
             "attacking"
@@ -1170,10 +1130,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             "ENEMY STRIKES — YOUR UNIT UNDER FIRE"
         );
 
-        /* -----------------------------------------
-           END RED ATTACK
-        ----------------------------------------- */
-
         setTimeout(() => {
 
             enemy.classList.remove(
@@ -1185,9 +1141,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
         }, 680);
 
-        /* -----------------------------------------
-           DAMAGE LANDING
-        ----------------------------------------- */
+        /* DAMAGE */
 
         setTimeout(() => {
 
@@ -1202,8 +1156,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             ) {
                 return;
             }
-
-            /* HIT ANIMATION */
 
             player.classList.remove(
                 "hit"
@@ -1223,8 +1175,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
             }, 360);
 
-            /* BATTLEFIELD IMPACT */
-
             battlefield.classList.remove(
                 "impact"
             );
@@ -1243,7 +1193,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
 
             }, 220);
 
-            /* ACTUAL DAMAGE */
+            /* ACTUAL RED DAMAGE */
 
             let hp =
                 parseInt(
@@ -1273,10 +1223,6 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             message(
                 `ENEMY ATTACKS — YOUR UNIT ${hp}% HP`
             );
-
-            /* -----------------------------------------
-               PLAYER DEATH
-            ----------------------------------------- */
 
             if (hp <= 0) {
 
@@ -1633,9 +1579,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
                 "100%";
         }
 
-        /* -----------------------------------------
-           RESET BLUE ARMY
-        ----------------------------------------- */
+        /* RESET BLUE ARMY */
 
         playerUnits.forEach(
             (unit, index) => {
@@ -1693,9 +1637,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             }
         );
 
-        /* -----------------------------------------
-           RESET RED ARMY
-        ----------------------------------------- */
+        /* RESET RED ARMY */
 
         enemyUnits.forEach(
             (enemy, index) => {
