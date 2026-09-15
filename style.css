@@ -2820,3 +2820,314 @@ font-family: "Spectral", Georgia, serif;
 #battlefield .war-unit.defeated .unit-hp {
     opacity: 0 !important;
 }
+
+/* =========================================================
+   GREAT WAR — FINAL CLEAN OVERRIDE
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   SOLDIER SPRITE
+   --------------------------------------------------------- */
+
+#battlefield .war-unit {
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    filter: none;
+    overflow: visible !important;
+    transform-origin: center bottom !important;
+}
+
+/* Keep the sprite itself flipped by JS */
+#battlefield .war-unit::before {
+    transform:
+        translate(-50%, -50%)
+        scaleX(var(--soldier-direction, 1)) !important;
+
+    transform-origin: center center !important;
+
+    filter:
+        drop-shadow(0 5px 4px rgba(0, 0, 0, .55)) !important;
+}
+
+
+/* ---------------------------------------------------------
+   SELECTION
+   No brown box. No ugly glow.
+   --------------------------------------------------------- */
+
+#battlefield .player-unit.selected {
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    filter: none !important;
+    transform: none !important;
+    z-index: 25 !important;
+}
+
+#battlefield .player-unit.selected::before {
+    filter:
+        drop-shadow(0 5px 4px rgba(0, 0, 0, .55)) !important;
+}
+
+
+/* ---------------------------------------------------------
+   HP BARS
+   JS controls the width dynamically.
+   --------------------------------------------------------- */
+
+#battlefield .unit-hp {
+    position: absolute !important;
+    left: 50% !important;
+    top: -14px !important;
+
+    width: 52px !important;
+    height: 5px !important;
+
+    transform: translateX(-50%) !important;
+
+    display: block !important;
+    overflow: hidden !important;
+
+    background: rgba(15, 8, 5, .92) !important;
+
+    border: 1px solid rgba(220, 190, 145, .7) !important;
+
+    box-sizing: border-box !important;
+
+    pointer-events: none !important;
+
+    z-index: 100 !important;
+}
+
+#battlefield .unit-hp-fill {
+    display: block !important;
+
+    height: 100% !important;
+
+    min-width: 0 !important;
+
+    width: auto;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    transform: none !important;
+
+    transform-origin: left center !important;
+
+    transition:
+        width .30s linear !important;
+}
+
+#battlefield .player-unit .unit-hp-fill {
+    background: #58748a !important;
+}
+
+#battlefield .enemy-unit .unit-hp-fill {
+    background: #8f3028 !important;
+}
+
+
+/* ---------------------------------------------------------
+   MOVEMENT
+   --------------------------------------------------------- */
+
+#battlefield .war-unit.moving {
+    animation:
+        soldierAdvance
+        .52s
+        ease-in-out !important;
+}
+
+@keyframes soldierAdvance {
+
+    0% {
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+    25% {
+        transform:
+            translateY(-6px)
+            scale(1.05);
+    }
+
+    50% {
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+    75% {
+        transform:
+            translateY(-5px)
+            scale(1.035);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   ATTACK
+   Clear visible lunge.
+   --------------------------------------------------------- */
+
+#battlefield .war-unit.attacking {
+    animation:
+        battleLunge
+        .72s
+        cubic-bezier(.2, .8, .2, 1)
+        !important;
+
+    z-index: 30 !important;
+}
+
+@keyframes battleLunge {
+
+    0% {
+        transform:
+            translateX(0)
+            translateY(0)
+            scale(1);
+    }
+
+    22% {
+        transform:
+            translateX(
+                calc(var(--attack-lunge, 1) * 6px)
+            )
+            translateY(-4px)
+            scale(1.04);
+    }
+
+    45% {
+        transform:
+            translateX(
+                calc(var(--attack-lunge, 1) * 18px)
+            )
+            translateY(-5px)
+            scale(1.13);
+    }
+
+    58% {
+        transform:
+            translateX(
+                calc(var(--attack-lunge, 1) * 13px)
+            )
+            translateY(0)
+            scale(1.08);
+    }
+
+    75% {
+        transform:
+            translateX(
+                calc(var(--attack-lunge, 1) * -4px)
+            )
+            translateY(0)
+            scale(1.02);
+    }
+
+    100% {
+        transform:
+            translateX(0)
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   IMPORTANT:
+   NO ATTACK STARS / FLASHES
+   --------------------------------------------------------- */
+
+#battlefield .war-unit.attacking::after {
+    content: none !important;
+    display: none !important;
+    animation: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+
+/* ---------------------------------------------------------
+   HIT REACTION
+   --------------------------------------------------------- */
+
+#battlefield .war-unit.hit {
+    animation:
+        battleHit
+        .34s
+        ease-out !important;
+}
+
+@keyframes battleHit {
+
+    0% {
+        transform:
+            translateX(0)
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+
+    20% {
+        transform:
+            translateX(-8px)
+            scale(1.05);
+
+        filter:
+            brightness(1.8);
+    }
+
+    45% {
+        transform:
+            translateX(7px)
+            scale(1.03);
+
+        filter:
+            brightness(1.45);
+    }
+
+    70% {
+        transform:
+            translateX(-3px)
+            scale(1.01);
+
+        filter:
+            brightness(1.15);
+    }
+
+    100% {
+        transform:
+            translateX(0)
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   DEFEATED
+   --------------------------------------------------------- */
+
+#battlefield .war-unit.defeated {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#battlefield .war-unit.defeated .unit-hp {
+    opacity: 0 !important;
+}
