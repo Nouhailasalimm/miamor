@@ -48,6 +48,8 @@ const outpost = document.getElementById("outpost");
 const battleMessage = document.getElementById("battleMessage");
 const victoryScreen = document.getElementById("victoryScreen");
 const defeatScreen = document.getElementById("defeatScreen");
+const gameStartScreen = document.getElementById("gameStartScreen");
+const startGameBtn = document.getElementById("startGame");
 const objectiveOne = document.getElementById("objectiveOne");
 const objectiveTwo = document.getElementById("objectiveTwo");
 const objectiveThree = document.getElementById("objectiveThree");
@@ -73,6 +75,7 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
     let outpostCaptured = false;
     let enemyInterval = null;
     let victoryTimer = null;
+    let gameStarted = false;
 
     const PLAYER_MAX_HP = 100;
     const ENEMY_MAX_HP = 100;
@@ -1475,48 +1478,48 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
        DEFEAT
     ========================================================= */
 
- function checkDefeat() {
+    function checkDefeat() {
 
-    if (gameOver) {
-        return;
-    }
+        if (gameOver) {
+            return;
+        }
 
-    if (
-        livingPlayerUnits().length >
-        0
-    ) {
-        return;
-    }
+        if (
+            livingPlayerUnits().length >
+            0
+        ) {
+            return;
+        }
 
-    gameOver = true;
+        gameOver = true;
 
-    if (enemyInterval) {
+        if (enemyInterval) {
 
-        clearInterval(
-            enemyInterval
+            clearInterval(
+                enemyInterval
+            );
+
+            enemyInterval = null;
+        }
+
+        message(
+            "THE BATTLE IS LOST"
         );
 
-        enemyInterval = null;
-    }
+        /* SHOW DEFEAT SCREEN */
 
-    message(
-        "THE BATTLE IS LOST"
-    );
-
-    /* SHOW DEFEAT SCREEN */
-
-    battlefield.classList.add(
-        "battle-ended"
-    );
-
-    if (defeatScreen) {
-
-        defeatScreen.classList.add(
-            "show"
+        battlefield.classList.add(
+            "battle-ended"
         );
 
+        if (defeatScreen) {
+
+            defeatScreen.classList.add(
+                "show"
+            );
+
+        }
     }
-}
 
     /* =========================================================
        VICTORY
@@ -1683,22 +1686,22 @@ if (!battlefield || !playerUnits.length || !enemyUnits.length) {
             "impact"
         );
 
-    if (victoryScreen) {
+        if (victoryScreen) {
 
-    victoryScreen.classList.remove(
-        "visible",
-        "show"
-    );
+            victoryScreen.classList.remove(
+                "visible",
+                "show"
+            );
 
-}
+        }
 
-if (defeatScreen) {
+        if (defeatScreen) {
 
-    defeatScreen.classList.remove(
-        "show"
-    );
+            defeatScreen.classList.remove(
+                "show"
+            );
 
-}
+        }
 
         if (objectiveOne) {
             objectiveOne.textContent =
@@ -1879,11 +1882,37 @@ if (defeatScreen) {
     }
 
     /* =========================================================
+       START THE CAMPAIGN
+    ========================================================= */
+
+    if (startGameBtn) {
+
+        startGameBtn.addEventListener("click", () => {
+
+            gameStarted = true;
+
+            if (gameStartScreen) {
+                gameStartScreen.classList.add("hidden");
+            }
+
+            message("SELECT A UNIT");
+
+            startEnemyAI();
+        });
+    }
+
+    /* =========================================================
        ENEMY TIMER
        SLOWER AI UPDATE
     ========================================================= */
 
     function startEnemyAI() {
+
+        /* Do not let the battle begin before the
+           player clicks BEGIN THE CAMPAIGN. */
+        if (!gameStarted || gameOver) {
+            return;
+        }
 
         if (enemyInterval) {
 
